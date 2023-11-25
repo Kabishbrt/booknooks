@@ -19,7 +19,7 @@ export const Header = () => {
 };
 
 const HeaderSection = styled.section`
-  padding: 3rem 2.8rem;
+  padding: 3rem 3rem;
   height: 7.5rem;
   background-color: ${({ theme }) => theme.colors.featbg};
   display: flex;
@@ -42,12 +42,13 @@ const HeaderSection = styled.section`
   }
 
   @media screen and (max-width: 1000px) {
+    padding: 1rem;
     .logo {
       margin-left: 0rem;
       padding-right: 10px;
 
       img {
-        width: 145px;
+        width: 120px;
         height: auto;
       }
     }

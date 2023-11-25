@@ -168,7 +168,7 @@ const Nav = () =>{
   .logbtn:hover {
     background-color: red; /* Change to your desired hover background color */
   }
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 1130px) {
     .logbtn {
       padding: 1px 1px;
       font-size: 16px;
@@ -176,7 +176,7 @@ const Nav = () =>{
     }
     .cart-trolley--link .cart-trolley {
       position: relative;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin-left:-6px;
   }
   }
@@ -212,7 +212,7 @@ const Nav = () =>{
           </li>
           <li>
             <NavLink to="/products" className= "navbar-link" onClick={() => setMenuIcon(false)}>
-              Reach Us
+                Contact
             </NavLink>
           </li>
           <NavLink>
