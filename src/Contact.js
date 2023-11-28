@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Contact = () => {
   return (
     <ContactWrapper>
-      <Topsection>>
+      <Topsection>
         <h1>How Can we Help?</h1>
         <h2>Send us a message!!</h2>
       </Topsection>
