@@ -1,14 +1,10 @@
 import React from "react";
 
-import {
-BrowserRouter as Router,
-Routes,
-Route
-} from "react-router-dom"
-import {GlobalStyle} from "./GlobalStyle";
-import { ThemeProvider } from 'styled-components';
-import {Header} from "./components/Header";
-import {Footer} from "./components/Footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { GlobalStyle } from "./GlobalStyle";
+import { ThemeProvider } from "styled-components";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 import { Home } from "./Home";
 import { ExploreBooks } from "./ExploreBooks";
 import { Login } from "./Login";
@@ -17,21 +13,18 @@ import { Signup } from "./Signup";
 import { Orders } from "./Orders";
 import { Contact } from "./Contact";
 
-
-
 const App = () => {
-
   const theme = {
     colors: {
       black: "black",
       helper: "#267bb8",
-      cart:"red",
-      grey:"grey",
-      price:"black",
+      cart: "red",
+      grey: "grey",
+      price: "black",
       white: "#fff",
       bg: "#F6F8FA",
       featbg: "rgb(246 246 246)",
-      cardbg:"white",
+      cardbg: "white",
       productpagebg: "#f8f7f7",
       logbtn: "#6366eb",
       footer_bg: "#0a1435",
@@ -49,26 +42,25 @@ const App = () => {
       tab: "998px",
     },
   };
-return (
-<ThemeProvider theme={theme}>
-<Router>
-    <GlobalStyle/>
-    <Header/>
-   
-    <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path="/explorebooks" element={<ExploreBooks/>} />
-      <Route path="/login" element={<Login/>} />
-      <Route path="/cart" element={<Cart/>} />
-      <Route path="/singup" element={<Signup/>} />
-      <Route path="/orders" element={<Orders/>} />
-      <Route path="/contact" element={<Contact/>} />
-    </Routes> 
-    <Footer/>
-</Router>
-</ThemeProvider>
+  return (
+    <ThemeProvider theme={theme}>
+      <Router>
+        <GlobalStyle />
+        <Header />
 
-)
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<ExploreBooks />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </ThemeProvider>
+  );
 };
 
 export default App;
