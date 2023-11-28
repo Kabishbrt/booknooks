@@ -30,7 +30,6 @@ const HeaderSection = styled.section`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
   .logo {
-    margin-left: 2rem;
     padding-right: 10px;
     padding-top: 6px;
 

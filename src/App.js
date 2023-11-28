@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
 BrowserRouter as Router,
@@ -16,8 +16,10 @@ import { Cart } from "./Cart";
 import { Signup } from "./Signup";
 import { Orders } from "./Orders";
 import { Contact } from "./Contact";
-
-
+import { Provider } from 'react-redux';
+import store from './Store';
+import { fetchBooks } from "./Actions/bookActions";
+import { Book } from "./Book";
 
 const App = () => {
 
@@ -49,7 +51,13 @@ const App = () => {
       tab: "998px",
     },
   };
+  useEffect(() => {
+    // Fetch books when the application is loaded
+    store.dispatch(fetchBooks());
+  }, []);
+
 return (
+<Provider store = {store}>
 <ThemeProvider theme={theme}>
 <Router>
     <GlobalStyle/>
@@ -57,17 +65,18 @@ return (
    
     <Routes>
       <Route path="/" element={<Home/>} />
-      <Route path="/explorebooks" element={<ExploreBooks/>} />
+      <Route path="/explore" element={<ExploreBooks/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/cart" element={<Cart/>} />
-      <Route path="/singup" element={<Signup/>} />
+      <Route path="/signup" element={<Signup/>} />
       <Route path="/orders" element={<Orders/>} />
       <Route path="/contact" element={<Contact/>} />
+      <Route path="/book" element={<Book/>} />
     </Routes> 
     <Footer/>
 </Router>
 </ThemeProvider>
-
+</Provider>
 )
 };
 

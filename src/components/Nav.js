@@ -206,21 +206,21 @@ const Nav = () =>{
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" className= "navbar-link" onClick={() => setMenuIcon(false)}>
+            <NavLink to="/explore" className= "navbar-link" onClick={() => setMenuIcon(false)}>
               Explore
             </NavLink>
           </li>
           <li>
-            <NavLink to="/products" className= "navbar-link" onClick={() => setMenuIcon(false)}>
+            <NavLink to="/contact" className= "navbar-link" onClick={() => setMenuIcon(false)}>
                 Contact
             </NavLink>
           </li>
-          <NavLink>
+          <NavLink to="/login">
            <li>
               <button className="logbtn">Log In</button>
             </li>
             </NavLink>
-            <NavLink>
+            <NavLink to="/signup">
            <li>
               <button className="logbtn">Sign Up</button>
             </li>
@@ -234,7 +234,7 @@ const Nav = () =>{
           </li>
           
            <li>
-          <NavLink to="/cart" className="navbar-link cart-trolley--link" onClick={() => setMenuIcon(false)}>
+          <NavLink to="/orders" className="navbar-link cart-trolley--link" onClick={() => setMenuIcon(false)}>
                 <MdPlaylistAddCheckCircle className="cart-trolley"/>
                 <span className="cart-total--item">2</span>
             </NavLink>
