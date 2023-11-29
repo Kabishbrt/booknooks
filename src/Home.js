@@ -8,7 +8,6 @@ export const Home = ({}) => {
   return (
     <>
       <Slider />
-      {isLoading ? console.log("loading") : console.log(totalcount, books)}
 
     </>
   );

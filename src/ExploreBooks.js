@@ -3,27 +3,33 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import GridView from './components/GridView';
+import FilterSection from './components/FilterSection';
+import Sort from './components/Sort';
 
 export const ExploreBooks = () => {
   const {status,isLoading,totalcount, books, error } = useSelector((state) => state.books);
+  if(isLoading){
+
+  return(
+    <p>Loading...</p>
+  )
+  }else{
   
   return (
     <Wrapper>
       <div className="container grid grid-filter-column">
         <div>
-          <p>Filter 1</p>
+          <FilterSection books={books}/>
         </div>
 
         <section className="product-view--sort">
           <div className="sort-filter">
-            <p>filter 2</p>
+            <Sort/>
           </div>
           <div className="main-product">
             {
-              isLoading?(
-                <p>Loading...</p>
-              ): status ===200? (
-                <GridView books={books}/>
+              status ===200? (
+                <GridView books={books} totalcount={totalcount}/>
               ):<p>Oops! Failed to load, Try again later.</p>  
             }
           </div>
@@ -31,6 +37,7 @@ export const ExploreBooks = () => {
       </div>
     </Wrapper>
   )
+}
   // return (
   //   <div>
   //     {isLoading ? (

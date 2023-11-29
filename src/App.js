@@ -71,7 +71,7 @@ return (
       <Route path="/signup" element={<Signup/>} />
       <Route path="/orders" element={<Orders/>} />
       <Route path="/contact" element={<Contact/>} />
-      <Route path="/book" element={<Book/>} />
+      <Route path="/book/:title" element={<Book/>} />
     </Routes> 
     <Footer/>
 </Router>

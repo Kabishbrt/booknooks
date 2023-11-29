@@ -9,7 +9,7 @@ export const Header = () => {
     <HeaderSection>
       <NavLink to="/">
         <div className='logo'>
-        <img src="./images/logo.png" alt="logoimg"/>
+        <img src="./images/logo.png" alt="BookNooks Logo"/>
         </div>
       </NavLink>
       <SearchBar/>

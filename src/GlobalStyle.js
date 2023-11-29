@@ -77,11 +77,12 @@ h3 {
 }
 
 .booktitle{
+  margin-top: 8px;
   color: ${({ theme }) => theme.colors.black};
   font-size: 1.55rem;
-  line-height: 1.2;
+  line-height: 1.3;
   font-weight:400;
-  width: 75%;
+  width: 60%;
 }
 
 p, button {
@@ -134,6 +135,10 @@ ${"" /* resuable code section  */}
 /* Media query for mobile devices with a maximum width of 480px */
 @media screen and (max-width: 480px) {
   .grid.grid-three-column {
+  }
+  .grid.grid-four-column {
+    display: grid;
+    grid-template-columns: 1fr; /* Display two columns */
   }
 }
 

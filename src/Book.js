@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useParams } from "react-router-dom";
 export const Book =()=>{
     const [State, setState] = useState({isLoading: true,book: [],status:0})
-   
+    const {title} = useParams();
+   const API = "http://localhost:5000/books/single"
     useEffect(() => {
-        axios.get("http://localhost:5000/books/single/1984")
+        axios.get(`${API}/${title}`)
           .then((res) => {
             setState({ isLoading: false, book: res.data.book, status: res.status });
           })
@@ -24,7 +25,8 @@ export const Book =()=>{
 
 
         if(State.book){
-            const {_id,ISBN,BookTitle,BookAuthor,YearOfPublication,Publisher,ImageURLS,ImageURLM,ImageURLL,Price,Stock,ratings} = State.book;
+
+            const {_id,ISBN,BookTitle,BookAuthor,YearOfPublication,Publisher,ImageURLS,ImageURLM,ImageURLL,Price,Stock,ratings,genre} = State.book;
         return(
 
             <img src={ImageURLL} />

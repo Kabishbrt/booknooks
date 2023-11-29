@@ -2,28 +2,38 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-const Card = (book) => {
-    const { _id, ISBN, BookTitle, ImageURLM, Price, avg_rating} = book;
-  return (
-    <Wrapper>
-    <NavLink to={`/single/${_id}`}>
-      <div className="card">
-        <figure>
-          <img src={ImageURLM} alt="Image not available" />
-          <figcaption className="caption">{avg_rating.toFixed(1)}</figcaption>
-        </figure>
-
-        <div className="card-data">
-          <div className="card-data-flex">
-            <span className="booktitle">{BookTitle}</span>
-            <p className="card-data--price">{Price}<h5>NPR</h5></p>
+const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + " ...";
+    }
+    return text;
+  };
+  
+  const Card = (book) => {
+    const { _id, BookTitle, ImageURLM, Price, avg_rating } = book;
+    const truncatedTitle = truncateText(BookTitle, 35);
+  
+    return (
+      <Wrapper>
+        <NavLink to={`/Book/${BookTitle}`}>
+          <div className="card" key={_id}>
+            <figure>
+              <img src={ImageURLM} alt="Image not available" />
+              <figcaption className="caption">{avg_rating.toFixed(1)}</figcaption>
+            </figure>
+  
+            <div className="card-data">
+              <div className="card-data-flex">
+                <span className="booktitle">{truncatedTitle}</span>
+                <p className="card-data--price">Rs.{Price}</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </NavLink>
-    </Wrapper>
-  );
-};
+        </NavLink>
+      </Wrapper>
+    );
+  };
+  
 
 const Wrapper = styled.section`
 
@@ -40,7 +50,6 @@ const Wrapper = styled.section`
             color: white;
         }
         .card-data--price{
-            padding:5px;
             color: white;
         }
         .booktitle{
@@ -72,6 +81,7 @@ const Wrapper = styled.section`
     }
 
     .card-data--price {
+        margin-top : 8px;
       margin-bottom:2px;
       color: ${({ theme }) => theme.colors.black};
     }

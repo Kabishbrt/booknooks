@@ -1,21 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Card from "./Card";
+import { handleSelection, handleViewMoreClick, handleViewLessClick, truncateText } from "../Functions";
+import { Button } from "../styles/Button";
 
-const GridView = ({ books }) => {
+
+const GridView = ({ books, totalcount }) => {
+  const [visibleLists, setvisibleLists] = useState(16);
+  const [selectedLists, setselectedLists] = useState([]);
+
+  const handleViewMore = () => {
+    handleViewMoreClick(visibleLists, setvisibleLists);
+  };
+
+  const handleViewLess = () => {
+    handleViewLessClick(visibleLists, setvisibleLists);
+  };
+
   return (
     <Wrapper className="section">
       <div className="container grid grid-four-column">
-        {books.map((book) => {
-          return <Card key={book.id} {...book} />;
+        {books.slice(0, visibleLists).map((book) => {
+          return <Card key={book._id} {...book} />;
         })}
+      </div>
+      <br/>
+      <div className="viewbuttons">
+        <div>
+      {books.length > visibleLists && (
+        <Button onClick={handleViewMore}>View More +</Button>
+      )}
+      </div>
+      <div>
+      {visibleLists > 16 && (
+        <Button onClick={handleViewLess}>View Less -</Button>
+      )}
+      </div>
       </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
-  padding: 9rem 0;
+  padding: 3rem 0;
 
   .container {
     max-width: 120rem;
@@ -56,7 +83,10 @@ const Wrapper = styled.section`
       transition: all 0.2s linear;
     }
   }
-  
+  .viewbuttons{
+    display:flex;
+    justify-content:space-between;
+  }
 `;
 
 export default GridView;
