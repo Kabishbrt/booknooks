@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GlobalStyle } from "./GlobalStyle";
@@ -12,6 +12,10 @@ import { Cart } from "./Cart";
 import { Signup } from "./Signup";
 import { Orders } from "./Orders";
 import { Contact } from "./Contact";
+import { Provider } from 'react-redux';
+import store from './Store';
+import { fetchBooks } from "./Actions/bookActions";
+import { Book } from "./Book";
 
 const App = () => {
   const theme = {
@@ -41,26 +45,33 @@ const App = () => {
       mobile: "768px",
       tab: "998px",
     },
-  };
-  return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <GlobalStyle />
-        <Header />
+  useEffect(() => {
+    // Fetch books when the application is loaded
+    store.dispatch(fetchBooks());
+  }, []);
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/explore" element={<ExploreBooks />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        <Footer />
-      </Router>
-    </ThemeProvider>
-  );
+return (
+<Provider store = {store}>
+<ThemeProvider theme={theme}>
+<Router>
+    <GlobalStyle/>
+    <Header/>
+   
+    <Routes>
+      <Route path="/" element={<Home/>} />
+      <Route path="/explore" element={<ExploreBooks/>} />
+      <Route path="/login" element={<Login/>} />
+      <Route path="/cart" element={<Cart/>} />
+      <Route path="/signup" element={<Signup/>} />
+      <Route path="/orders" element={<Orders/>} />
+      <Route path="/contact" element={<Contact/>} />
+      <Route path="/book" element={<Book/>} />
+    </Routes> 
+    <Footer/>
+</Router>
+</ThemeProvider>
+</Provider>
+)
 };
 
 export default App;

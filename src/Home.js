@@ -1,10 +1,16 @@
-import React from 'react'
-import Slider from './components/Slider'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Slider from './components/Slider';
 
-export const Home = () => {
+export const Home = ({}) => {
+  const {staus,isLoading, totalcount, books, error } = useSelector((state) => state.books);
+
   return (
     <>
-    <Slider/>
+      <Slider />
+      {isLoading ? console.log("loading") : console.log(totalcount, books)}
+
     </>
-  )
-}
+  );
+};
+

@@ -9,7 +9,6 @@ export const GlobalStyle = createGlobalStyle`
   font-family: "Trebuchet MS", sans-serif;
 }
 
-
 html {
   font-size: 52.5%;
   /* scroll-behavior: smooth; */
@@ -77,6 +76,14 @@ h3 {
   text-align:center;
 }
 
+.booktitle{
+  color: ${({ theme }) => theme.colors.black};
+  font-size: 1.55rem;
+  line-height: 1.2;
+  font-weight:400;
+  width: 75%;
+}
+
 p, button {
   color: ${({ theme }) => theme.colors.text};
   font-size: 1.65rem;
@@ -118,7 +125,7 @@ ${"" /* resuable code section  */}
 }
 
 .grid-four-column{
-   grid-template-columns: 1fr 1.2fr .5fr .8fr ;
+   grid-template-columns: repeat(4, 1fr);
 }
 
 .grid-five-column{
@@ -136,10 +143,17 @@ ${"" /* resuable code section  */}
     display: grid;
     grid-template-columns: 1fr 1fr; /* Display two columns */
   }
+  .grid.grid-four-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Display two columns */
+  }
 }
 
 
-
+.card-data--price{
+  margin-bottom:12px;
+  color: ${({ theme }) => theme.colors.black};
+}
 
   .common-heading {
       font-size: 2.5rem;
@@ -202,9 +216,5 @@ input, textarea{
 .grid{
   gap: 3.2rem;
 }
-      .grid-two-column , .grid-three-column, .grid-four-column{
-          grid-template-columns: 1fr;
-        }
-    }
 
 `;

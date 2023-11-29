@@ -208,37 +208,23 @@ const Nav = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/explore"
-              className="navbar-link"
-              onClick={() => setMenuIcon(false)}
-            >
+            <NavLink to="/explore" className= "navbar-link" onClick={() => setMenuIcon(false)}>
               Explore
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/contact"
-              className="navbar-link"
-              onClick={() => setMenuIcon(false)}
-            >
-              Contact
+            <li>
+            <NavLink to="/contact" className= "navbar-link" onClick={() => setMenuIcon(false)}>
+                Contact
             </NavLink>
           </li>
-          <NavLink
-          to="/login"
-          className="navbar-link"
-          onClick={() => setMenuIcon(false)}
-          >
-            <li>
+          <NavLink to="/login">
+           <li>
               <button className="logbtn">Log In</button>
             </li>
-          </NavLink>
-          <NavLink
-          to="/signup"
-          className="navbar-link"
-          onClick={() => setMenuIcon(false)}>
-            <li>
+            </NavLink>
+            <NavLink to="/signup">
+           <li>
+
               <button className="logbtn">Sign Up</button>
             </li>
           </NavLink>
@@ -254,14 +240,11 @@ const Nav = () => {
             </NavLink>
           </li>
 
-          <li>
-            <NavLink
-              to="/cart"
-              className="navbar-link cart-trolley--link"
-              onClick={() => setMenuIcon(false)}
-            >
-              <MdPlaylistAddCheckCircle className="cart-trolley" />
-              <span className="cart-total--item">2</span>
+           <li>
+          <NavLink to="/orders" className="navbar-link cart-trolley--link" onClick={() => setMenuIcon(false)}>
+                <MdPlaylistAddCheckCircle className="cart-trolley"/>
+                <span className="cart-total--item">2</span>
+
             </NavLink>
           </li>
         </ul>
