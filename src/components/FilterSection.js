@@ -7,7 +7,6 @@ import {handleSelection, handleViewMoreClick, handleViewLessClick, truncateText}
 
 const FilterSection = (books) => {
   const booksarray = books.books;
-
   const getUniqueData = (arrayofbooks, attr) => {
     let newVal = arrayofbooks.map((book) => {
       return book[attr];

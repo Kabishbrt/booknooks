@@ -12,7 +12,12 @@ export const handleSelection = (list, selectedLists, setSelectedLists) => {
   };
   
   export const handleViewLessClick = (prevVisibleLists, setVisibleLists) => {
-    setVisibleLists((prevVisibleLists) => Math.max(prevVisibleLists - 8));
+    setVisibleLists(4);
+    //setVisibleLists((prevVisibleLists) => Math.max(prevVisibleLists - 8, 8));//,8 for the threshold that if difference is less than 8 than visibilelist 8.
+  };
+
+  export const handleViewLessbook = (prevVisibleLists, setVisibleLists) => {
+    setVisibleLists(16);
     //setVisibleLists((prevVisibleLists) => Math.max(prevVisibleLists - 8, 8));//,8 for the threshold that if difference is less than 8 than visibilelist 8.
   };
   

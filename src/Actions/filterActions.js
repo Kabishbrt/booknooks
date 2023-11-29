@@ -1,6 +1,5 @@
-// actions/filterActions.js
-export const updateFilters = (newFilters) => ({
-    type: 'UPDATE_FILTERS',
-    payload: newFilters,
+// actions.js
+export const filterbooks = (books) => ({
+    type: 'LOAD_FILTER_BOOKS',
+    payload: { books },
   });
-  

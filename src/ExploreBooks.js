@@ -1,13 +1,17 @@
 // Home.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import GridView from './components/GridView';
 import FilterSection from './components/FilterSection';
 import Sort from './components/Sort';
 
+
 export const ExploreBooks = () => {
   const {status,isLoading,totalcount, books, error } = useSelector((state) => state.books);
+  const {} = useSelector((state) => state.filter);
+  const {text,genre,BookAuthor,avg_rating,maxPrice,price} = useSelector((state) => state.filter.filters);
+  console.log(text,genre,BookAuthor,avg_rating,maxPrice,price);
   if(isLoading){
 
   return(
@@ -15,6 +19,7 @@ export const ExploreBooks = () => {
   )
   }else{
   
+    
   return (
     <Wrapper>
       <div className="container grid grid-filter-column">
@@ -30,7 +35,7 @@ export const ExploreBooks = () => {
             {
               status ===200? (
                 <GridView books={books} totalcount={totalcount}/>
-              ):<p>Oops! Failed to load, Try again later.</p>  
+              ):<p>Oops! Failed to load, Try again later.<br/>{error}</p>  
             }
           </div>
         </section>
