@@ -45,6 +45,7 @@ const App = () => {
       mobile: "768px",
       tab: "998px",
     },
+  }
   useEffect(() => {
     // Fetch books when the application is loaded
     store.dispatch(fetchBooks());
