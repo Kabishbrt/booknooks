@@ -1,14 +1,10 @@
 import React, { useEffect } from "react";
 
-import {
-BrowserRouter as Router,
-Routes,
-Route
-} from "react-router-dom"
-import {GlobalStyle} from "./GlobalStyle";
-import { ThemeProvider } from 'styled-components';
-import {Header} from "./components/Header";
-import {Footer} from "./components/Footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { GlobalStyle } from "./GlobalStyle";
+import { ThemeProvider } from "styled-components";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 import { Home } from "./Home";
 import { ExploreBooks } from "./ExploreBooks";
 import { Login } from "./Login";
@@ -22,18 +18,17 @@ import { fetchBooks } from "./Actions/bookActions";
 import { Book } from "./Book";
 
 const App = () => {
-
   const theme = {
     colors: {
       black: "black",
       helper: "#267bb8",
-      cart:"red",
-      grey:"grey",
-      price:"black",
+      cart: "red",
+      grey: "grey",
+      price: "black",
       white: "#fff",
       bg: "#F6F8FA",
       featbg: "rgb(246 246 246)",
-      cardbg:"white",
+      cardbg: "white",
       productpagebg: "#f8f7f7",
       logbtn: "#6366eb",
       footer_bg: "#0a1435",
@@ -50,7 +45,6 @@ const App = () => {
       mobile: "768px",
       tab: "998px",
     },
-  };
   useEffect(() => {
     // Fetch books when the application is loaded
     store.dispatch(fetchBooks());
