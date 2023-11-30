@@ -1,17 +1,20 @@
 // Home.js
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import GridView from './components/GridView';
 import FilterSection from './components/FilterSection';
 import Sort from './components/Sort';
+import { sortbooks } from './Actions/filterActions';
 
 
 export const ExploreBooks = () => {
   const {status,isLoading,totalcount, books, error } = useSelector((state) => state.books);
-  const {} = useSelector((state) => state.filter);
   const {text,genre,BookAuthor,avg_rating,maxPrice,price} = useSelector((state) => state.filter.filters);
-  console.log(text,genre,BookAuthor,avg_rating,maxPrice,price);
+  const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+
+  
   if(isLoading){
 
   return(
@@ -24,18 +27,18 @@ export const ExploreBooks = () => {
     <Wrapper>
       <div className="container grid grid-filter-column">
         <div>
-          <FilterSection books={books}/>
+          <FilterSection books={filter_products}/>
         </div>
 
         <section className="product-view--sort">
           <div className="sort-filter">
-            <Sort/>
+            <Sort totalcount={totalcount}/>
           </div>
           <div className="main-product">
             {
               status ===200? (
-                <GridView books={books} totalcount={totalcount}/>
-              ):<p>Oops! Failed to load, Try again later.<br/>{error}</p>  
+                <GridView books={filter_products} totalcount={totalcount}/>
+              ):<p>Oops! Failed to load, Try again later.<br/>{error} {/* Convert error to string */}</p>  
             }
           </div>
         </section>

@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from './Nav';
 import { SearchBar } from './SearchBar';
+import { useSelector,useDispatch } from 'react-redux';
+import { sortbooks } from "../Actions/filterActions";
+
 
 export const Header = () => {
+  const dispatch = useDispatch();
+  const {status,isLoading,totalcount, books, error } = useSelector((state) => state.books);
+  const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
+ 
+  useEffect(() => {
+    dispatch(sortbooks(sorting_value));
+    // dispatch(filterexec());
+  }, [books,sorting_value]);
   return (
     <HeaderSection>
       <NavLink to="/">

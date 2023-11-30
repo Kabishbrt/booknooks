@@ -190,7 +190,7 @@ input, textarea{
     color: ${({ theme }) => theme.colors.black};
     padding: 1.6rem 2.4rem;
     border: 1px solid ${({ theme }) => theme.colors.border};
-    text-transform: uppercase;
+    text-transform: none;
    box-shadow: ${({ theme }) => theme.colors.shadowSupport};
 }
     input[type="submit"]{
@@ -201,7 +201,7 @@ input, textarea{
     padding: 1.4rem 2.2rem;
     border-style: solid;
     border-width: .1rem;
-    text-transform: uppercase;
+    text-transform: none;
     font-size: 1.8rem;
     cursor: pointer;
     }

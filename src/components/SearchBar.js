@@ -2,11 +2,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleInputChange } from '../Functions';
 
 export const SearchBar = () => {
+  const { text } = useSelector((state) => state.filter.filters);
+  const dispatch = useDispatch(); // Corrected: useDispatch is a hook, so it should be invoked as a function
+  
   return (
     <SearchContainer>
-      <SearchInput type="text" placeholder="Search " />
+      <SearchInput
+        type="text"
+        name="text"
+        value={text}
+        onChange={(e) => handleInputChange(e, dispatch)}
+        placeholder="Search "
+      />
       <SearchButton>
         <AiOutlineSearch />
       </SearchButton>

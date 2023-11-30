@@ -1,4 +1,4 @@
-// utils.js
+import { updateFilterValue,sorting } from "./Actions/filterActions";
 
 export const handleSelection = (list, selectedLists, setSelectedLists) => {
     const updatedLists = selectedLists.includes(list)
@@ -25,3 +25,17 @@ export const handleSelection = (list, selectedLists, setSelectedLists) => {
     return text.length > maxLength ? text.slice(0, maxLength) + ".." : text;
   };
   
+  export const handleInputChange = (event,dispatch) => {
+    let name = event.target.name;
+    let value = event.target.value;
+  
+    // Dispatch the action to update the filter value in Redux
+    dispatch(updateFilterValue(name, value));
+  };
+
+  export const sort = (e,dispatch) => {
+    let value = e.target.value;
+  
+    // Dispatch the action to update the filter value in Redux
+    dispatch(sorting(value));
+  };

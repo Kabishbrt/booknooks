@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../styles/Button';
-import {handleSelection, handleViewMoreClick, handleViewLessClick, truncateText} from '../Functions';
-
+import {handleInputChange, handleSelection, handleViewMoreClick, handleViewLessClick, truncateText} from '../Functions';
+import {useDispatch,useSelector } from 'react-redux';
 export const AuthorFilter = ({authorData}) => {
+
+  const dispatch = useDispatch();
+  const {BookAuthor} = useSelector((state) => state.filter.filters);
 
     const [visibleLists, setvisibleLists] = useState(4);
     const [selectedLists, setselectedLists] = useState([]);
@@ -11,15 +14,15 @@ export const AuthorFilter = ({authorData}) => {
 
   return (
     <div>
-        {authorData.slice(0,visibleLists).map((curElem, index) => {
+        {authorData.sort((a, b) => a.localeCompare(b)).slice(0,visibleLists).map((curElem, index) => {
             return (
               <button
                 key={index}
                 type="button"
-                name="category"
+                name="BookAuthor"
                 value={curElem}
-                className={ "active"}
-                onClick={()=>handleSelection(curElem)}>
+                className={curElem === BookAuthor ? "active" : ""}
+                onClick={(e)=>handleInputChange(e,dispatch)}>
                 {truncateText(curElem,20)}
               </button>
             );
