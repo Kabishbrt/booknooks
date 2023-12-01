@@ -87,16 +87,29 @@ const FilterSection = (books) => {
       <div className="filter-category">
         <h3><b>Genre</b></h3>
         <div>
-        {genreData.sort((a, b) => a.localeCompare(b)).slice(0,visibleLists).map((curElem, index) => {
+        {genreData
+        .sort((a, b) => {
+          const isAllA = a.toLowerCase() === 'all';
+          const isAllB = b.toLowerCase() === 'all';
+      
+          if (isAllA && !isAllB) {
+            return -1; // 'all' comes first
+          } else if (!isAllA && isAllB) {
+            return 1; // 'all' comes first
+          } else {
+            return a.localeCompare(b); // sorting the rest
+          }
+        })
+        .slice(0,visibleLists).map((curElem, index) => {
             return (
               <button
                 key={index}
                 type="button"
                 name="genre"
                 value={curElem}
-                className={curElem == genre? "active" : ""}
+                className={curElem === genre? "active" : ""}
                 onClick={(e)=>handleInputChange(e,dispatch)}>
-                {truncateText(curElem,20)}
+                {truncateText(curElem,17)}
               </button>
             );
           })}
@@ -149,7 +162,7 @@ const Wrapper = styled.section`
     @media only screen and (max-width: 480px) {
       /* Apply styles for mobile view */
       display: grid;
-    grid-template-columns: repeat(2, 0.4fr);
+    grid-template-columns: repeat(2, 1fr);
     }
   }
 

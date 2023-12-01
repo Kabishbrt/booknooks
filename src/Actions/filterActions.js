@@ -15,9 +15,8 @@ export const clearFilters = (maxPrice) => ({
   payload: {maxPrice}
 });
 
-export const sortbooks = (value) => ({
+export const sortbooks = () => ({
   type: "SORTING_PRODUCTS",
-  payload: value
 });
 
 export const sorting =(value) =>({

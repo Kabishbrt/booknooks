@@ -14,7 +14,20 @@ export const AuthorFilter = ({authorData}) => {
 
   return (
     <div>
-        {authorData.sort((a, b) => a.localeCompare(b)).slice(0,visibleLists).map((curElem, index) => {
+        {authorData
+          .sort((a, b) => {
+            const isAllA = a.toLowerCase() === 'all';
+            const isAllB = b.toLowerCase() === 'all';
+        
+            if (isAllA && !isAllB) {
+              return -1; // 'all' comes first
+            } else if (!isAllA && isAllB) {
+              return 1; // 'all' comes first
+            } else {
+              return a.localeCompare(b); // sorting the rest
+            }
+          })
+        .slice(0,visibleLists).map((curElem, index) => {
             return (
               <button
                 key={index}
@@ -23,7 +36,7 @@ export const AuthorFilter = ({authorData}) => {
                 value={curElem}
                 className={curElem === BookAuthor ? "active" : ""}
                 onClick={(e)=>handleInputChange(e,dispatch)}>
-                {truncateText(curElem,20)}
+                {truncateText(curElem,17)}
               </button>
             );
           })}

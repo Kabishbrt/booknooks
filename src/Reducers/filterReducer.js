@@ -5,7 +5,7 @@ const initialState = {
     all_products: [],
     sorting_value: 'highest',
     filters: {
-      text: '',
+      text: null,
       genre: 'all',
       BookAuthor: 'all',
       avg_rating: 0,
@@ -64,7 +64,7 @@ const initialState = {
     case 'SORTING_PRODUCTS':
       let sortedProducts = [...state.all_products];
 
-      switch (action.payload) {
+      switch (state.sorting_value) {
         case 'lowest':
           sortedProducts.sort((a, b) => a.Price - b.Price);
           break;
@@ -99,7 +99,46 @@ const initialState = {
           break;
       }
       return { ...state, filter_products: sortedProducts };
+
     case 'FILTER_PRODUCTS':
+      const {filter_products,all_products,sorting_value,
+        filters: {
+          text,
+          genre,
+          BookAuthor,
+          avg_rating,
+          maxPrice,
+          price,
+          minPrice} 
+      }= state;
+      let tempFilterProduct = [...filter_products];
+      
+
+      if (text) {
+        tempFilterProduct = tempFilterProduct.filter((curElem) => {
+          return curElem.BookTitle.toLowerCase().includes(text.toLowerCase());
+        });
+      }
+      if(genre !=="all"){
+        tempFilterProduct = tempFilterProduct.filter((curElem)=>curElem.genre === genre)
+      }
+      if(BookAuthor !=="all"){
+        tempFilterProduct = tempFilterProduct.filter((curElem)=>curElem.BookAuthor === BookAuthor)
+      }
+
+      if (price === 0) {
+        tempFilterProduct = tempFilterProduct.filter(
+          (curElem) => curElem.Price === price
+        );
+      } else {
+        tempFilterProduct = tempFilterProduct.filter(
+          (curElem) => curElem.Price <= price
+        );
+      }
+      return {
+        ...state,
+        filter_products: tempFilterProduct
+      }
   
     default:
       return state;

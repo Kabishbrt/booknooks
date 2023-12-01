@@ -8,15 +8,16 @@ const Sort = ({totalcount}) => {
 
   
   const dispatch = useDispatch();
-  let sentence = "";
-
+  
+   const {text,genre,BookAuthor,avg_rating,maxPrice,price} = useSelector((state) => state.filter.filters);
+ 
+const sentence = `
+${totalcount} Book${totalcount !== 1 ? 's' : ''} Available${text ? ` of "${text}"` : ''}${text && genre && genre !== 'all' ? ',' : ''}${!text && genre && genre !== 'all' ? ' of' : ''}${genre && genre !== 'all' ? ` "${genre}"` : ''}${!text && (genre === 'all') && BookAuthor !== 'all' ? ' of' : ''}${text && genre && BookAuthor !== 'all' ? ',' : ''}${BookAuthor && BookAuthor !== 'all' ? ` "${BookAuthor}"` : ''}.
+`;
+ 
   
 
-  if (totalcount === 1 || totalcount < 1) {
-    sentence = `${totalcount} Book Available`;
-  } else {
-    sentence = `${totalcount} Books Available`;
-  }
+
   return (
     <Wrapper className="sort-section">
       {/* 1st column  */}

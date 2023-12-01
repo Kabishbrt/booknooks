@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { filterbooks } from './filterActions';
 
-
 export const fetchBooks = () => async (dispatch) => {
   try {
     dispatch({ type: 'FETCH_BOOKS_REQUEST' });

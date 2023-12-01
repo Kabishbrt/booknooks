@@ -10,7 +10,6 @@ import { sortbooks } from './Actions/filterActions';
 
 export const ExploreBooks = () => {
   const {status,isLoading,totalcount, books, error } = useSelector((state) => state.books);
-  const {text,genre,BookAuthor,avg_rating,maxPrice,price} = useSelector((state) => state.filter.filters);
   const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
@@ -27,12 +26,12 @@ export const ExploreBooks = () => {
     <Wrapper>
       <div className="container grid grid-filter-column">
         <div>
-          <FilterSection books={filter_products}/>
+          <FilterSection books={books}/>
         </div>
 
         <section className="product-view--sort">
           <div className="sort-filter">
-            <Sort totalcount={totalcount}/>
+            <Sort totalcount={filter_products.length}/>
           </div>
           <div className="main-product">
             {
