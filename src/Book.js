@@ -107,7 +107,9 @@ export const Book = () => {
     }
   }
 };
+
 const SingleBookPage = styled.div`
+  margin-top:30px;
   .book-details-container {
     display: grid;
     grid-template-columns: 1fr;
