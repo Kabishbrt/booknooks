@@ -116,7 +116,9 @@ const initialState = {
 
       if (text) {
         tempFilterProduct = tempFilterProduct.filter((curElem) => {
-          return curElem.BookTitle.toLowerCase().includes(text.toLowerCase());
+          const formattedBookAuthor = curElem.BookAuthor.replace(/[.\s]/g, '').toLowerCase();
+          const formattedText = text.replace(/[.\s]/g, '').toLowerCase();
+          return curElem.BookTitle.toLowerCase().includes(text.toLowerCase()) || formattedBookAuthor.includes(formattedText);
         });
       }
       if(genre !=="all"){
@@ -124,6 +126,9 @@ const initialState = {
       }
       if(BookAuthor !=="all"){
         tempFilterProduct = tempFilterProduct.filter((curElem)=>curElem.BookAuthor === BookAuthor)
+      }
+      if(avg_rating !==0){
+        tempFilterProduct = tempFilterProduct.filter((curElem)=>curElem.avg_rating >= avg_rating)
       }
 
       if (price === 0) {
