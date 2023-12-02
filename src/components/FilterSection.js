@@ -1,13 +1,24 @@
 import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
 import { Button } from "../styles/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthorFilter } from "./AuthorFilter";
-import {handleSelection, handleViewMoreClick, handleViewLessClick, truncateText} from '../Functions';
+import { useSelector,useDispatch } from 'react-redux';
+import {handleSelection,handleInputChange, handleViewMoreClick, handleViewLessClick, truncateText} from '../Functions';
+import { clearFilters, updateFilterValue,sortbooks, filterexec } from "../Actions/filterActions";
+
 
 const FilterSection = (books) => {
-  const booksarray = books.books;
 
+  const dispatch = useDispatch();
+  const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
+  const {text,genre,BookAuthor,avg_rating,maxPrice,price,minPrice} = useSelector((state) => state.filter.filters);
+  console.log(genre,BookAuthor,avg_rating,maxPrice,price,text,sorting_value);
+
+  
+ 
+
+  const booksarray = books.books;
   const getUniqueData = (arrayofbooks, attr) => {
     let newVal = arrayofbooks.map((book) => {
       return book[attr];
@@ -31,36 +42,36 @@ const FilterSection = (books) => {
     <Wrapper>
     <div className="filters">
       <div className="filter_price">
-        <h3>Price</h3>
+        <h3><b>Price</b></h3>
         <p>
-          100
+        Rs.{price}
         </p>
         <input
           type="range"
           name="price"
-          min="dummy"
-          max="dummy"
-          value="dummy"
-          onChange="dummy"
+          min={minPrice}
+          max={maxPrice}
+          value={price}
+          onChange={(e)=>handleInputChange(e,dispatch)}
         />
       </div>
 
       <div className="filter-company">
-        <h3>Ratings</h3>
+        <h3><b>Ratings</b></h3>
 
-        <form action="#">
+        <form action="#" onSubmit={(e) => e.preventDefault()}>
           <select
-            name="company"
+            name="avg_rating"
             id="company"
             className="filter-company--select"
-            onChange="dummy">
+            onChange={(e)=>handleInputChange(e,dispatch)}>
             
             {
               (() => {
                 const options = [];
                 for (let index = 0; index < 10; index++) {
                   options.push(
-                  <option key={index} value={`${index}`} name="company">
+                  <option key={index} value={index} name="avg_rating">
                     {`${index}+`}
                   </option>
                   );
@@ -74,18 +85,31 @@ const FilterSection = (books) => {
       </div>
 
       <div className="filter-category">
-        <h3>Genre</h3>
+        <h3><b>Genre</b></h3>
         <div>
-        {genreData.slice(0,visibleLists).map((curElem, index) => {
+        {genreData
+        .sort((a, b) => {
+          const isAllA = a.toLowerCase() === 'all';
+          const isAllB = b.toLowerCase() === 'all';
+      
+          if (isAllA && !isAllB) {
+            return -1; // 'all' comes first
+          } else if (!isAllA && isAllB) {
+            return 1; // 'all' comes first
+          } else {
+            return a.localeCompare(b); // sorting the rest
+          }
+        })
+        .slice(0,visibleLists).map((curElem, index) => {
             return (
               <button
                 key={index}
                 type="button"
-                name="category"
+                name="genre"
                 value={curElem}
-                className={ "active"}
-                onClick={()=>handleSelection(curElem)}>
-                {truncateText(curElem,20)}
+                className={curElem === genre? "active" : ""}
+                onClick={(e)=>handleInputChange(e,dispatch)}>
+                {truncateText(curElem,17)}
               </button>
             );
           })}
@@ -103,12 +127,12 @@ const FilterSection = (books) => {
       </div>
 
       <div className="filter-category">
-        <h3>Authors</h3>
+        <h3><b>Authors</b></h3>
         <AuthorFilter authorData={authorData}/>
       </div>
 
       <div className="filter-clear">
-        <Button className="btn" onClick="dummy">
+        <Button className="btn" onClick={()=>dispatch(clearFilters(maxPrice))}>
           Clear Filters
         </Button>
       </div>
@@ -138,7 +162,7 @@ const Wrapper = styled.section`
     @media only screen and (max-width: 480px) {
       /* Apply styles for mobile view */
       display: grid;
-    grid-template-columns: repeat(2, 0.4fr);
+    grid-template-columns: repeat(2, 1fr);
     }
   }
 

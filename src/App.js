@@ -47,10 +47,19 @@ const App = () => {
     },
   }
   useEffect(() => {
-    // Fetch books when the application is loaded
-    store.dispatch(fetchBooks());
+    const fetchBooksData = async () => {
+      try {
+        // Fetch books when the application is loaded
+        await store.dispatch(fetchBooks());
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
+  
+    fetchBooksData();
   }, []);
 
+  
 return (
 <Provider store = {store}>
 <ThemeProvider theme={theme}>

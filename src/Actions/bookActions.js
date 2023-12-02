@@ -1,5 +1,6 @@
 // Actions/bookActions.js
 import axios from 'axios';
+import { filterbooks } from './filterActions';
 
 export const fetchBooks = () => async (dispatch) => {
   try {
@@ -13,6 +14,9 @@ export const fetchBooks = () => async (dispatch) => {
         status: response.status
       },
     });
+    if(response.status===200){
+      dispatch(filterbooks(response.data.books));
+    }
   } catch (error) {
     dispatch({
       type: 'FETCH_BOOKS_FAILURE',

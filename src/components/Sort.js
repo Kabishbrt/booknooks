@@ -1,37 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { BsFillGridFill, BsList } from "react-icons/bs";
-const Sort = () => {
+import { handleInputChange, sort } from "../Functions";
+import { useSelector,useDispatch } from 'react-redux';
+import { sortbooks } from "../Actions/filterActions";
+
+const Sort = ({totalcount}) => {
+
+  
+  const dispatch = useDispatch();
+  
+   const {text,genre,BookAuthor,avg_rating,maxPrice,price} = useSelector((state) => state.filter.filters);
+ 
+const sentence = `
+${totalcount} Book${totalcount !== 1 ? 's' : ''} Available${text ? ` of "${text}"` : ''}${text && genre && genre !== 'all' ? ',' : ''}${!text && genre && genre !== 'all' ? ' of' : ''}${genre && genre !== 'all' ? ` "${genre}"` : ''}${!text && (genre === 'all') && BookAuthor !== 'all' ? ' of' : ''}${text && genre && BookAuthor !== 'all' ? ',' : ''}${!text && genre !== 'all' && BookAuthor!=='all' ? ` ,` : ''}${BookAuthor && BookAuthor !== 'all' ? ` "${BookAuthor}"` : ''}.
+`;
+ 
+  
+
+
   return (
     <Wrapper className="sort-section">
       {/* 1st column  */}
-      <div className="sorting-list--grid">
-        {/* <button
-          className="active sort-btn"
-          onClick={""}>
-          <BsFillGridFill className="icon" />
-        </button>
 
-        <button
-          className="active sort-btn"
-          onClick={""}>
-          <BsList className="icon" />
-        </button> */}
-      </div>
-      {/* 2nd column  */}
       <div className="product-data">
-        <p>{`2 Product Available`}</p>
+        <p>
+        {sentence}
+        </p>
       </div>
 
-      {/* 3rd column  */}
+      {/* 2nd column  */}
       <div className="sort-selection">
-        <form action="#">
+        <form action="#" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="sort"></label>
           <select
-            name="sort"
+            name="sorting_value"
             id="sort"
             className="sort-selection--style"
-            onChange={"a"}
+            onChange={(e)=>sort(e,dispatch)}
           >
             <option value="highest">Price(highest)</option>
             <option value="#" disabled></option>

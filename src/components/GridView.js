@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Card from "./Card";
-import { handleSelection, handleViewMoreClick, handleViewLessClick, truncateText } from "../Functions";
+import { handleSelection, handleViewMoreClick, handleViewLessbook, truncateText } from "../Functions";
 import { Button } from "../styles/Button";
 
 
@@ -14,7 +14,7 @@ const GridView = ({ books, totalcount }) => {
   };
 
   const handleViewLess = () => {
-    handleViewLessClick(visibleLists, setvisibleLists);
+    handleViewLessbook(visibleLists, setvisibleLists);
   };
 
   return (
