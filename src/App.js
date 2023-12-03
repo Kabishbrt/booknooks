@@ -16,6 +16,7 @@ import { Provider } from 'react-redux';
 import store from './Store';
 import { fetchBooks } from "./Actions/bookActions";
 import { Book } from "./Book";
+import { getStoredToken } from "./Actions/authActions";
 
 const App = () => {
   const theme = {
@@ -47,17 +48,27 @@ const App = () => {
     },
   }
   useEffect(() => {
+    const storedToken = getStoredToken();
+    console.log(storedToken);
+    if (storedToken) {
+      console.log(storedToken);
+      store.dispatch({
+        type: 'LOGIN_SUCCESS',
+      });
+    }
     const fetchBooksData = async () => {
       try {
         // Fetch books when the application is loaded
         await store.dispatch(fetchBooks());
+
       } catch (error) {
         console.error("Error fetching books:", error);
       }
     };
-  
     fetchBooksData();
   }, []);
+
+
 
   
 return (
