@@ -1,26 +1,37 @@
-import React from "react";
+// src/components/Login.js
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login, getStoredToken } from "./Actions/authActions";
+import { handleKeyPress } from "./Functions";
+
 
 export const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Use useNavigate for navigation
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    dispatch(login(username, password, navigate));
+  };
+
   return (
     <LoginForm>
       <div className="login-container">
         <div className="login-box">
           <h1>Login</h1>
-          <form>
-            <InputLabel>
-              Username:
-              <input type="text" placeholder="Username" />
-            </InputLabel>
-            <InputLabel>
-              Password:
-              <input type="password" placeholder="Password" />
-            </InputLabel>
-            <NavLinkStyled to="/signup">New User? Click Here to Register</NavLinkStyled>
-
-            <LoginButton type="button">Login</LoginButton>
-          </form>
+          <InputLabel>
+            Username:
+            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e)=>handleKeyPress(e,handleLogin)} />
+          </InputLabel>
+          <InputLabel>
+            Password:
+            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e)=>handleKeyPress(e,handleLogin)}  />
+          </InputLabel>
+          <NavLinkStyled to="/signup">New User? Click Here to Register</NavLinkStyled>
+          <LoginButton type="button" onClick={handleLogin}>Login</LoginButton>
         </div>
       </div>
     </LoginForm>

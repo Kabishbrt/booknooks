@@ -18,10 +18,6 @@ export const Header = () => {
     dispatch(filterexec());
   }, [books,sorting_value,text,genre,BookAuthor,price,avg_rating]);
 
- 
- 
-
-  
   return (
     <HeaderSection>
       <NavLink to="/">
