@@ -8,15 +8,6 @@ import { sortbooks,filterexec } from "../Actions/filterActions";
 
 
 export const Header = () => {
-  const dispatch = useDispatch();
-  const {status,isLoading,totalcount, books, error } = useSelector((state) => state.books);
-  const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
-  const {text,genre,BookAuthor,price,avg_rating} = useSelector((state) => state.filter.filters);
- 
-  useEffect(() => {
-    dispatch(sortbooks());
-    dispatch(filterexec());
-  }, [books,sorting_value,text,genre,BookAuthor,price,avg_rating]);
 
   return (
     <HeaderSection>

@@ -7,11 +7,13 @@ import { useSelector,useDispatch } from 'react-redux';
 import { FaRegUser } from "react-icons/fa";
 import { logout } from "../Actions/authActions";
 import { NavLink, useNavigate } from "react-router-dom";
+import UserIcon from "./UserIcon";
 
 // import {Button} from '../styles/Button'
 
 const Nav = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [menuIcon, setMenuIcon] = useState();
   const Nav = styled.nav`
     padding: 5px;
@@ -188,7 +190,8 @@ const Nav = () => {
   `;
   const {isAuthenticated} = useSelector((state) => state.auth);
 
-  const handlelogout = async (logout, navigate) => {
+
+  const handlelogout = async (logout) => {
     await logout(); // Invoke the logout function
   };
   
@@ -229,7 +232,7 @@ const Nav = () => {
                 Contact
             </NavLink>
           </li>
-          {(isAuthenticated===false)?(
+          {(isAuthenticated===false)&&(
               <>
               <NavLink to="/login">
               <li>
@@ -242,12 +245,7 @@ const Nav = () => {
                 </li>
               </NavLink>
               </>
-            ):(
-            <li>
-              <button onClick={()=>logout()} className="logbtn">Log Out</button>
-
-            </li>
-          )
+            )
          }
           
           
@@ -264,13 +262,7 @@ const Nav = () => {
           </li>
 
           {isAuthenticated?(
-            <li>
-          <NavLink to="/orders" className="navbar-link cart-trolley--link" onClick={() => setMenuIcon(false)}>
-                <FaRegUser className="cart-trolley"/>
-                <span className="cart-total--item">2</span>
-
-            </NavLink>
-          </li>
+            <UserIcon/>
           ):null}
 
         </ul>
