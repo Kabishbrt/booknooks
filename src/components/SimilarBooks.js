@@ -25,7 +25,7 @@ export const SimilarBooks = () => {
         console.error(err);
         setState({ isLoading: false, books: null, status: 0 });
       });
-  }, [title]);
+  }, []); 
 
   if (state.isLoading === true) {
     return <h1>Loading</h1>;

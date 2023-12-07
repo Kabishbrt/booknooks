@@ -7,13 +7,19 @@ import { login, getStoredToken } from "./Actions/authActions";
 import { handleKeyPress } from "./Functions";
 
 export const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Use useNavigate for navigation
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleLogin = () => {
     dispatch(login(username, password, navigate));
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
   };
 
   return (
@@ -28,7 +34,7 @@ export const Login = () => {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              onKeyDown={(e) => handleKeyPress(e, handleLogin)}
+              onKeyDown={handleKeyPress}
             />
           </InputLabel>
           <InputLabel>
@@ -38,12 +44,10 @@ export const Login = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => handleKeyPress(e, handleLogin)}
+              onKeyDown={handleKeyPress}
             />
           </InputLabel>
-          <NavLinkStyled to="/signup">
-            New User? Click Here to Register
-          </NavLinkStyled>
+          <NavLinkStyled to="/signup">New User? Click Here to Register</NavLinkStyled>
           <LoginButton type="button" onClick={handleLogin}>
             Login
           </LoginButton>
