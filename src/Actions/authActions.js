@@ -21,34 +21,34 @@ export const login = (username, password, navigate) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
+export const logout = (goto) => (dispatch) => {
     // Clear the token from the cookie by setting an expired date
-    document.cookie = `userloginbooknookstoken=; path=/;`;
+    document.cookie = `userloginbooknookstoken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=Strict`;
+    console.log(document.cookie);
   
     // Dispatch an action for logout
     dispatch({
       type: 'LOGOUT',
     });
-  
+    goto();
     // You may also want to navigate the user to the login page or another desired route
   };
+  
   
 // src/redux/actions/authActions.js
 export const getStoredToken = () => {
     const cookies = document.cookie.split('; ');
-    console.log('All Cookies:', cookies);
+
   
     const tokenCookie = cookies.find(row => row.startsWith('userloginbooknookstoken'));
-    console.log('Token Cookie:', tokenCookie);
   
-    if (!tokenCookie) {
-      console.log('Token not found in cookies');
-      return null;
+    if(tokenCookie){
+        const tokenValue = tokenCookie.split('=')[1];
+        console.log('Token Value:', tokenValue);
+  
+        return tokenValue || null;
     }
-  
-    const tokenValue = tokenCookie.split('=')[1];
-    console.log('Token Value:', tokenValue);
-  
-    return tokenValue || null;
+    
+   
   };
   
