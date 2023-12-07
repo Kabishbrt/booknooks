@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { login, getStoredToken } from "./Actions/authActions";
 import { handleKeyPress } from "./Functions";
 
-
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
