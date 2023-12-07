@@ -6,10 +6,9 @@ import { useDispatch } from "react-redux";
 import { login, getStoredToken } from "./Actions/authActions";
 import { handleKeyPress } from "./Functions";
 
-
 export const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate(); // Use useNavigate for navigation
   const dispatch = useDispatch();
 
@@ -24,14 +23,30 @@ export const Login = () => {
           <h1>Login</h1>
           <InputLabel>
             Username:
-            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e)=>handleKeyPress(e,handleLogin)} />
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={(e) => handleKeyPress(e, handleLogin)}
+            />
           </InputLabel>
           <InputLabel>
             Password:
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e)=>handleKeyPress(e,handleLogin)}  />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => handleKeyPress(e, handleLogin)}
+            />
           </InputLabel>
-          <NavLinkStyled to="/signup">New User? Click Here to Register</NavLinkStyled>
-          <LoginButton type="button" onClick={handleLogin}>Login</LoginButton>
+          <NavLinkStyled to="/signup">
+            New User? Click Here to Register
+          </NavLinkStyled>
+          <LoginButton type="button" onClick={handleLogin}>
+            Login
+          </LoginButton>
         </div>
       </div>
     </LoginForm>
