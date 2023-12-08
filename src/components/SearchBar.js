@@ -8,6 +8,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 export const SearchBar = () => {
   const [localText, setLocalText] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setLocalText(e.target.value);
@@ -27,7 +28,13 @@ export const SearchBar = () => {
   };
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      handleSearchClick();
+
+      if(localText===""){
+        alert("Empty SearchBar")
+      }else{
+        handleSearchClick();
+        navigate('/explore');
+      }
     }
   };
 
