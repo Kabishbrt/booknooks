@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { handleInputChange } from '../Functions';
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const SearchBar = () => {
   const [localText, setLocalText] = useState('');
@@ -13,10 +14,15 @@ export const SearchBar = () => {
   };
 
   const handleSearchClick = (e) => {
-    handleInputChange(
-      { target: { name: 'text', value: localText } },
-      dispatch
-    );
+    if(localText===""){
+      alert("Empty SearchBar")
+    }else{
+      handleInputChange(
+        { target: { name: 'text', value: localText } },
+        dispatch
+      ); 
+    }
+
     // Add additional logic or dispatch here if needed
   };
   const handleKeyPress = (e) => {
@@ -35,10 +41,11 @@ export const SearchBar = () => {
         onKeyDown={handleKeyPress}
         placeholder="Search"
       />
-      
+      <NavLink to="/explore">
       <SearchButton type="button" onClick={handleSearchClick}>
         <AiOutlineSearch />
       </SearchButton>
+      </NavLink>
     </SearchContainer>
   );
 };

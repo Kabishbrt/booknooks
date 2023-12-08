@@ -74,7 +74,7 @@ export const Book = () => {
               </p>
               <p className="book-details-publisher">Publisher: {Publisher}</p>
               <p className="book-details-isbn">ISBN: {ISBN}</p>
-              <p className="book-details-price">Price: ${Price}</p>
+              <p className="book-details-price">Price: Rs.{Price}</p>
               <p className="book-details-stock">Available Quantity: {Stock}</p>
               <div className="quantity-input">
                 <Button
