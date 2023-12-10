@@ -3,7 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Ratings from "./components/Ratings";
 import { Button } from "./styles/Button";
-
+import { SimilarBooks } from './components/SimilarBooks';
 import { useParams } from "react-router-dom";
 export const Book = () => {
   const [State, setState] = useState({ isLoading: true, book: [], status: 0 });
@@ -100,14 +100,19 @@ export const Book = () => {
               <Button className="add-to-cart-btn">Add to Cart</Button>
             </div>
           </div>
+          <SimilarBooks/>
         </SingleBookPage>
+        
+        
       );
     } else {
       return <h1>No Books Found</h1>;
     }
   }
 };
+
 const SingleBookPage = styled.div`
+  margin-top:30px;
   .book-details-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -125,16 +130,29 @@ const SingleBookPage = styled.div`
   }
   .book-details-img {
     max-width: 100%;
-    height: auto;
+    height: 520px;
+    align:center;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    @media (max-width: 768px) {
+      height: 300px;
+      margin: 0 auto; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    }
   }
 
   .book-details-content {
     background-color: #f5f5f5;
     padding: 20px;
+    height:520px;
     border-radius: 8px;
     box-shadow: 0 0 10px #267bb8;
+    @media (max-width: 768px) {
+      height: 420px;
+    }
 
     color: ${({ theme }) => theme.colors.text};
   }
@@ -142,6 +160,15 @@ const SingleBookPage = styled.div`
   .book-details-title {
     font-size: 3.2rem;
     margin-bottom: 10px;
+    @media (max-width: 1200px) {
+      font-size: 2.2rem;
+    }
+    
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+
+
   }
 
   .book-details-author,
@@ -152,6 +179,15 @@ const SingleBookPage = styled.div`
   .book-details-stock {
     font-size: 2.2rem;
     margin-bottom: 10px;
+
+
+    @media (max-width: 1200px) {
+      font-size: 2.2rem;
+    }
+    
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
   }
   .quantity-input {
     display: flex;
@@ -191,5 +227,8 @@ const SingleBookPage = styled.div`
     border-radius: 2px;
     margin: 10px 5px 10px 5px;
     cursor: pointer;
+  }
+  .caption{
+    display:none;
   }
 `;

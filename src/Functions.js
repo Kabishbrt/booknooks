@@ -39,3 +39,10 @@ export const handleSelection = (list, selectedLists, setSelectedLists) => {
     // Dispatch the action to update the filter value in Redux
     dispatch(sorting(value));
   };
+
+  export const handleKeyPress = (e,callback) => {
+    e.preventDefault(); 
+    if (e.key === 'Enter') {
+      callback();
+    }
+  };

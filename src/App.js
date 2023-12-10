@@ -16,6 +16,8 @@ import { Provider } from 'react-redux';
 import store from './Store';
 import { fetchBooks } from "./Actions/bookActions";
 import { Book } from "./Book";
+import { getStoredToken } from "./Actions/authActions";
+import { Init } from "./Init";
 
 const App = () => {
   const theme = {
@@ -46,18 +48,8 @@ const App = () => {
       tab: "998px",
     },
   }
-  useEffect(() => {
-    const fetchBooksData = async () => {
-      try {
-        // Fetch books when the application is loaded
-        await store.dispatch(fetchBooks());
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      }
-    };
-  
-    fetchBooksData();
-  }, []);
+
+
 
   
 return (
@@ -65,8 +57,8 @@ return (
 <ThemeProvider theme={theme}>
 <Router>
     <GlobalStyle/>
+    <Init/>
     <Header/>
-   
     <Routes>
       <Route path="/" element={<Home/>} />
       <Route path="/explore" element={<ExploreBooks/>} />

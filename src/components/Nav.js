@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import styled from "styled-components";
 import { CgMenu, CgClose } from "react-icons/cg";
-import { MdPlaylistAddCheckCircle } from "react-icons/md";
 import { MdNotificationsNone } from "react-icons/md";
+import { useSelector,useDispatch } from 'react-redux';
+import { FaRegUser } from "react-icons/fa";
+import { logout } from "../Actions/authActions";
+import { NavLink, useNavigate } from "react-router-dom";
+import UserIcon from "./UserIcon";
 
 // import {Button} from '../styles/Button'
 
 const Nav = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [menuIcon, setMenuIcon] = useState();
   const Nav = styled.nav`
     padding: 5px;
@@ -183,21 +188,31 @@ const Nav = () => {
       }
     }
   `;
+  const {isAuthenticated} = useSelector((state) => state.auth);
 
+
+  const handlelogout = async (logout) => {
+    await logout(); // Invoke the logout function
+  };
+  
   return (
     <Nav>
+      
       <div className={menuIcon ? "navbar active" : "navbar"}>
         <ul className="navbar-lists">
+        {isAuthenticated ?
+         (
           <li>
-            <NavLink
-              to="/cart"
-              className="navbar-link cart-trolley--link"
-              onClick={() => setMenuIcon(false)}
-            >
-              <MdNotificationsNone className="cart-trolley" />
-              <span className="cart-total--item">2</span>
-            </NavLink>
-          </li>
+          <NavLink
+            to="/cart"
+            className="navbar-link cart-trolley--link"
+            onClick={() => setMenuIcon(false)}
+          >
+            <MdNotificationsNone className="cart-trolley" />
+            <span className="cart-total--item">2</span>
+          </NavLink>
+        </li> 
+         ):null}
           <li>
             <NavLink
               to="/"
@@ -217,17 +232,23 @@ const Nav = () => {
                 Contact
             </NavLink>
           </li>
-          <NavLink to="/login">
-           <li>
-              <button className="logbtn">Log In</button>
-            </li>
-            </NavLink>
-            <NavLink to="/signup">
-           <li>
-
-              <button className="logbtn">Sign Up</button>
-            </li>
-          </NavLink>
+          {(isAuthenticated===false)&&(
+              <>
+              <NavLink to="/login">
+              <li>
+                <button className="logbtn">Log In</button>
+              </li>
+              </NavLink>
+              <NavLink to="/signup">
+              <li>
+                  <button className="logbtn">Sign Up</button>
+                </li>
+              </NavLink>
+              </>
+            )
+         }
+          
+          
 
           <li>
             <NavLink
@@ -240,13 +261,10 @@ const Nav = () => {
             </NavLink>
           </li>
 
-           <li>
-          <NavLink to="/orders" className="navbar-link cart-trolley--link" onClick={() => setMenuIcon(false)}>
-                <MdPlaylistAddCheckCircle className="cart-trolley"/>
-                <span className="cart-total--item">2</span>
+          {isAuthenticated?(
+            <UserIcon/>
+          ):null}
 
-            </NavLink>
-          </li>
         </ul>
 
         {/* two button for open and close of menu */}
