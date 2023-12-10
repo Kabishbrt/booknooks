@@ -2,23 +2,35 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, getStoredToken } from "./Actions/authActions";
 import { handleKeyPress } from "./Functions";
 
 export const Login = () => {
+  const {message} = useSelector((state) => state.auth);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    dispatch(login(username, password, navigate));
+    if (username != "" && password !=="") {
+      dispatch(login(username, password, navigate));
+    } else {
+      alert("Empty Fields")
+    }
+
+
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      handleLogin();
+      if (username != "" && password !=="") {
+        handleLogin();
+      } else {
+        alert("Empty Fields")
+      }
+
     }
   };
 
@@ -47,6 +59,7 @@ export const Login = () => {
               onKeyDown={handleKeyPress}
             />
           </InputLabel>
+          <span>{(message)}</span>
           <NavLinkStyled to="/signup">New User? Click Here to Register</NavLinkStyled>
           <LoginButton type="button" onClick={handleLogin}>
             Login
@@ -58,6 +71,10 @@ export const Login = () => {
 };
 
 const LoginForm = styled.form`
+  span{
+    color: red;
+    font-size:12px;
+  }
   .login-container {
     display: flex;
     justify-content: center;

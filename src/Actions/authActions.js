@@ -3,7 +3,7 @@ export const login = (username, password, navigate) => async (dispatch) => {
   try {
     const response = await axios.post('http://localhost:5000/users/auth', { username, password });
     const token = response.data.token;
-    console.log(token);
+    var message = response.data.message;
     document.cookie = `userloginbooknookstoken=${token}; path=/;`;
     dispatch({
       type: 'LOGIN_SUCCESS',
@@ -12,11 +12,28 @@ export const login = (username, password, navigate) => async (dispatch) => {
     // Navigate to the home page (or any desired route)
     navigate('/');
   } catch (error) {
-    console.error('Login failed', error);
+
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      console.error('Login failed', error.response.data.message);
+
+      // Dispatch an action for login failure
+      dispatch({
+        type: 'LOGIN_FAILURE',
+        payload: error.response.data,
+      });
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error('No response received from the server');
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error('Error setting up the request', error.message);
+    }
 
     // Dispatch an action for login failure
     dispatch({
       type: 'LOGIN_FAILURE',
+      payload: error.response.data
     });
   }
 };

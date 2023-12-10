@@ -1,7 +1,8 @@
 // src/redux/reducers/authReducer.js
 
 const initialState = {
-    isAuthenticated: false
+    isAuthenticated: false,
+    message: null
   };
   
   const authReducer = (state = initialState, action) => {
@@ -13,7 +14,8 @@ const initialState = {
         };
       case 'LOGIN_FAILURE':
         return {
-          ...state
+          ...state,
+          message: action.payload.message
         };
       case 'LOGOUT':
         return {

@@ -249,7 +249,7 @@ const Nav = () => {
          }
           
           
-
+          {isAuthenticated?(
           <li>
             <NavLink
               to="/cart"
@@ -260,6 +260,7 @@ const Nav = () => {
               <span className="cart-total--item">2</span>
             </NavLink>
           </li>
+          ):null}          
 
           {isAuthenticated?(
             <UserIcon/>
