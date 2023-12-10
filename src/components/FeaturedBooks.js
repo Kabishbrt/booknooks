@@ -19,20 +19,7 @@ export const FeaturedBooks = () => {
           });
       }, []);
 
-      const handleViewMore = () => {
-        setState((prevState) => ({
-          ...prevState,
-          visibleLists: prevState.visibleLists + 4, // Increase by 4 or your desired value
-        }));
-      };
-    
-      const handleViewLess = () => {
-        setState((prevState) => ({
-          ...prevState,
-          visibleLists: prevState.visibleLists - 4, // Decrease by 4 or your desired value
-        }));
-      };
-
+     
       if(State.isLoading===true){
           return(
               <h1>Loading</h1>
