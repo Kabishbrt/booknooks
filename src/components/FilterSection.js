@@ -41,6 +41,11 @@ const FilterSection = (books) => {
     
     <Wrapper>
     <div className="filters">
+    <div className="filter-clear">
+        <Button className="btn" onClick={()=>dispatch(clearFilters(maxPrice))}>
+          Clear Filters
+        </Button>
+      </div>
       <div className="filter_price">
         <h3><b>Price</b></h3>
         <p>
@@ -131,11 +136,6 @@ const FilterSection = (books) => {
         <AuthorFilter authorData={authorData}/>
       </div>
 
-      <div className="filter-clear">
-        <Button className="btn" onClick={()=>dispatch(clearFilters(maxPrice))}>
-          Clear Filters
-        </Button>
-      </div>
 
     </div>
       

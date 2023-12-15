@@ -68,10 +68,7 @@ const Wrapper = styled.section`
 * {
   box-sizing: border-box;
 }
-body {
-  margin: 0;
-  padding: 0;
-}
+
  footer {
     width: 100%;
     padding: 4rem 2rem; 
@@ -86,12 +83,12 @@ body {
 
     p {
       color: ${({ theme }) => theme.colors.white};
-      margin-left: -30px; 
+      font-size: 1.4em;
     }
 
     .footer-social--icons {
       display: flex;
-      gap: 1rem; 
+      gap: 1rem;  
 
       div {
         padding: 0.8rem;
