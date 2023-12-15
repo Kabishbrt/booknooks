@@ -93,7 +93,6 @@ const Wrapper = styled.section`
 .feature-section {
   box-sizing: border-box;
   width: 100%;
-  max-width: 1200px; /* Set a maximum width to prevent it from becoming too wide */
   margin: 0 auto;
   margin: 20px;
   padding: 40px;
@@ -128,6 +127,7 @@ const Wrapper = styled.section`
 }
 
 .book-item {
+  height: 250px;
   text-align: center;
   padding: 15px;
   border: 1px solid #ddd; 
@@ -143,7 +143,7 @@ const Wrapper = styled.section`
 
 .book-item img {
   max-width: 100%;
-  height: auto;
+  height: 180px;
   border-radius: 4px;
   margin-bottom: 10px;
 }
