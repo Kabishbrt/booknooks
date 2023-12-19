@@ -79,6 +79,12 @@ export const FeaturedBooks = () => {
 };
 
 const Wrapper = styled.section`
+p{
+  color: black;
+}
+h3{
+  color:black;
+}
 
 .page-container {
   width: 100%;
@@ -92,18 +98,14 @@ const Wrapper = styled.section`
 
 .feature-section {
   box-sizing: border-box;
-  width: 100%;
-  margin: 0 auto;
-  margin: 20px;
+  width: calc(100% - 20px); /* Adjusted width to account for margin */
+  margin: 10px;
   padding: 40px;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 8px 16px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease-in-out; 
-}
-
-.feature-section:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* Added overflow property */
 }
 
 .books-container {
@@ -134,7 +136,17 @@ const Wrapper = styled.section`
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out; 
+
+  &:hover{
+    h3{
+      color: white;
+    }
+    p{
+      color: white;
+    }
+  }
 }
+
 
 .book-item:hover {
   background-color: ${({ theme }) => theme.colors.helper};
