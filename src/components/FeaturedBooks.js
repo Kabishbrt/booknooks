@@ -79,6 +79,12 @@ export const FeaturedBooks = () => {
 };
 
 const Wrapper = styled.section`
+p{
+  color:black;
+}
+h3{
+  color:black;
+}
 
 .page-container {
   width: 100%;
