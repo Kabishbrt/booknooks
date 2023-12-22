@@ -61,33 +61,7 @@ const FilterSection = (books) => {
         />
       </div>
 
-      <div className="filter-company">
-        <h3><b>Ratings</b></h3>
 
-        <form action="#" onSubmit={(e) => e.preventDefault()}>
-          <select
-            name="avg_rating"
-            id="company"
-            className="filter-company--select"
-            onChange={(e)=>handleInputChange(e,dispatch)}>
-            
-            {
-              (() => {
-                const options = [];
-                for (let index = 0; index < 10; index++) {
-                  options.push(
-                  <option key={index} value={index} name="avg_rating">
-                    {`${index}+`}
-                  </option>
-                  );
-                }
-                return options;
-              })()
-            }
-           
-          </select>
-        </form>
-      </div>
 
       <div className="filter-category">
         <h3><b>Genre</b></h3>
@@ -134,6 +108,34 @@ const FilterSection = (books) => {
       <div className="filter-category">
         <h3><b>Authors</b></h3>
         <AuthorFilter authorData={authorData}/>
+      </div>
+
+      <div className="filter-company">
+        <h3><b>Ratings</b></h3>
+
+        <form action="#" onSubmit={(e) => e.preventDefault()}>
+          <select
+            name="avg_rating"
+            id="company"
+            className="filter-company--select"
+            onChange={(e)=>handleInputChange(e,dispatch)}>
+            
+            {
+              (() => {
+                const options = [];
+                for (let index = 0; index < 10; index++) {
+                  options.push(
+                  <option key={index} value={index} name="avg_rating">
+                    {`${index}+`}
+                  </option>
+                  );
+                }
+                return options;
+              })()
+            }
+           
+          </select>
+        </form>
       </div>
 
 
@@ -214,6 +216,7 @@ const Wrapper = styled.section`
     text-transform: capitalize;
   }
 
+
   .filter-color-style {
     display: flex;
     justify-content: center;
@@ -268,8 +271,16 @@ const Wrapper = styled.section`
   .filter-clear .btn {
     background-color: #ec7063;
     color: #000;
+
   }
-  
+  @media only screen and (max-width: 900px) {
+    .btn{
+    font-size: 1.2rem;
+    }
+    .filter-clear{
+      margin-top: 20px;
+    }
+  }
 `;
 
 export default FilterSection;

@@ -57,6 +57,10 @@ const Wrapper = styled.section`
   justify-content: space-between;
   margin-top: 5rem;
 
+  @median only-screen and (max-width:780px){
+    margin-top: 0 px;
+  }
+
   .sorting-list--grid {
     display: flex;
     gap: 2rem;

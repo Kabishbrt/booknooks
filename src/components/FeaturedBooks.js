@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { truncateText } from "../Functions";
 
 
 
@@ -53,12 +54,12 @@ export const FeaturedBooks = () => {
                   <div className="feature-section">
                     <div className="books-container">
                       <div className="common-heading">Featured Books</div>
-                      <div className="grid grid-four-column">
-                        {State.books.map((book) => (
+                      <div className="grid grid-five-column">
+                        {State.books.slice(0,6).map((book) => (
                           <NavLink key={book._id} to={`/Book/${book.BookTitle}`} className="nav-link">
                             <div key={book._id} className="book-item">                           
                               <img src={book.ImageURLM} alt={book.BookTitle} />
-                              <h3>{book.BookTitle}</h3>
+                              <h3>{truncateText(book.BookTitle,14)}</h3>
                               <p>Price: {book.Price}</p>
                             </div>
                           </NavLink>
@@ -79,6 +80,8 @@ export const FeaturedBooks = () => {
 };
 
 const Wrapper = styled.section`
+background-color:rgb(248, 247, 247);
+margin-bottom: -10px;
 p{
   color: black;
 }
@@ -87,8 +90,8 @@ h3{
 }
 
 .page-container {
+  
   width: 100%;
-  background-color: #f8f8f8; 
   min-height: 100vh; 
   display: flex;
   justify-content: center;
@@ -101,37 +104,40 @@ h3{
   width: calc(100% - 20px); /* Adjusted width to account for margin */
   margin: 10px;
   padding: 40px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 2px 2px 8px 16px rgba(0, 0, 0, 0.1);
+ 
+ 
+  
   transition: box-shadow 0.3s ease-in-out; 
   overflow: hidden; /* Added overflow property */
 }
 
 .books-container {
   text-align: center;
+  padding: 3rem;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px 16px rgba(0, 0, 0, 0.05);
 }
 
 .common-heading {
   text-align:left;
-  font-size: 4em;
+  font-size: 3em;
   margin-bottom: 20px;
   color: #333;
 }
 
 .grid {
   display: grid;
-  gap: 80px;
+  gap: 1.8rem;
 }
 
-.grid-four-column {
-  grid-template-columns: repeat(4, 1fr);
+.grid-five-column {
+  grid-template-columns: repeat(6, 1fr);
 }
 
 .book-item {
-  height: 250px;
+  height: 220px;
   text-align: center;
-  padding: 15px;
+  padding: 0px;
   border: 1px solid #ddd; 
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -154,8 +160,9 @@ h3{
 }
 
 .book-item img {
+  margin-top:8px;
   max-width: 100%;
-  height: 180px;
+  height: 150px;
   border-radius: 4px;
   margin-bottom: 10px;
 }
@@ -163,13 +170,21 @@ h3{
 /* Responsive Styles */
 
 @media screen and (max-width: 768px) {
-  .grid-four-column {
+  .grid-five-column {
     grid-template-columns: repeat(2, 2fr);
   }
 }
+@media screen and (max-width: 1000px) {
+ h3{
+  font-size: 1.5rem;
+ }
+ p{
+  font-size: 1.4rem;
+ }
 
+}
 @media screen and (max-width: 480px) {
-  .grid-four-column {
+  .grid-five-column {
     grid-template-columns: 1fr;
   }
 }
