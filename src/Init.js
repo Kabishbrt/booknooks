@@ -12,16 +12,45 @@ export const Init = () => {
   const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
   const {text,genre,BookAuthor,price,avg_rating} = useSelector((state) => state.filter.filters);
 
-  useEffect(() => {
-    const storedToken = getStoredToken();
-    console.log(storedToken);
-    if (storedToken) {
-      console.log(storedToken);
-      dispatch({
-        type: 'LOGIN_SUCCESS',
+  const verifyTokenOnServer = async (token) => {
+    try {
+      
+      const response = await fetch(`http://localhost:5000/token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer {$token}`
+        },
+        credentials: 'include',
       });
+
+      const result = await response.json();
+      return result; // Assuming the server responds with a property indicating token validity
+    } catch (error) {
+      console.error('Error verifying token on server:', error);
+      return { isValidToken: false }; // Assume the token is invalid on error
     }
-    const fetchBooksData = async () => {
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = getStoredToken();
+      
+
+      if (token) {
+        const tokenData = await verifyTokenOnServer(token);
+
+        if (tokenData.isValidToken) {
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: tokenData.username,
+          });
+        } else {
+          dispatch({
+            type: 'LOGOUT',
+          });
+        }
+      }
       try {
         // Fetch books when the application is loaded
         await dispatch(fetchBooks());
@@ -30,7 +59,7 @@ export const Init = () => {
         console.error("Error fetching books:", error);
       }
     };
-    fetchBooksData();
+    fetchData();
   }, []);
  
   useEffect(() => {
