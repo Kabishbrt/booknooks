@@ -10,20 +10,17 @@ export const Init = () => {
   const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
   const {text,genre,BookAuthor,price,avg_rating} = useSelector((state) => state.filter.filters);
 
-  const verifyTokenOnServer = async () => {
+  const verifyTokenOnServer = async (token) => {
     try {
+      
       const response = await fetch(`http://localhost:5000/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer {$token}`
         },
         credentials: 'include',
       });
-
-      if (!response.ok) {
-        // Handle non-OK responses (e.g., server error, token invalid, etc.)
-       
-      }
 
       const result = await response.json();
       return result; // Assuming the server responds with a property indicating token validity
@@ -35,18 +32,11 @@ export const Init = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:5000/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+      const token = getStoredToken();
+      
 
-      const storedTokenPresent = response.ok;
-
-      if (storedTokenPresent) {
-        const tokenData = await verifyTokenOnServer();
+      if (token) {
+        const tokenData = await verifyTokenOnServer(token);
 
         if (tokenData.isValidToken) {
           dispatch({

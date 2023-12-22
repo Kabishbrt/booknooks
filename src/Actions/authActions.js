@@ -6,7 +6,7 @@ export const login = (username, password, navigate) => async (dispatch) => {
     var message = response.data.message;
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 7); // Expires in one week
-    document.cookie = `userloginbooknookstoken=${token}; expires=${expirationDate.toUTCString()}; path=/; HttpOnly; Secure;`;
+    document.cookie = `userloginbooknookstoken=${token}; expires=${expirationDate.toUTCString()}; path=/;`;
     dispatch({
       type: 'LOGIN_SUCCESS',
       payload: response.data.username
