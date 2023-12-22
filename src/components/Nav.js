@@ -193,6 +193,7 @@ const Nav = () => {
 
   const handlelogout = async (logout) => {
     await logout(); // Invoke the logout function
+    
   };
   
   return (
@@ -236,12 +237,12 @@ const Nav = () => {
               <>
               <NavLink to="/login">
               <li>
-                <button className="logbtn">Log In</button>
+                <button className="logbtn" onClick={() => setMenuIcon(false)}>Log In</button>
               </li>
               </NavLink>
               <NavLink to="/signup">
               <li>
-                  <button className="logbtn">Sign Up</button>
+                  <button className="logbtn" onClick={() => setMenuIcon(false)}>Sign Up</button>
                 </li>
               </NavLink>
               </>

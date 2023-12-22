@@ -4,9 +4,12 @@ export const login = (username, password, navigate) => async (dispatch) => {
     const response = await axios.post('http://localhost:5000/users/auth', { username, password });
     const token = response.data.token;
     var message = response.data.message;
-    document.cookie = `userloginbooknookstoken=${token}; path=/;`;
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 7); // Expires in one week
+    document.cookie = `userloginbooknookstoken=${token}; expires=${expirationDate.toUTCString()}; path=/;`;
     dispatch({
       type: 'LOGIN_SUCCESS',
+      payload: response.data.username
     });
 
     // Navigate to the home page (or any desired route)
@@ -41,7 +44,6 @@ export const login = (username, password, navigate) => async (dispatch) => {
 export const logout = (goto) => (dispatch) => {
     // Clear the token from the cookie by setting an expired date
     document.cookie = `userloginbooknookstoken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=Strict`;
-    console.log(document.cookie);
   
     // Dispatch an action for logout
     dispatch({

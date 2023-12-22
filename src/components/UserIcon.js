@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect, useRef } from 'react';
 import { NavLink, useNavigate} from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
 import styled from 'styled-components';
@@ -47,6 +47,7 @@ const CartTotalItem = styled.span`
 `;
 
 const DropdownMenu = styled.div`
+  
   display: ${props => (props.isOpen ? 'block' : 'none')};
   position: absolute;
   padding:2px;
@@ -59,6 +60,9 @@ const DropdownMenu = styled.div`
   font-size: 1.5rem;
   margin-left:-18px;
   // Add other styling for the dropdown menu
+  @media screen and (max-width:1130px){
+    margin-left: -40px;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -76,17 +80,34 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const UserIcon = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleUserIconClick = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      // Click occurred outside the dropdown, close it
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener when the component mounts
+    window.addEventListener('click', handleClickOutside);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <UserIconContainer>
+    <UserIconContainer ref={dropdownRef}>
       <IconWrapper className="navbar-link cart-trolley--link" onClick={handleUserIconClick}>
         <CartTrolley className="cart-trolley" />
         <CartTotalItem className="cart-total--item">2</CartTotalItem>
@@ -102,8 +123,15 @@ const UserIcon = () => {
         <StyledNavLink to="/security" onClick={() => setDropdownOpen(false)}>
           Security
         </StyledNavLink>
-        <button className="LogoutButton"onClick={()=>dispatch(logout(()=>navigate('/login')))}>Log Out</button>
-
+        <button
+          className="LogoutButton"
+          onClick={() => {
+            localStorage.setItem('hasShownAlert', 'false');
+            dispatch(logout(() => navigate('/login')));
+          }}
+        >
+          Log Out
+        </button>
       </DropdownMenu>
     </UserIconContainer>
   );

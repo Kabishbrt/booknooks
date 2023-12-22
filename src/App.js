@@ -18,6 +18,7 @@ import { fetchBooks } from "./Actions/bookActions";
 import { Book } from "./Book";
 import { getStoredToken } from "./Actions/authActions";
 import { Init } from "./Init";
+import Alert from "./components/alert";
 
 const App = () => {
   const theme = {
@@ -59,6 +60,7 @@ return (
     <GlobalStyle/>
     <Init/>
     <Header/>
+    <Alert/>
     <Routes>
       <Route path="/" element={<Home/>} />
       <Route path="/explore" element={<ExploreBooks/>} />
