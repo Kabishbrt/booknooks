@@ -11,7 +11,10 @@ export const login = (username, password, navigate) => async (dispatch) => {
     document.cookie = `userloginbooknookstoken=${token}; expires=${expirationDate.toUTCString()}; path=/;`;
     dispatch({
       type: 'LOGIN_SUCCESS',
-      payload: response.data.username
+      payload: {
+        username:response.data.username,
+        userid: response.data.userID
+      }
     });
 
     // Navigate to the home page (or any desired route)

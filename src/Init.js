@@ -39,11 +39,14 @@ export const Init = () => {
 
       if (token) {
         const tokenData = await verifyTokenOnServer(token);
-
         if (tokenData.isValidToken) {
           dispatch({
             type: 'LOGIN_SUCCESS',
-            payload: tokenData.username,
+            payload: 
+            {
+              username:tokenData.username,
+              userid : tokenData.userID,
+            },
           });
         } else {
           dispatch({
