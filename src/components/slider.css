@@ -9,7 +9,7 @@
   margin: auto;
 } */
 :root {
-  --heights: 45vh;
+  --heights: 40vh;
   --widths: 100%;
 }
 
@@ -17,7 +17,7 @@
   height: var(--heights);
   width: var(--widths);
   position: relative;
-  margin-bottom: -10px;
+  margin-bottom: -20px;
   overflow: hidden;
   
 }
@@ -144,7 +144,7 @@
 
 @media (max-width: 800px) {
   :root {
-    --heights: 30vh;
+    --heights: 34vh;
   }
   
   .slide-title,

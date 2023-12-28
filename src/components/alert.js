@@ -38,9 +38,7 @@ const Alert = () => {
         // Automatically hide the alert after 2 seconds
         const timeoutId = setTimeout(() => {
           setShow(false);
-          dispatch({
-            type: 'CLEAR_ALERT',
-          });
+
   
           // Set a flag in localStorage indicating that the alert has been shown
           localStorage.setItem('hasShownAlert', 'true');

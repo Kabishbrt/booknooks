@@ -1,7 +1,9 @@
 import axios from 'axios';
+
 export const login = (username, password, navigate) => async (dispatch) => {
+  const baseurl = process.env.REACT_APP_API_URL
   try {
-    const response = await axios.post('http://localhost:5000/users/auth', { username, password });
+    const response = await axios.post(`${baseurl}/users/auth`, { username, password });
     const token = response.data.token;
     var message = response.data.message;
     const expirationDate = new Date();
@@ -9,7 +11,10 @@ export const login = (username, password, navigate) => async (dispatch) => {
     document.cookie = `userloginbooknookstoken=${token}; expires=${expirationDate.toUTCString()}; path=/;`;
     dispatch({
       type: 'LOGIN_SUCCESS',
-      payload: response.data.username
+      payload: {
+        username:response.data.username,
+        userid: response.data.userID
+      }
     });
 
     // Navigate to the home page (or any desired route)

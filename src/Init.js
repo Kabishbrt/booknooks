@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
+
 import { useSelector,useDispatch } from 'react-redux';
 import { sortbooks,filterexec } from "./Actions/filterActions";
 import { fetchBooks } from "./Actions/bookActions";
 import { getStoredToken } from "./Actions/authActions";
 
+
 export const Init = () => {
   const dispatch = useDispatch();
-  const {status,isLoading,totalcount, books, error } = useSelector((state) => state.books);
+  
   const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
   const {text,genre,BookAuthor,price,avg_rating} = useSelector((state) => state.filter.filters);
 
@@ -37,11 +39,14 @@ export const Init = () => {
 
       if (token) {
         const tokenData = await verifyTokenOnServer(token);
-
         if (tokenData.isValidToken) {
           dispatch({
             type: 'LOGIN_SUCCESS',
-            payload: tokenData.username,
+            payload: 
+            {
+              username:tokenData.username,
+              userid : tokenData.userID,
+            },
           });
         } else {
           dispatch({

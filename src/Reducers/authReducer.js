@@ -3,7 +3,8 @@
 const initialState = {
     isAuthenticated: false,
     message: null,
-    loginalert: ''
+    loginalert: '',
+    userid:''
   };
   
   const authReducer = (state = initialState, action) => {
@@ -12,7 +13,8 @@ const initialState = {
         return {
           ...state,
           isAuthenticated: true,
-          loginalert: action.payload,
+          loginalert: action.payload.username,
+          userid: action.payload.userid
         };
       case 'LOGIN_FAILURE':
         return {

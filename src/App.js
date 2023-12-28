@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
@@ -19,6 +20,7 @@ import { Book } from "./Book";
 import { getStoredToken } from "./Actions/authActions";
 import { Init } from "./Init";
 import Alert from "./components/alert";
+import { UserDetails } from "./components/UserDetails";
 
 const App = () => {
   const theme = {
@@ -69,6 +71,7 @@ return (
       <Route path="/signup" element={<Signup/>} />
       <Route path="/orders" element={<Orders/>} />
       <Route path="/contact" element={<Contact/>} />
+      <Route path="/details/" element={<UserDetails/>} />
       <Route path="/book/:title" element={<Book/>} />
     </Routes> 
     <Footer/>
