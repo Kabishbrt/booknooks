@@ -111,10 +111,6 @@ h3{
   transition: box-shadow 0.3s ease-in-out; 
 }
 
-.feature-section:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
 .books-container {
   text-align: center;
   padding: 3rem;
