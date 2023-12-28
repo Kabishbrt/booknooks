@@ -1,7 +1,9 @@
 import axios from 'axios';
+
 export const login = (username, password, navigate) => async (dispatch) => {
+  const baseurl = process.env.REACT_APP_API_URL
   try {
-    const response = await axios.post('http://localhost:5000/users/auth', { username, password });
+    const response = await axios.post(`${baseurl}/users/auth`, { username, password });
     const token = response.data.token;
     var message = response.data.message;
     const expirationDate = new Date();
