@@ -123,6 +123,7 @@ const SingleBookPage = styled.div`
     @media screen and (min-width: ${({ theme }) => theme.media.tab}) {
       grid-template-columns: 1fr 2fr;
     }
+    
   }
 
   a:hover {

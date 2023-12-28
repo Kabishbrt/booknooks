@@ -17,8 +17,9 @@
   height: var(--heights);
   width: var(--widths);
   position: relative;
-  margin: auto;
+  margin-bottom: -10px;
   overflow: hidden;
+  
 }
 
 .active {
@@ -121,6 +122,7 @@
 
 .slider-container:hover .dot{
   background-color: rgba(0, 0, 0, 0.3);
+  
 }
 .slider-container:hover .active-dot{
   background-color: rgba(255, 255, 255, 0.5);
@@ -155,7 +157,7 @@
     height: 28vh;
     width: var(--widths);
     position: relative;
-    margin: auto;
+    margin-bottom: -10px;
     overflow: hidden;
   }
   
