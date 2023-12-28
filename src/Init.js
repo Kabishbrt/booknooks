@@ -8,7 +8,7 @@ import { getStoredToken } from "./Actions/authActions";
 
 export const Init = () => {
   const dispatch = useDispatch();
-  const {status,isLoading,totalcount, books, error } = useSelector((state) => state.books);
+  
   const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
   const {text,genre,BookAuthor,price,avg_rating} = useSelector((state) => state.filter.filters);
 

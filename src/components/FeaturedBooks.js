@@ -103,7 +103,6 @@ h3{
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
-  margin: 20px;
   padding: 40px;
  
  
