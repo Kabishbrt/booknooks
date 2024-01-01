@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ErrorPopup from "./components/ErrorPopup";
+
 
 
 export const Signup = () => {
+  const navigate = useNavigate();
 
   //form validation
   const [username, setUsername] = useState("");
@@ -15,57 +19,54 @@ export const Signup = () => {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
-  const [age, setAge] = useState(null
-    );
-  const [errors, setErrors] = useState({});
+  const [age, setAge] = useState(null );
 
+
+  const [errors, setErrors] = useState("");
+
+
+  const validateField = (field, value) => {
+    switch (field) {
+      case "username":
+        return value.trim() ? "" : "Username is required";
+      case "password":
+        return value.trim() ? "" : "Password is required";
+      case "email":
+        return /\S+@\S+\.\S+/.test(value) ? "" : "Invalid email address";
+      case "phone":
+        return /^\d{10}$/.test(value) ? "" : "Invalid phone number";
+      case "country":
+        return value.trim() ? "" : "Country is required";
+      case "state":
+        return value.trim() ? "" : "State is required";
+      case "city":
+        return value.trim() ? "" : "City is required";
+      case "street":
+        return value.trim() ? "" : "Street is required";
+      case "age":
+        return isNaN(value) || +value <= 0 ? "Invalid age" : "";
+      default:
+        return "";
+    }
+  };
+
+  const handleChange = (field, value) => {
+    const newErrors = { ...errors, [field]: validateField(field, value) };
+    setErrors(newErrors);
+  };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!username.trim()) {
-      newErrors.username = "Username is required";
-    }
-    if (!password.trim()) {
-      newErrors.password = "Password is required";
-    }
-
-    if (!email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Invalid email address";
-    }
-
-    if (!phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^\d{10}$/.test(phone)) {
-      newErrors.phone = "Invalid phone number";
-    }
-
-    if (!country.trim()) {
-      newErrors.country = "Country is required";
-    }
-
-    if (!state.trim()) {
-      newErrors.state = "State is required";
-    }
-
-    if (!city.trim()) {
-      newErrors.city = "City is required";
-    }
-    if (!street.trim()) {
-      newErrors.street = "Street is required";
-    }
-
-    if (!age.trim()) {
-      newErrors.age = "Age is required";
-    } else if (isNaN(age) || +age <= 0) {
-      newErrors.age = "Invalid age";
-    }
+    Object.keys(errors).forEach((field) => {
+      const value = eval(field); // Access the state dynamically
+      newErrors[field] = validateField(field, value);
+    });
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.values(newErrors).every((error) => !error);
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +87,9 @@ export const Signup = () => {
       };
   
       try {
+
+
+
         console.log(formData);
         const response = await fetch("http://localhost:5000/users", {
           method: "POST",
@@ -95,19 +99,48 @@ export const Signup = () => {
           body: JSON.stringify(formData),
         });
         console.log(response)
+        
+        
         if (response.ok) {
           const data = await response.json();
           console.log("Data successfully submitted:", data);
-          // Handle success, e.g., redirect to the login page
+          setErrors({
+            success: "Sucessfull Registration", // Clear success message
+            frontend: "Go to Login!!",
+            backend: "",
+          });
+          // Redirect to the login page
+          navigate("/login");
         } else {
-          console.error("Error submitting data:", response.statusText);
-          // Handle error, e.g., display error message to the user
+          const errorData = await response.json();
+          console.error("Error submitting data:", errorData.message);
+          // Display both backend and frontend validation errors as a popup on the webpage
+          setErrors({
+            success: "", // Clear success message
+            frontend: "Please fill in all required fields correctly.",
+            backend: errorData.message,
+          });
         }
       } catch (error) {
         console.error("Error submitting data:", error.message);
-        // Handle error, e.g., display error message to the user
+        // Display both backend and frontend validation errors as a popup on the webpage
+        setErrors({
+          success: "", // Clear success message
+          frontend: "Please fill in all required fields correctly.",
+          backend: "Error submitting data. Try again!",
+        });
       }
+    } else {
+      // Show frontend validation error as popup
+      setErrors({
+        success: "", // Clear success message
+        frontend: "Please fill in all required fields correctly.",
+        backend: "", // Clear backend error
+      });
     }
+  };
+  const closeErrorPopup = () => {
+    setErrors('');
   };
 
 
@@ -222,6 +255,7 @@ export const Signup = () => {
           </form>
         </div>
       </div>
+      {errors && <ErrorPopup errorMessage={errors} onClose={closeErrorPopup} />}
     </SignupForm>
 
    

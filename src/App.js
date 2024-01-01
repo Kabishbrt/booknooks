@@ -21,6 +21,7 @@ import { getStoredToken } from "./Actions/authActions";
 import { Init } from "./Init";
 import Alert from "./components/alert";
 import { UserDetails } from "./components/UserDetails";
+import { UserSecurity } from "./components/UserSecurity";
 
 const App = () => {
   const theme = {
@@ -72,6 +73,7 @@ return (
       <Route path="/orders" element={<Orders/>} />
       <Route path="/contact" element={<Contact/>} />
       <Route path="/details/" element={<UserDetails/>} />
+      <Route path="/Security/" element={<UserSecurity/>} />
       <Route path="/book/:title" element={<Book/>} />
     </Routes> 
     <Footer/>
