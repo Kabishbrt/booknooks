@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const ErrorPopup = ({ errorMessage, onClose }) => {
+const ErrorPopup = ({ errorMessage, onClose }) => { 
+  const [isloading, setisloading] = useState(true);
+
+  useEffect(() => {
+    // Check if errorMessage.success is defined and not null before accessing its length
+    if (errorMessage.success && errorMessage.success.length > 1) {
+      setisloading(false);
+    }
+  }, [errorMessage.success]); // Only re-run the effect if errorMessage.success changes
+
   return (
-    <Popup>
-      <Content>
-        {errorMessage.success && <SuccessMessage>{errorMessage.success}</SuccessMessage>}
-        {errorMessage.frontend && <ErrorMessage>{errorMessage.frontend}</ErrorMessage>}
-        {errorMessage.backend && <ErrorMessage>{errorMessage.backend}</ErrorMessage>}
-        <CloseButton onClick={onClose}>Close</CloseButton>
-      </Content>
-    </Popup>
+    isloading === false ? (
+      <Popup>
+        <Content>
+          {errorMessage.success && <SuccessMessage>{errorMessage.success}</SuccessMessage>}
+          {errorMessage.frontend && <ErrorMessage>{errorMessage.frontend}</ErrorMessage>}
+          {errorMessage.backend && <ErrorMessage>{errorMessage.backend}</ErrorMessage>}
+          <CloseButton onClick={onClose}>Close</CloseButton>
+        </Content>
+      </Popup>
+    ) : (
+      <Popup>
+        "Signing Up"
+      </Popup>
+    )
   );
 };
+
+
 
 const Popup = styled.div`
   position: fixed;

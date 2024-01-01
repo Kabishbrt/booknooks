@@ -9,7 +9,6 @@ import ErrorPopup from "./components/ErrorPopup";
 
 export const Signup = () => {
   const navigate = useNavigate();
-
   //form validation
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -87,10 +86,7 @@ export const Signup = () => {
       };
   
       try {
-
-
-
-        console.log(formData);
+    
         const response = await fetch("http://localhost:5000/users", {
           method: "POST",
           headers: {
@@ -98,20 +94,25 @@ export const Signup = () => {
           },
           body: JSON.stringify(formData),
         });
-        console.log(response)
         
         
-        if (response.ok) {
+        
+        if (response.status===201) {
+          
           const data = await response.json();
-          console.log("Data successfully submitted:", data);
+          //alert(data.message);
           setErrors({
-            success: "Sucessfull Registration", // Clear success message
+            success: data.message, // Clear success message
             frontend: "Go to Login!!",
-            backend: "",
+            backend:""
           });
           // Redirect to the login page
-          navigate("/login");
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
+          
         } else {
+          
           const errorData = await response.json();
           console.error("Error submitting data:", errorData.message);
           // Display both backend and frontend validation errors as a popup on the webpage
@@ -122,6 +123,7 @@ export const Signup = () => {
           });
         }
       } catch (error) {
+
         console.error("Error submitting data:", error.message);
         // Display both backend and frontend validation errors as a popup on the webpage
         setErrors({
@@ -131,6 +133,7 @@ export const Signup = () => {
         });
       }
     } else {
+
       // Show frontend validation error as popup
       setErrors({
         success: "", // Clear success message
@@ -255,6 +258,7 @@ export const Signup = () => {
           </form>
         </div>
       </div>
+      
       {errors && <ErrorPopup errorMessage={errors} onClose={closeErrorPopup} />}
     </SignupForm>
 
