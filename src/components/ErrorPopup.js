@@ -9,7 +9,13 @@ const ErrorPopup = ({ errorMessage, onClose }) => {
     if (errorMessage.success && errorMessage.success.length > 1) {
       setisloading(false);
     }
-  }, [errorMessage.success]); // Only re-run the effect if errorMessage.success changes
+    if (errorMessage.backend && errorMessage.backend.length > 1) {
+      setisloading(false);
+    }
+    if (errorMessage.frontend && errorMessage.frontend.length > 1) {
+      setisloading(false);
+    }
+  }, [errorMessage]); // Only re-run the effect if errorMessage.success changes
 
   return (
     isloading === false ? (

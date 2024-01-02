@@ -117,7 +117,7 @@ export const Signup = () => {
           console.error("Error submitting data:", errorData.message);
           // Display both backend and frontend validation errors as a popup on the webpage
           setErrors({
-            success: "", // Clear success message
+            success: " ", // Clear success message
             frontend: "Please fill in all required fields correctly.",
             backend: errorData.message,
           });
@@ -127,7 +127,7 @@ export const Signup = () => {
         console.error("Error submitting data:", error.message);
         // Display both backend and frontend validation errors as a popup on the webpage
         setErrors({
-          success: "", // Clear success message
+          success: " ", // Clear success message
           frontend: "Please fill in all required fields correctly.",
           backend: "Error submitting data. Try again!",
         });
