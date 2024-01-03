@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useSelector,useDispatch } from 'react-redux';
 import ErrorPopup from './ErrorPopup';
+import { getStoredToken } from '../Actions/authActions';
 
 export const UserSecurity = () => {
+  const { userid, loginalert } = useSelector((state) => state.auth);
+
+  console.log(userid,loginalert);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState('');
+
+  const authToken = getStoredToken();
+  console.log(authToken); 
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -16,30 +24,31 @@ export const UserSecurity = () => {
     }
 
     try {
-      // Add your API endpoint for changing the password
-      const response = await fetch('http://localhost:5000/users', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:5000/users/${userid}`, {
+        method: 'PUT', // Use PUT method for updating the password
         headers: {
           'Content-Type': 'application/json',
-          // Include any authentication headers if needed
+          Authorization: `Bearer ${authToken}`, // Add /* global authToken */
         },
         body: JSON.stringify({
-          newPassword,
+          password:newPassword,
         }),
       });
 
-      if (response.ok) {
-        // Password changed successfully
+      if (response.status===200) {
         setErrors('');
         setNewPassword('');
         setConfirmPassword('');
+        window.alert("Password Changed Sucessfully");
       } else {
         const errorData = await response.json();
         setErrors(errorData.message || 'Failed to change password');
+        window.alert("Failed to change password");
       }
     } catch (error) {
       console.error('Error changing password:', error.message);
       setErrors('Failed to change password. Please try again.');
+      window.alert("Failed to change password");
     }
   };
 
@@ -77,7 +86,7 @@ export const UserSecurity = () => {
           </form>
         </div>
       </div>
-      {errors && <ErrorPopup errorMessage={errors} onClose={closeErrorPopup} />}
+      
     </ChangePasswordForm>
   );
 };
