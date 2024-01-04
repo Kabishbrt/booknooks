@@ -3,26 +3,27 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from './Nav';
 import { SearchBar } from './SearchBar';
-import { useSelector,useDispatch } from 'react-redux';
-import { sortbooks,filterexec } from "../Actions/filterActions";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { sortbooks, filterexec } from '../Actions/filterActions';
 
 export const Header = () => {
+  const { Initializing } = useSelector((state) => state.auth);
+  console.log(Initializing);
 
   return (
-    <HeaderSection>
+    <StyledHeaderSection initializing={Initializing}>
       <NavLink to="/">
         <div className='logo'>
-        <img src="./images/logo.png" alt="BookNooks Logo"/>
+          <img src="./images/logo.png" alt="BookNooks Logo" />
         </div>
       </NavLink>
-      <SearchBar/>
-      <Nav/>
-    </HeaderSection>
+      <SearchBar />
+      <Nav />
+    </StyledHeaderSection>
   );
 };
 
-const HeaderSection = styled.section`
+const StyledHeaderSection = styled.section`
   padding: 3rem 3rem;
   height: 7.5rem;
   background-color: ${({ theme }) => theme.colors.featbg};
@@ -32,6 +33,9 @@ const HeaderSection = styled.section`
   position: relative;
   z-index: 999;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  filter: ${({ initializing }) => (initializing ? 'blur(5px)' : 'none')}; // Apply blur conditionally
+  pointer-events: ${({ initializing }) => (initializing ? 'none' : 'auto')}; // Disable pointer events conditionally
+
 
   .logo {
     padding-right: 10px;

@@ -14,7 +14,7 @@ export const Login = () => {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    if (username != "" && password !=="") {
+    if (username !== "" && password !=="") {
       dispatch(login(username, password, navigate));
     } else {
       alert("Empty Fields")
