@@ -10,11 +10,14 @@ export const Init = () => {
   const dispatch = useDispatch();
   const {books} = useSelector((state) => state.books);
   const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
+  const {Initializing} = useSelector((state) => state.auth);
   const {text,genre,BookAuthor,price,avg_rating} = useSelector((state) => state.filter.filters);
 
   const verifyTokenOnServer = async (token) => {
     try {
-      
+      dispatch({
+        type: 'INITIALIZE',
+      });
       const response = await fetch(`http://localhost:5000/token`, {
         method: 'POST',
         headers: {
@@ -56,6 +59,7 @@ export const Init = () => {
       }
       try {
         // Fetch books when the application is loaded
+
         await dispatch(fetchBooks());
 
       } catch (error) {
@@ -64,6 +68,7 @@ export const Init = () => {
     };
     fetchData();
   }, []);
+
  
   useEffect(() => {
     if (books.length>0) {

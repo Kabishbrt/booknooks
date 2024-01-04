@@ -3,6 +3,7 @@ import axios from 'axios';
 export const login = (username, password, navigate) => async (dispatch) => {
   const baseurl = process.env.REACT_APP_API_URL
   try {
+    dispatch({ type: 'LOGGING_IN' });
     const response = await axios.post(`${baseurl}/users/auth`, { username, password });
     const token = response.data.token;
     var message = response.data.message;
@@ -16,6 +17,9 @@ export const login = (username, password, navigate) => async (dispatch) => {
         userid: response.data.userID
       }
     });
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_MESSAGE' });
+    }, 300);
 
     // Navigate to the home page (or any desired route)
     navigate('/');

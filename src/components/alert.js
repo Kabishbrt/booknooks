@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const Overlay = styled.div`
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   position: fixed;
   top: 10px;
   right: 2%;
@@ -30,23 +30,22 @@ const Alert = () => {
     useEffect(() => {
       // Check if the alert has already been shown using localStorage
       const hasShownAlert = localStorage.getItem('hasShownAlert');
-  
+    
       // Show the alert when isAuthenticated becomes true and hasShownAlert is not true
       if (isAuthenticated && hasShownAlert !== 'true') {
         setShow(true);
-  
+    
         // Automatically hide the alert after 2 seconds
         const timeoutId = setTimeout(() => {
           setShow(false);
-
-  
+    
           // Set a flag in localStorage indicating that the alert has been shown
           localStorage.setItem('hasShownAlert', 'true');
-        }, 2000);
-  
+        }, 2500);
+    
         return () => clearTimeout(timeoutId);
       }
-    }, [isAuthenticated, dispatch]);
+    }, [isAuthenticated]);
   
     return <Overlay show={show}>Welcome {loginalert}!</Overlay>; // Customize the alert message as needed
   };

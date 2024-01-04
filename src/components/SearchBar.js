@@ -22,6 +22,7 @@ export const SearchBar = () => {
         { target: { name: 'text', value: localText } },
         dispatch
       ); 
+      navigate('/explore');
     }
 
     // Add additional logic or dispatch here if needed
@@ -48,11 +49,10 @@ export const SearchBar = () => {
         onKeyDown={handleKeyPress}
         placeholder="Search"
       />
-      <NavLink to="/explore">
+    
       <SearchButton type="button" onClick={handleSearchClick}>
         <AiOutlineSearch />
       </SearchButton>
-      </NavLink>
     </SearchContainer>
   );
 };
