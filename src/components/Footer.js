@@ -49,7 +49,7 @@ export const Footer = () => {
           <hr/>
           <div className= "container grid grid-two-column">
             <p>
-              @{new Date().getFullYear()} BookNooks. All Rights Reserved
+              @{new Date().getFullYear()} AIMS. All Rights Reserved
             </p>
             <div>
               <p>PRIVACY POLICY</p>

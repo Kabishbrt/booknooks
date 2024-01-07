@@ -117,8 +117,9 @@ const initialState = {
       if (text) {
         tempFilterProduct = tempFilterProduct.filter((curElem) => {
           const formattedBookAuthor = curElem.BookAuthor.replace(/[.\s]/g, '').toLowerCase();
+          const formattedBookTitle = curElem.BookTitle.replace(/[.\s]/g, '').toLowerCase();
           const formattedText = text.replace(/[.\s]/g, '').toLowerCase();
-          return curElem.BookTitle.toLowerCase().includes(text.toLowerCase()) || formattedBookAuthor.includes(formattedText);
+          return formattedBookTitle.toLowerCase().includes(formattedText) || formattedBookAuthor.includes(formattedText);
         });
       }
       if(genre !=="all"){

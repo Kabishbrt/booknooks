@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const Overlay = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   position: fixed;
   top: 10px;
   right: 2%;

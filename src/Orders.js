@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 export const Orders = () => {
   const { userid, loginalert } = useSelector((state) => state.auth);
+  console.log(userid);
   const [orders, setOrders] = useState([]);
   const dispatch = useDispatch();
   const authToken = getStoredToken();
@@ -37,7 +38,7 @@ export const Orders = () => {
     <OrdersContainer>
       {userid && authToken ? (
         <>
-          <h1 style={{ fontSize: '24px' }}>Orders: {userid}</h1> 
+          <h1 style={{ fontSize: '24px' }}>Orders for {loginalert}</h1> 
           {orders.order && orders.order.length > 0 ? (
             <OrdersTable>
               <thead>
@@ -66,7 +67,7 @@ export const Orders = () => {
               </tbody>
             </OrdersTable>
           ) : (
-            <p>...</p>
+            <p>No Orders Placed Yet</p>
           )}
         </>
       ) : (

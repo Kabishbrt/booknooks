@@ -103,13 +103,13 @@ export const Signup = () => {
           //alert(data.message);
           setErrors({
             success: data.message, // Clear success message
-            frontend: "Go to Login!!",
+            frontend: "Redirecting to Login!!",
             backend:""
           });
           // Redirect to the login page
           setTimeout(() => {
             navigate("/login");
-          }, 3000);
+          }, 1500);
           
         } else {
           
@@ -271,7 +271,6 @@ const SignupForm = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     background-image: url("bookstore.jpg");
     background-size: cover;
     background-position: center;
