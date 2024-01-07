@@ -4,11 +4,12 @@ import { NavLink, Navigate } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorPopup from "./components/ErrorPopup";
-
+import { useDispatch, useSelector } from "react-redux";
 
 
 export const Signup = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, Initializing} = useSelector((state) => state.auth);
   //form validation
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -149,121 +150,129 @@ export const Signup = () => {
 
 
 
+  if(isAuthenticated === true){
+    navigate('/')
+  }else
+  {
+    return (
 
-  return (
-
-    <SignupForm>
-      <div className="signup-container">
-        <div className="signup-box">
-          <h1>Sign Up</h1>
-          <form onSubmit={handleSubmit}>
-            <InputLabel>
-              Username:
-              <input
-                type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              {errors.username && <ErrorText>{errors.username}</ErrorText>}
-            </InputLabel>
-            <InputLabel>
-              Password:
-              <input
-                type="password"
-                placeholder="Create Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {errors.password && <ErrorText>{errors.password}</ErrorText>}
-            </InputLabel>
-            <InputLabel>
-              Email:
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {errors.email && <ErrorText>{errors.email}</ErrorText>}
-            </InputLabel>
-            <InputLabel>
-              Phone:
-              <input
-                type="tel"
-                placeholder="Enter your phone number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-              {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
-            </InputLabel>
-            <InputLabel>
-              Country:
-              <input
-                type="text"
-                placeholder="Enter your country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-              />
-              {errors.country && <ErrorText>{errors.country}</ErrorText>}
-            </InputLabel>
-
-            <InputLabel>
-              State:
-              <input
-                type="text"
-                placeholder="Enter your state"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-              />
-              {errors.state && <ErrorText>{errors.state}</ErrorText>}
-            </InputLabel>
-            
-            <InputLabel>
-              City:
-              <input
-                type="text"
-                placeholder="Enter your city"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
-              {errors.city && <ErrorText>{errors.city}</ErrorText>}
-            </InputLabel>
-            <InputLabel>
-              Street:
-              <input
-                type="text"
-                placeholder="Enter your Street Name"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-              />
-              {errors.street && <ErrorText>{errors.street}</ErrorText>}
-            </InputLabel>
-            <InputLabel>
-              Age:
-              <input
-                type="number"
-                placeholder="Enter your age"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-              />
-              {errors.age && <ErrorText>{errors.age}</ErrorText>}
-            </InputLabel>
-            <NavLinkStyled to="/login">
-              Already have an account? Login here
-            </NavLinkStyled>
-            <SignupButton type="button" onClick={handleSubmit} >
-              Sign Up
-            </SignupButton>
-          </form>
+      <SignupForm initializing={Initializing}>
+        <div className="signup-container">
+          <div className="signup-box">
+            <h1>Sign Up</h1>
+            <form onSubmit={handleSubmit}>
+              <InputLabel>
+                Username:
+                <input
+                  type="text"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                {errors.username && <ErrorText>{errors.username}</ErrorText>}
+              </InputLabel>
+              <InputLabel>
+                Password:
+                <input
+                  type="password"
+                  placeholder="Create Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {errors.password && <ErrorText>{errors.password}</ErrorText>}
+              </InputLabel>
+              <InputLabel>
+                Email:
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {errors.email && <ErrorText>{errors.email}</ErrorText>}
+              </InputLabel>
+              <InputLabel>
+                Phone:
+                <input
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
+              </InputLabel>
+              <InputLabel>
+                Country:
+                <input
+                  type="text"
+                  placeholder="Enter your country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                />
+                {errors.country && <ErrorText>{errors.country}</ErrorText>}
+              </InputLabel>
+  
+              <InputLabel>
+                State:
+                <input
+                  type="text"
+                  placeholder="Enter your state"
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                />
+                {errors.state && <ErrorText>{errors.state}</ErrorText>}
+              </InputLabel>
+              
+              <InputLabel>
+                City:
+                <input
+                  type="text"
+                  placeholder="Enter your city"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+                {errors.city && <ErrorText>{errors.city}</ErrorText>}
+              </InputLabel>
+              <InputLabel>
+                Street:
+                <input
+                  type="text"
+                  placeholder="Enter your Street Name"
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
+                />
+                {errors.street && <ErrorText>{errors.street}</ErrorText>}
+              </InputLabel>
+              <InputLabel>
+                Age:
+                <input
+                  type="number"
+                  placeholder="Enter your age"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                />
+                {errors.age && <ErrorText>{errors.age}</ErrorText>}
+              </InputLabel>
+              <NavLinkStyled to="/login">
+                Already have an account? Login here
+              </NavLinkStyled>
+              <SignupButton type="button" onClick={handleSubmit} >
+                Sign Up
+              </SignupButton>
+            </form>
+          </div>
         </div>
-      </div>
-      
-      {errors && <ErrorPopup errorMessage={errors} onClose={closeErrorPopup} />}
-    </SignupForm>
+        
+        {errors && <ErrorPopup errorMessage={errors} onClose={closeErrorPopup} />}
+      </SignupForm>
+  
+     
+    );
+  }
 
-   
-  );
+
+
+  
 };
 
 const SignupForm = styled.form`
@@ -290,6 +299,8 @@ const SignupForm = styled.form`
     font-size: 24px;
     color: #333;
   }
+  filter: ${({ initializing }) => (initializing ? 'blur(5px)' : 'none')}; // Apply blur conditionally
+  pointer-events: ${({ initializing }) => (initializing ? 'none' : 'auto')}; // Disable pointer events conditionally
 `;
 
 const InputLabel = styled.label`

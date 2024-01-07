@@ -38,7 +38,9 @@ const initialState = {
         return {
           ...state,
           Initializing: false,
-          isAuthenticated: false
+          isAuthenticated: false,
+          loginalert: null,
+          userid: null
         };
       case 'CLEAR_ALERT':
         return {
