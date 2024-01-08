@@ -8,7 +8,6 @@ import { sortbooks, filterexec } from '../Actions/filterActions';
 
 export const Header = () => {
   const { Initializing } = useSelector((state) => state.auth);
-  console.log(Initializing);
 
   return (
     <StyledHeaderSection initializing={Initializing}>
