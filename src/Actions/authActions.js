@@ -20,6 +20,9 @@ export const login = (username, password, navigate) => async (dispatch) => {
     setTimeout(() => {
       dispatch({ type: 'CLEAR_MESSAGE' });
     }, 300);
+    
+
+    
 
     // Navigate to the home page (or any desired route)
     navigate('/');
@@ -72,7 +75,7 @@ export const getStoredToken = () => {
   
     if(tokenCookie){
         const tokenValue = tokenCookie.split('=')[1];
-        console.log('Token Value:', tokenValue);
+        // console.log('Token Value:', tokenValue);
   
         return tokenValue || null;
     }

@@ -7,13 +7,13 @@ import { login, getStoredToken } from "./Actions/authActions";
 import { handleKeyPress } from "./Functions";
 
 export const Login = () => {
-  const {message} = useSelector((state) => state.auth);
+  const {message, isAuthenticated, Initializing} = useSelector((state) => state.auth);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogin = () => {
+  const handleLogin = () => { 
     if (username !== "" && password !=="") {
       dispatch(login(username, password, navigate));
     } else {
@@ -34,40 +34,47 @@ export const Login = () => {
     }
   };
 
-  return (
-    <LoginForm>
-      <div className="login-container">
-        <div className="login-box">
-          <h1>Login</h1>
-          <InputLabel>
-            Username:
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyDown={handleKeyPress}
-            />
-          </InputLabel>
-          <InputLabel>
-            Password:
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={handleKeyPress}
-            />
-          </InputLabel>
-          <span>{(message)}</span>
-          <NavLinkStyled to="/signup">New User? Click Here to Register</NavLinkStyled>
-          <LoginButton type="button" onClick={handleLogin}>
-            Login
-          </LoginButton>
+  
+  if(isAuthenticated ===true){
+    navigate('/');
+  }else{
+    return (
+      <LoginForm initializing={Initializing}>
+        <div className="login-container">
+          <div className="login-box">
+            <h1>Login</h1>
+            <InputLabel>
+              Username:
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyDown={handleKeyPress}
+              />
+            </InputLabel>
+            <InputLabel>
+              Password:
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyPress}
+              />
+            </InputLabel>
+            <span>{(message)}</span>
+            <NavLinkStyled to="/signup">New User? Click Here to Register</NavLinkStyled>
+            <LoginButton type="button" onClick={handleLogin}>
+              Login
+            </LoginButton>
+          </div>
         </div>
-      </div>
-    </LoginForm>
-  );
+      </LoginForm>
+    );
+
+  }
+ 
 };
 
 const LoginForm = styled.form`
@@ -99,6 +106,8 @@ const LoginForm = styled.form`
     font-size: 24px;
     color: #333;
   }
+  filter: ${({ initializing }) => (initializing ? 'blur(5px)' : 'none')}; // Apply blur conditionally
+  pointer-events: ${({ initializing }) => (initializing ? 'none' : 'auto')}; // Disable pointer events conditionally
 `;
 
 const InputLabel = styled.label`
