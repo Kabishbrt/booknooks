@@ -8,8 +8,8 @@ const OrdersBookInfo = ({ productId, authToken }) => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/books/${productId}`, {
-          method: 'PUT',
+        const response = await fetch(`http://localhost:5000/books/id/${productId}`, {
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -29,12 +29,12 @@ const OrdersBookInfo = ({ productId, authToken }) => {
     <div>
       {book ? (
         <>
-          <p>{book.BookTitle}</p>
           <img
             src={book.ImageURLM}  
             alt={book.BookTitle}
             style={{ maxWidth: '50px', maxHeight: '50px' }}
-          />
+            />
+            <p>{book.BookTitle}</p>
         </>
         
       ) : (
