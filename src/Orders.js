@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getStoredToken } from './Actions/authActions';
 import styled from "styled-components";
+import OrdersBookInfo from './components/OrdersBookInfo';
 
 
 export const Orders = () => {
@@ -46,7 +47,7 @@ export const Orders = () => {
                   <TableHeader>Book</TableHeader>
                   <TableHeader>Order Date</TableHeader>
                   <TableHeader>Status</TableHeader>
-                  <TableHeader>Book ID</TableHeader>
+
                   <TableHeader>Quantity</TableHeader>
                   <TableHeader>SubTotal</TableHeader>
                 </tr>
@@ -55,10 +56,11 @@ export const Orders = () => {
                 {orders.order.map((order) => (
                   <tr key={order._id}>
                     <TableCell>{order._id}</TableCell>
-                    <TableCell>1982{/*Make a component showing booktitle and image passing product id as prop*/}</TableCell>
+                    <TableCell>
+                      <OrdersBookInfo productId={order.ProductID} authToken={authToken} />
+                    </TableCell>
                     <TableCell>{order.OrderDate}</TableCell>
                     <TableCell>{order.Status}</TableCell>
-                    <TableCell>{order.ProductID}</TableCell>
                     <TableCell>{order.Quantity}</TableCell>
                     <TableCell>{order.SubTotal}</TableCell>
                   </tr>

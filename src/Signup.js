@@ -4,6 +4,7 @@ import { NavLink, Navigate } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorPopup from "./components/ErrorPopup";
+import CountriesList from "./components/CountriesList";
 
 
 
@@ -198,15 +199,20 @@ export const Signup = () => {
               {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
             </InputLabel>
             <InputLabel>
-              Country:
-              <input
-                type="text"
-                placeholder="Enter your country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-              />
-              {errors.country && <ErrorText>{errors.country}</ErrorText>}
-            </InputLabel>
+            Country:
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            >
+              <option value="">Select Country</option>
+              {CountriesList.map((countryOption) => (
+                <option key={countryOption} value={countryOption}>
+                  {countryOption}
+                </option>
+              ))}
+            </select>
+            {errors.country && <ErrorText>{errors.country}</ErrorText>}
+          </InputLabel>
 
             <InputLabel>
               State:
@@ -306,6 +312,16 @@ const InputLabel = styled.label`
     border: 1px solid #ddd;
     border-radius: 4px;
   }
+
+  select {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%; // Adjust the width as needed
+  }
+  
+
 `;
 
 const SignupButton = styled.button`
@@ -340,3 +356,4 @@ const ErrorText = styled.span`
   color: red;
   font-size: 12px;
 `;
+
