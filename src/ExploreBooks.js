@@ -46,26 +46,6 @@ export const ExploreBooks = () => {
       </Wrapper>
     );
   }
-  // return (
-  //   <div>
-  //     {isLoading ? (
-  //       <p>Loading...</p>
-  //     ) : status === 200 ? (
-  //       books.map((book) => {
-  //         const { _id, ISBN, BookTitle, ImageURLM, Price, avg_ratings } = book;
-  //         return (
-  //           <div key={_id}>
-  //             <p>{BookTitle}</p>
-  //             <img src={ImageURLM}/>
-  //           </div>
-  //         );
-  //       })
-  //     ) : (
-  //       <p>Oops! Failed to load, Try again later.</p>
-  //     )}
-
-  //   </div>
-  // );
 };
 
 const Wrapper = styled.section`
