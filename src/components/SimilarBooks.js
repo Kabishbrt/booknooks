@@ -37,7 +37,7 @@ export const SimilarBooks = () => {
 
       return (
         // HTML section for Similar books
-        <Wrapper>
+        <Wrapper className="section">
           <h2>People who Viewed this book also viewed.</h2>
           <GridView books={state.books} />
         </Wrapper>
@@ -48,17 +48,54 @@ export const SimilarBooks = () => {
   }
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   h2 {
     text-align: center;
   }
-  /* Add any additional styles for the wrapper if needed */
-  .similar-books-card {
+  padding: 3rem 0;
+
+  .container {
+    max-width: 120rem;
   }
-  background-color: #f8f7f7;
-  padding: 10px;
-  .grid-filter-column {
-    grid-template-columns: 1fr 1fr;
+
+  .grid {
+    gap: 3.2rem;
+  }
+
+  figure {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s linear;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      transition: all 0.2s linear;
+      cursor: pointer;
+    }
+    &:hover::after {
+      width: 100%;
+    }
+    &:hover img {
+      transform: scale(1.2);
+    }
+    img {
+      max-width: 90%;
+      margin-top: 1.5rem;
+      height: 20rem;
+      transition: all 0.2s linear;
+    }
+  }
+  .viewbuttons{
+    display:flex;
+    justify-content:space-between;
   }
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {

@@ -26,6 +26,7 @@ export const Book = () => {
   const { title } = useParams();
   const API = "http://localhost:5000/books/single";
   useEffect(() => {
+    setState({ isLoading: true})
     axios
       .get(`${API}/${title}`)
       .then((res) => {
@@ -35,7 +36,7 @@ export const Book = () => {
         console.error(err); // Log the error if needed
         setState({ isLoading: false, book: null, status: 0 });
       });
-  }, []);
+  }, [title]);
 
   if (State.isLoading === true) {
     return <h2>Loading....</h2>;
