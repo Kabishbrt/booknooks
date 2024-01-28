@@ -1,18 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getStoredToken } from './Actions/authActions';
-import styled from "styled-components";
+import styled from 'styled-components';
 import OrdersBookInfo from './components/OrdersBookInfo';
-
 
 export const Orders = () => {
   const { userid, loginalert } = useSelector((state) => state.auth);
-  console.log(userid);
   const [orders, setOrders] = useState([]);
-  const dispatch = useDispatch();
   const authToken = getStoredToken();
-  
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -23,7 +19,6 @@ export const Orders = () => {
           },
         });
         const data = await response.json();
-        console.log(data);
         setOrders(data);
       } catch (error) {
         console.error('Error fetching orders:', error);
@@ -33,13 +28,13 @@ export const Orders = () => {
     if (loginalert && authToken) {
       fetchOrders();
     }
-  }, [userid, loginalert, authToken, dispatch]);
+  }, [userid, loginalert, authToken]);
 
   return (
-    <OrdersContainer>
+    <Container>
       {userid && authToken ? (
-        <>
-          <h1 style={{ fontSize: '24px' }}>Orders for {loginalert}</h1> 
+        <Content>
+          <Title>Orders for {loginalert}</Title>
           {orders.order && orders.order.length > 0 ? (
             <OrdersTable>
               <thead>
@@ -48,7 +43,6 @@ export const Orders = () => {
                   <TableHeader>Book</TableHeader>
                   <TableHeader>Order Date</TableHeader>
                   <TableHeader>Status</TableHeader>
-
                   <TableHeader>Quantity</TableHeader>
                   <TableHeader>SubTotal</TableHeader>
                 </tr>
@@ -60,7 +54,7 @@ export const Orders = () => {
                     <TableCell>
                       <OrdersBookInfo productId={order.ProductID} authToken={authToken} />
                     </TableCell>
-                    <TableCell>{order.OrderDate}</TableCell>
+                    <TableCell>{new Date(order.OrderDate).toLocaleDateString()}</TableCell>
                     <TableCell>{order.Status}</TableCell>
                     <TableCell>{order.Quantity}</TableCell>
                     <TableCell>{order.SubTotal}</TableCell>
@@ -69,29 +63,32 @@ export const Orders = () => {
               </tbody>
             </OrdersTable>
           ) : (
-            <p>No Orders Placed Yet</p>
+            <NoOrdersMessage>No Orders Placed Yet</NoOrdersMessage>
           )}
-        </>
+        </Content>
       ) : (
         <p>Please log in to view your orders.</p>
       )}
-      
-    </OrdersContainer>
+    </Container>
   );
 };
 
-const OrdersContainer = styled.div`
-  max-width: 100%;
+const Container = styled.div`
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  text-align: center;
-   
-  @media only screen and (max-width: 768px) {
-    font-size: 14px;
-  }
+`;
 
-  @media only screen and (max-width: 480px) {
-    font-size: 12px;
+const Content = styled.div`
+  text-align: center;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+  margin-bottom: 20px;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 20px;
   }
 `;
 
@@ -99,58 +96,42 @@ const OrdersTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-
-  @media only screen and (max-width: 768px) {
-    font-size: 14px;
-  }
-
-  @media only screen and (max-width: 480px) {
-    font-size: 12px;
-  }
 `;
 
 const TableHeader = styled.th`
   background-color: #f2f2f2;
-  padding: 12px;
+  padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ddd;
   font-size: 18px;
 
   @media only screen and (max-width: 768px) {
-    font-size: 14px;
-  }
-
-  @media only screen and (max-width: 480px) {
     font-size: 12px;
   }
 `;
 
-const TableCellBase = styled.td`
-  padding: 12px;
+const TableCell = styled.td`
+  padding: 8px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid #ddd;
+  font-size: 14px;
+  max-width: 30px;
+  white-space: initial; /* Reset white-space to allow wrapping */
+  word-break: break-all; /* Allow breaking words */
 
   @media only screen and (max-width: 768px) {
-    font-size: 14px;
-  }
-
-  @media only screen and (max-width: 480px) {
-    font-size: 12px;
+    font-size: 9px;
+    max-width: none; /* Allow full width on smaller screens */
+   
   }
 `;
 
-const TableCell = styled(TableCellBase)`
-  font-size: 16px;
+const NoOrdersMessage = styled.p`
+  font-size: 18px;
+  margin-top: 20px;
 
   @media only screen and (max-width: 768px) {
-    font-size: 14px;
-  }
-
-  @media only screen and (max-width: 480px) {
-    font-size: 12px;
+    font-size: 16px;
   }
 `;
-
-
-
 

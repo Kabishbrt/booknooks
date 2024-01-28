@@ -7,17 +7,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { sortbooks, filterexec } from '../Actions/filterActions';
 
 export const Header = () => {
-  const { Initializing } = useSelector((state) => state.auth);
+  const { Initializing, Cart } = useSelector((state) => state.auth);
 
   return (
-    <StyledHeaderSection initializing={Initializing}>
+    <StyledHeaderSection initializing={Initializing} >
       <NavLink to="/">
         <div className='logo'>
           <img src="./images/logo.png" alt="BookNooks Logo" />
         </div>
       </NavLink>
       <SearchBar />
-      <Nav />
+      <Nav/>
     </StyledHeaderSection>
   );
 };

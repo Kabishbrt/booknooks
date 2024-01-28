@@ -110,7 +110,6 @@ const UserIcon = () => {
     <UserIconContainer ref={dropdownRef}>
       <IconWrapper className="navbar-link cart-trolley--link" onClick={handleUserIconClick}>
         <CartTrolley className="cart-trolley" />
-        <CartTotalItem className="cart-total--item">2</CartTotalItem>
       </IconWrapper>
 
       <DropdownMenu isOpen={isDropdownOpen}>

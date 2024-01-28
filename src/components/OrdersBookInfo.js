@@ -34,7 +34,7 @@ const OrdersBookInfo = ({ productId, authToken }) => {
             alt={book.BookTitle}
             style={{ maxWidth: '50px', maxHeight: '50px' }}
             />
-            <p>{book.BookTitle}</p>
+            <p style={{fontSize: '12px'}}>{book.BookTitle}</p>
         </>
         
       ) : (

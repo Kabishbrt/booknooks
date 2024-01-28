@@ -4,7 +4,7 @@
       books: [],
       isLoading: false, // Add isLoading property
       error: null,
-      status: null
+      status: null,
     };
     
     const booksReducer = (state = initialState, action) => {

@@ -188,7 +188,7 @@ const Nav = () => {
       }
     }
   `;
-  const {isAuthenticated} = useSelector((state) => state.auth);
+  const {isAuthenticated, Cart} = useSelector((state) => state.auth);
 
 
   const handlelogout = async (logout) => {
@@ -258,7 +258,7 @@ const Nav = () => {
               onClick={() => setMenuIcon(false)}
             >
               <FiShoppingCart className="cart-trolley" />
-              <span className="cart-total--item">2</span>
+              <span className="cart-total--item">{Cart.length}</span>
             </NavLink>
           </li>
           ):null}          

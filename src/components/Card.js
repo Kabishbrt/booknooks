@@ -12,10 +12,10 @@ const truncateText = (text, maxLength) => {
 const Card = (book) => {
   const { _id, BookTitle, ImageURLM, Price, avg_rating } = book;
   const truncatedTitle = truncateText(BookTitle, 35);
-
+  const encodedTitle = encodeURIComponent(BookTitle);
   return (
     <Wrapper>
-      <NavLink to={`/Book/${BookTitle}`}>
+      <NavLink to={`/Book/${encodedTitle}`}>
         <div className="card" key={_id}>
           <figure>
             <img src={ImageURLM} alt="Image not available" />

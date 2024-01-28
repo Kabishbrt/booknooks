@@ -30,7 +30,6 @@ export const FeaturedBooks = () => {
 
 
         if(State.books){
-            console.log(State.books)
 
         
             /*return(
@@ -56,7 +55,7 @@ export const FeaturedBooks = () => {
                       <div className="common-heading">Featured Books</div>
                       <div className="grid grid-five-column">
                         {State.books.slice(0,6).map((book) => (
-                          <NavLink key={book._id} to={`/Book/${book.BookTitle}`} className="nav-link">
+                          <NavLink key={book._id} to={`/Book/${encodeURIComponent(book.BookTitle)}`} className="nav-link">
                             <div key={book._id} className="book-item">                           
                               <img src={book.ImageURLM} alt={book.BookTitle} />
                               <h3>{truncateText(book.BookTitle,14)}</h3>

@@ -4,13 +4,13 @@ import { useSelector,useDispatch } from 'react-redux';
 import { sortbooks,filterexec } from "./Actions/filterActions";
 import { fetchBooks } from "./Actions/bookActions";
 import { getStoredToken } from "./Actions/authActions";
-
+import axios from "axios";
 
 export const Init = () => {
   const dispatch = useDispatch();
   const {books} = useSelector((state) => state.books);
   const {all_products, filter_products,sorting_value} = useSelector((state) => state.filter);
-  const {Initializing} = useSelector((state) => state.auth);
+  const {Cart} = useSelector((state) => state.auth);
   const {text,genre,BookAuthor,price,avg_rating} = useSelector((state) => state.filter.filters);
 
   const verifyTokenOnServer = async (token) => {
@@ -22,7 +22,7 @@ export const Init = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer {$token}`
+          'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
       });
@@ -35,6 +35,37 @@ export const Init = () => {
     }
   };
 
+
+
+  useDispatch(()=>{
+    const fetchcart = async(token)=>{
+      const tokenData = await verifyTokenOnServer(token);
+      if (tokenData.isValidToken) {
+        const cartresponse = await axios.get(
+          `http://localhost:5000/cart/${tokenData.userID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+        if(cartresponse.status===200){
+          dispatch({
+            type: 'CART_UPDATE',
+            payload: 
+            {
+              cart: cartresponse.data.items || [],
+            },
+          });
+        }
+      }
+  }
+    const token = getStoredToken();
+    if(token){
+      fetchcart(token);
+    }
+  },[Cart]);
+
   useEffect(() => {
     const fetchData = async () => {
       const token = getStoredToken();
@@ -43,10 +74,19 @@ export const Init = () => {
       if (token) {
         const tokenData = await verifyTokenOnServer(token);
         if (tokenData.isValidToken) {
+          const cartresponse = await axios.get(
+            `http://localhost:5000/cart/${tokenData.userID}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+          );
           dispatch({
             type: 'LOGIN_SUCCESS',
             payload: 
             {
+              cart: cartresponse.data.items || [],
               username:tokenData.username,
               userid : tokenData.userID,
             },

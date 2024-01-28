@@ -6,26 +6,42 @@ export const login = (username, password, navigate) => async (dispatch) => {
     dispatch({ type: 'LOGGING_IN' });
     const response = await axios.post(`${baseurl}/users/auth`, { username, password });
     const token = response.data.token;
-    var message = response.data.message;
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 7); // Expires in one week
-    document.cookie = `userloginbooknookstoken=${token}; expires=${expirationDate.toUTCString()}; path=/;`;
-    dispatch({
-      type: 'LOGIN_SUCCESS',
-      payload: {
-        username:response.data.username,
-        userid: response.data.userID
-      }
-    });
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_MESSAGE' });
-    }, 300);
-    
+    if (response.data.token) {
+      const userid=  response.data.userID;
+      const cartresponse = await axios.get(
+        `${baseurl}/cart/${userid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      // const cartresponse = await axios.post(`${baseurl}/cart/${userid}`);
+      var message = response.data.message;
+      const expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 7); // Expires in one week
+      document.cookie = `userloginbooknookstoken=${token}; expires=${expirationDate.toUTCString()}; path=/;`;
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: {
+          cart: cartresponse.data.items || [],
+          username:response.data.username,
+          userid: response.data.userID
+        }
+      });
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_MESSAGE' });
+      }, 300);
+      
+      // Navigate to the home page (or any desired route)
+      navigate('/');
+    }else{
+      dispatch({
+        type: 'LOGIN_FAILURE',
+        payload: response.data,
+      });
 
-    
-
-    // Navigate to the home page (or any desired route)
-    navigate('/');
+    }
   } catch (error) {
 
     if (error.response) {

@@ -5,7 +5,8 @@ const initialState = {
     isAuthenticated: false,
     message: null,
     loginalert: '',
-    userid:''
+    userid:'',
+    Cart: []
   };
   
   const authReducer = (state = initialState, action) => {
@@ -25,6 +26,7 @@ const initialState = {
           ...state,
           Initializing: false,
           isAuthenticated: true,
+          Cart: action.payload.cart,
           loginalert: action.payload.username,
           userid: action.payload.userid
         };
@@ -54,7 +56,11 @@ const initialState = {
           ...state,
           message:null,
         }
-      
+      case 'CART_UPDATE':
+        return{
+          ...state,
+          Cart: action.payload.cart,
+        }
       default:
         return {
           ...state,

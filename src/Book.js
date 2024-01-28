@@ -5,30 +5,27 @@ import Ratings from "./components/Ratings";
 import { Button } from "./styles/Button";
 import { SimilarBooks } from './components/SimilarBooks';
 import { useParams } from "react-router-dom";
+import { getStoredToken } from "./Actions/authActions";
+import { useSelector,useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 export const Book = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [State, setState] = useState({ isLoading: true, book: [], status: 0 });
-
+  const {userid, Cart} = useSelector((state)=>state.auth);
   //Increasing or Decreasing the quantity and addding it to the cart
   const [quantity, setQuantity] = useState(1); // Initialize with 1 as the default quantity
-  const [cart, setCart] = useState([]);
-  const addToCart = () => {
-    // Check if the quantity is within the available stock
-    if (quantity <= State.book.Stock) {
-      // Add the book to the cart with the selected quantity
-      const bookInCart = { ...State.book, quantity };
-      setCart([...cart, bookInCart]);
-      alert(`Added ${quantity} ${State.book.BookTitle} to the cart`);
-    } else {
-      alert("Selected quantity exceeds available stock");
-    }
-  };
+
+
 
   const { title } = useParams();
+  console.log(title);
+  const encodedTitle = encodeURIComponent(title);
   const API = "http://localhost:5000/books/single";
   useEffect(() => {
     setState({ isLoading: true})
     axios
-      .get(`${API}/${title}`)
+      .get(`${API}/${encodedTitle}`)
       .then((res) => {
         setState({ isLoading: false, book: res.data.book, status: res.status });
       })
@@ -56,6 +53,33 @@ export const Book = () => {
         ratings,
         genre,
       } = State.book;
+
+      const CartHandler =async(e)=>{
+        e.preventDefault();
+        const API ="http://localhost:5000/cart/";
+        const token = getStoredToken();
+        const response = await axios.post(`${API}`,{userId:userid, itemId: _id, quantity:quantity},{
+          headers:{
+            Authorization: `Bearer ${token}`,
+          }
+        })
+
+        if(response.status===200){
+            dispatch({
+              type: 'CART_UPDATE',
+              payload: 
+              {
+                cart: response.data.items || [],
+              },
+            });
+            //also update the available quantity
+          }else{
+            navigate('/');
+          }
+          navigate('/cart');
+      }
+
+
       return (
         <SingleBookPage>
           <div className="container book-details-container">
@@ -98,7 +122,7 @@ export const Book = () => {
                   +
                 </Button>
               </div>
-              <Button className="add-to-cart-btn">Add to Cart</Button>
+              <Button onClick={(e)=>CartHandler(e)} className="add-to-cart-btn">Add to Cart</Button>
             </div>
           </div>
           <SimilarBooks/>

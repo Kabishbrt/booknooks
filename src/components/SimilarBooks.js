@@ -13,7 +13,7 @@ export const SimilarBooks = () => {
 
   useEffect(() => {
     axios
-      .get(`${API}/${title}`)
+      .get(`${API}/${encodeURIComponent(title)}`)
       .then((res) => {
         setState({
           isLoading: false,
