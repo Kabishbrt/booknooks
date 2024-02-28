@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
 import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
 import { Header } from "./components/Header";
@@ -22,10 +22,14 @@ import { Init } from "./Init";
 import Alert from "./components/alert";
 import { UserDetails } from "./components/UserDetails";
 import { UserSecurity } from "./components/UserSecurity";
+import WithAuth from "./WithAuth";
+import AdminRoutes from "./AdminRoutes";
 
 const App = () => {
   const theme = {
     colors: {
+      tableheader: "#f2f2f2",
+      btn2: " #3498db",
       black: "black",
       helper: "#267bb8",
       cart: "red",
@@ -37,7 +41,7 @@ const App = () => {
       cardbg: "white",
       productpagebg: "#f8f7f7",
       logbtn: "#6366eb",
-      footer_bg: "#0a1435",
+      footer_bg: "#1e3172",
       btn: "red",
       border: "rgba(98, 84, 243, 0.5)",
       hr: "#ffffff",
@@ -55,11 +59,13 @@ const App = () => {
 
 
 
+// const AuthenticatedDashboard = WithAuth(Cart);
   
 return (
 <Provider store = {store}>
 <ThemeProvider theme={theme}>
 <Router>
+ 
     <GlobalStyle/>
     <Init/>
     <Header/>
@@ -68,13 +74,18 @@ return (
       <Route path="/" element={<Home/>} />
       <Route path="/explore" element={<ExploreBooks/>} />
       <Route path="/login" element={<Login/>} />
-      <Route path="/cart" element={<Cart/>} />
+      {/* <Route
+    path="/cart"
+    element={<AuthenticatedDashboard/>}
+  /> */}
+      <Route path="/cart" element={<Cart/>}/> 
       <Route path="/signup" element={<Signup/>} />
       <Route path="/orders" element={<Orders/>} />
       <Route path="/contact" element={<Contact/>} />
       <Route path="/details/" element={<UserDetails/>} />
       <Route path="/Security/" element={<UserSecurity/>} />
       <Route path="/book/:title" element={<Book/>} />
+      <Route path="/admin/*" element={<AdminRoutes />} />
     </Routes> 
     <Footer/>
 </Router>

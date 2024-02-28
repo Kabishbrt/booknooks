@@ -2,24 +2,33 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSelector,useDispatch } from 'react-redux';
 import ErrorPopup from './ErrorPopup';
-import { getStoredToken } from '../Actions/authActions';
-
+import { getStoredToken, logout } from '../Actions/authActions';
+import {Navigate, useNavigate} from "react-router-dom";
 export const UserSecurity = () => {
-  const { userid, loginalert } = useSelector((state) => state.auth);
+  const { userid, loginalert, isAuthenticated, Initializing } = useSelector((state) => state.auth);
+
 
   console.log(userid,loginalert);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  if(Initializing===false && isAuthenticated ===false){
 
+    navigate('/');
+  }
   const authToken = getStoredToken();
   console.log(authToken); 
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
-
+    if(newPassword.length<5 || confirmPassword.length<5){
+      alert("Passwords length should atleast be 4.");
+      return;
+    }
     if (newPassword !== confirmPassword) {
-      setErrors("Passwords don't match");
+      alert("Passwords don't match");
       return;
     }
 
@@ -40,15 +49,25 @@ export const UserSecurity = () => {
         setNewPassword('');
         setConfirmPassword('');
         window.alert("Password Changed Sucessfully");
-      } else {
+      } else if(response.status===403 || response.status===404){
+        window.alert("Failed to change password");
+        dispatch(logout());
+        navigate('/')
+        
+      }
+      else {
         const errorData = await response.json();
         setErrors(errorData.message || 'Failed to change password');
         window.alert("Failed to change password");
+        dispatch(logout());
+        navigate('/');
       }
     } catch (error) {
       console.error('Error changing password:', error.message);
       setErrors('Failed to change password. Please try again.');
       window.alert("Failed to change password");
+      dispatch(logout());
+      navigate('/');
     }
   };
 

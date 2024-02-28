@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 const OrdersBookInfo = ({ productId, authToken }) => {
-  console.log("Bookid:", productId);
   const [book, setBook] = useState(null);
   
 
   useEffect(() => {
     const fetchBook = async () => {
+      const baseurl = process.env.REACT_APP_API_URL
       try {
-        const response = await fetch(`http://localhost:5000/books/id/${productId}`, {
+        const response = await fetch(`${baseurl}/books/id/${productId}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -16,7 +16,6 @@ const OrdersBookInfo = ({ productId, authToken }) => {
         });
         const bookData = await response.json();
         setBook(bookData.book);
-        console.log("Book Data", bookData); // Use bookData instead of book
       } catch (error) {
         console.error('Error fetching book:', error);
       }
@@ -35,10 +34,11 @@ const OrdersBookInfo = ({ productId, authToken }) => {
             style={{ maxWidth: '50px', maxHeight: '50px' }}
             />
             <p style={{fontSize: '12px'}}>{book.BookTitle}</p>
+            <p style={{fontSize: '12px'}}>Rs.{book.Price}</p>
         </>
         
       ) : (
-        "Book not available"
+        "..."
       )}
     </div>
     

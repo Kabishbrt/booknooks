@@ -18,7 +18,7 @@ export const Init = () => {
       dispatch({
         type: 'INITIALIZE',
       });
-      const response = await fetch(`http://localhost:5000/token`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,9 @@ export const Init = () => {
   useDispatch(()=>{
     const fetchcart = async(token)=>{
       const tokenData = await verifyTokenOnServer(token);
+
       if (tokenData.isValidToken) {
+       
         const cartresponse = await axios.get(
           `http://localhost:5000/cart/${tokenData.userID}`,
           {
@@ -100,7 +102,7 @@ export const Init = () => {
       try {
         // Fetch books when the application is loaded
 
-        await dispatch(fetchBooks());
+        dispatch(fetchBooks());
 
       } catch (error) {
         console.error("Error fetching books:", error);
@@ -109,11 +111,51 @@ export const Init = () => {
     fetchData();
   }, []);
 
- 
+  
   useEffect(() => {
     if (books.length>0) {
         dispatch(sortbooks());
         dispatch(filterexec());
       }
   }, [sorting_value,text,genre,BookAuthor,price,avg_rating]);
+
+      const fetchData = async () => {
+      const token = getStoredToken();
+      
+
+      if (token) {
+        const tokenData = await verifyTokenOnServer(token);
+        if (tokenData.isValidToken) {
+          const cartresponse = await axios.get(
+            `http://localhost:5000/cart/${tokenData.userID}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+          );
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: 
+            {
+              cart: cartresponse.data.items || [],
+              username:tokenData.username,
+              userid : tokenData.userID,
+            },
+          });
+        } else {
+          dispatch({
+            type: 'LOGOUT',
+          });
+        }
+      }
+      try {
+        // Fetch books when the application is loaded
+
+        await dispatch(fetchBooks());
+
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
 }

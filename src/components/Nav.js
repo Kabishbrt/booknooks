@@ -258,7 +258,7 @@ const Nav = () => {
               onClick={() => setMenuIcon(false)}
             >
               <FiShoppingCart className="cart-trolley" />
-              <span className="cart-total--item">{Cart.length}</span>
+              <span className="cart-total--item">{(Cart!=null)?Cart.length:0}</span>
             </NavLink>
           </li>
           ):null}          

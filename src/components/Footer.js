@@ -17,7 +17,7 @@ export const Footer = () => {
           
           <div className = "footer-PaymentMethods">
             <h3>Payment Methods</h3>
-            <img src="/payment.png" alt="payment" />
+            <img src="/payment.png" alt="payment" height={120} width={200}/>
           </div>
 
           

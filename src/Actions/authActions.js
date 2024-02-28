@@ -38,7 +38,9 @@ export const login = (username, password, navigate) => async (dispatch) => {
     }else{
       dispatch({
         type: 'LOGIN_FAILURE',
-        payload: response.data,
+        payload: {
+          message: response.data
+        }
       });
 
     }
@@ -51,7 +53,9 @@ export const login = (username, password, navigate) => async (dispatch) => {
       // Dispatch an action for login failure
       dispatch({
         type: 'LOGIN_FAILURE',
-        payload: error.response.data,
+        payload: {
+          message:error.response.data,
+        }
       });
     } else if (error.request) {
       // The request was made but no response was received
@@ -77,10 +81,18 @@ export const logout = (goto) => (dispatch) => {
     dispatch({
       type: 'LOGOUT',
     });
-    goto();
     // You may also want to navigate the user to the login page or another desired route
   };
-  
+  export const logouts = (goto) => (dispatch) => {
+    // Clear the token from the cookie by setting an expired date
+
+    
+    // Dispatch an action for logout
+    dispatch({
+      type: 'LOGOUT',
+    });
+    // You may also want to navigate the user to the login page or another desired route
+  };
   
 // src/redux/actions/authActions.js
 export const getStoredToken = () => {
@@ -98,4 +110,22 @@ export const getStoredToken = () => {
     
    
   };
+
+  export const updateCheckout = (newCheckout) => (dispatch) => {
+    dispatch({
+      type: 'CHECKOUT_UPDATE',
+      payload: newCheckout,
+    });
+  };
+  export const updatecart = (cart) => (dispatch) => {
+    console.log(cart);
+    dispatch({
+      type: 'CART_UPDATE',
+      payload: 
+      {
+        cart: cart,
+      },
+    });
+  };
+  
   

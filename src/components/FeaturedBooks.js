@@ -8,7 +8,8 @@ import { truncateText } from "../Functions";
 
 export const FeaturedBooks = () => {
     const [State, setState] = useState({isLoading: true,books: [],status:0})
-   const API = "http://localhost:5000/books/featured"
+    const baseurl =process.env.REACT_APP_API_URL;
+   const API = `${baseurl}/books/featured`;
     useEffect(() => {
         axios.get(`${API}`)
           .then((res) => {

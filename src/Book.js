@@ -12,16 +12,16 @@ export const Book = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [State, setState] = useState({ isLoading: true, book: [], status: 0 });
-  const {userid, Cart} = useSelector((state)=>state.auth);
+  const {userid, Cart, isAuthenticated} = useSelector((state)=>state.auth);
   //Increasing or Decreasing the quantity and addding it to the cart
-  const [quantity, setQuantity] = useState(1); // Initialize with 1 as the default quantity
+  const [quantity, setQuantity] = useState(0); // Initialize with 1 as the default quantity
 
 
 
   const { title } = useParams();
-  console.log(title);
   const encodedTitle = encodeURIComponent(title);
-  const API = "http://localhost:5000/books/single";
+  
+  const API = `${process.env.REACT_APP_API_URL}/books/single`;
   useEffect(() => {
     setState({ isLoading: true})
     axios
@@ -56,7 +56,12 @@ export const Book = () => {
 
       const CartHandler =async(e)=>{
         e.preventDefault();
-        const API ="http://localhost:5000/cart/";
+        if(quantity>0){
+
+        
+        try{
+
+        const API =`${process.env.REACT_APP_API_URL}/cart/`;
         const token = getStoredToken();
         const response = await axios.post(`${API}`,{userId:userid, itemId: _id, quantity:quantity},{
           headers:{
@@ -77,6 +82,12 @@ export const Book = () => {
             navigate('/');
           }
           navigate('/cart');
+        }catch(error){
+          alert(error.message);
+        }
+      }else{
+        alert('Quantity Required');
+      }
       }
 
 
@@ -104,7 +115,7 @@ export const Book = () => {
               <div className="quantity-input">
                 <Button
                   className="decrease-btn"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  onClick={() => setQuantity(Math.max(0, quantity - 1))}
                 >
                   -
                 </Button>
@@ -122,7 +133,12 @@ export const Book = () => {
                   +
                 </Button>
               </div>
-              <Button onClick={(e)=>CartHandler(e)} className="add-to-cart-btn">Add to Cart</Button>
+              {
+                (isAuthenticated)?(
+                  <Button onClick={(e)=>CartHandler(e)} className="add-to-cart-btn">Add to Cart</Button>
+                ):(<h3><Button onClick={()=>navigate('/login')}>Login to buy</Button></h3>)
+              }
+
             </div>
           </div>
           <SimilarBooks/>

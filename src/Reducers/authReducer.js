@@ -6,7 +6,8 @@ const initialState = {
     message: null,
     loginalert: '',
     userid:'',
-    Cart: []
+    Cart: [],
+    checkout:[]
   };
   
   const authReducer = (state = initialState, action) => {
@@ -60,6 +61,11 @@ const initialState = {
         return{
           ...state,
           Cart: action.payload.cart,
+        }
+      case 'CHECKOUT_UPDATE':
+        return{
+          ...state,
+          checkout: action.payload,
         }
       default:
         return {

@@ -30,7 +30,7 @@ const StyledHeaderSection = styled.section`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  z-index: 999;
+  z-index: 99;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   filter: ${({ initializing }) => (initializing ? 'blur(5px)' : 'none')}; // Apply blur conditionally
   pointer-events: ${({ initializing }) => (initializing ? 'none' : 'auto')}; // Disable pointer events conditionally

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { getStoredToken } from '../Actions/authActions';
+import { getStoredToken, logouts } from '../Actions/authActions';
 import {useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
 const Wrapper = styled.section`
   margin: 3rem;
@@ -76,24 +77,36 @@ const CancelButton = styled.button`
 export const UserDetails = () => {
   const { userid, loginalert, isAuthenticated, Initializing} = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const authToken = getStoredToken();
   const [userDetails, setUserDetails] = useState(null);
   const [isEditMode, setEditMode] = useState(false);
   const [updatedUserData, setUpdatedUserData] = useState({});
+  const [Loading, setLoading] = useState(true);
+  if(Initializing===false && isAuthenticated===false){
+    navigate('/login');
+  }
   useEffect(() => {
-    if(Initializing===false && isAuthenticated===false){
-      navigate('/login');
-    }
+
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/users/${userid}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userid}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
         });
+
+                  // Handle non-successful responses
+                  if (response.status === 403) {
+                    // Unauthorized, dispatch logout
+                    dispatch(logouts());
+                    navigate('/login');
+                  }
+                
         const data = await response.json();
         setUserDetails(data.user);
         setUpdatedUserData(data.user);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching user details:', error);
         // Handle error (show alert, redirect, etc.)
@@ -121,7 +134,8 @@ export const UserDetails = () => {
         const inputField = document.querySelector(`input[name=${key}]`);
         updatedUserData[key] = inputField ? inputField.value : value;
       });
-      const response = await fetch(`http://localhost:5000/users/${userid}`, {
+      setLoading(true);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -129,12 +143,17 @@ export const UserDetails = () => {
         },
         body: JSON.stringify(updatedUserData),
       });
-
+      if (response.status === 403) {
+        // Unauthorized, dispatch logout
+        dispatch(logouts());
+        navigate('/login');
+      }
       if (response.ok) {
+        setLoading(false);
         alert("Profile Updated");
         const fetchUserDetails = async () => {
           try {
-            const response = await fetch(`http://localhost:5000/users/${userid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userid}`, {
               headers: {
                 Authorization: `Bearer ${authToken}`,
               },
@@ -143,6 +162,7 @@ export const UserDetails = () => {
             setUserDetails(data.user);
           } catch (error) {
             alert('Error fetching user details:'+error);
+            setLoading(false);
             // Handle error (show alert, redirect, etc.)
           }
         };
@@ -150,14 +170,16 @@ export const UserDetails = () => {
         fetchUserDetails();
         // After saving changes, exit edit mode
         setEditMode(false);
+        setLoading(false);
       } else if (!response.ok) {
         const responseData = await response.json();
-        
+        setLoading(false);
         // Display the error message in an alert
         alert('Cannot update: ' + responseData.message);
       }
     } catch (error) {
       alert('Error updating user details:'+error);
+      setLoading(false);
       // Handle other types of errors (e.g., network issues)
       // You might want to show an alert or perform other error handling here
     }
@@ -172,12 +194,12 @@ export const UserDetails = () => {
     // Reset any changes made in the input fields and exit edit mode
     setEditMode(false);
   };
-
   if(Initializing===false){
   return (
 
     <Wrapper>
     <UserDetailsWrapper>
+      <h3>{Loading?('........Processing.........'):''}</h3>
       <UserDetailsHeader>User Details</UserDetailsHeader>
 
       {userDetails && (

@@ -5,21 +5,108 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, getStoredToken } from "./Actions/authActions";
 import { handleKeyPress } from "./Functions";
+import axios  from "axios";
 
 export const Login = () => {
-  const {message, isAuthenticated, Initializing} = useSelector((state) => state.auth);
+  const {userid,message, isAuthenticated, Initializing} = useSelector((state) => state.auth);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogin = () => { 
-    if (username !== "" && password !=="") {
-      dispatch(login(username, password, navigate));
-    } else {
-      alert("Empty Fields")
-    }
+  const verifyTokenOnServer = async (token) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        credentials: 'include',
+      });
+      if(response.status===403){
+        document.cookie = `userloginbooknookstoken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=Strict`;
+      }
 
+      const result = await response.json();
+      return result; // Assuming the server responds with a property indicating token validity
+    } catch (error) {
+      document.cookie = `userloginbooknookstoken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=Strict`;
+      console.error('Error verifying token on server:', error);
+      return { isValidToken: false }; // Assume the token is invalid on error
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = getStoredToken();
+      
+
+      if (token) {
+        const tokenData = await verifyTokenOnServer(token);
+        console.log(tokenData);
+        if (tokenData.isValidToken) {
+          const cartresponse = await axios.get(
+            `${process.env.REACT_APP_API_URL}/cart/${tokenData.userID}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+          );
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: 
+            {
+              cart: cartresponse.data.items || [],
+              username:tokenData.username,
+              userid : tokenData.userID,
+            },
+          });
+          
+        }else{
+          document.cookie = `userloginbooknookstoken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=Strict`;
+        }
+        
+      }
+    };
+    fetchData();
+  }, []);
+    
+
+  const handleLogin = async() => { 
+    const token = getStoredToken();
+      
+
+      if (token) {
+        const tokenData = await verifyTokenOnServer(token);
+        if (tokenData.isValidToken) {
+          const cartresponse = await axios.get(
+            `http://localhost:5000/cart/${tokenData.userID}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+          );
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: 
+            {
+              cart: cartresponse.data.items || [],
+              username:tokenData.username,
+              userid : tokenData.userID,
+            },
+          });
+          alert('Already Logged In');
+        } 
+        navigate('/')
+      }else{
+        if (username !== "" && password !=="") {
+          dispatch(login(username, password, navigate));
+        } else {
+          alert("Empty Fields")
+        }
+      }
 
   };
 

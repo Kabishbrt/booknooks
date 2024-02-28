@@ -7,7 +7,8 @@ import GridView from "./GridView";
 
 export const SimilarBooks = () => {
   const { title } = useParams();
-  const API = "http://localhost:5000/suggest/";
+  const baseurl =process.env.REACT_APP_API_URL;
+  const API = `${baseurl}/suggest/`;
 
   const [state, setState] = useState({ isLoading: true, books: [], status: 0 });
 
