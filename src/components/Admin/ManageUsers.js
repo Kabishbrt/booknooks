@@ -68,7 +68,7 @@ const DeleteButton = styled.button`
   font-size: 10px;
 `;
 export const ManageUsers = () => {
-  const {userid} = useSelector((state)=>state.auth)
+  const {userid, isAuthenticated} = useSelector((state)=>state.auth)
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -168,67 +168,71 @@ const authToken = getStoredToken();
     }
   };
 
-  
-  return (
-    <ManageBooksContainer>
-      <SearchContainer>
-        <SearchInput
-          type="number"
-          placeholder="Search by UserID"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          onKeyDown={handleKeyPress}
+  if(isAuthenticated){
+
+    return (
+      <ManageBooksContainer>
+        <SearchContainer>
+          <SearchInput
+            type="number"
+            placeholder="Search by UserID"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyPress}
+          />
+          <button onClick={handleSearch}>Search</button>
+        </SearchContainer>
+        <UserModal
+          isOpen={isUserModalOpen}
+          onClose={() => {
+            setUserModalOpen(false);
+            setEditUserData(null);
+          }}
+          onSubmit={handleAddNewBook}
+          editUserData={editUserData}
         />
-        <button onClick={handleSearch}>Search</button>
-      </SearchContainer>
-      <UserModal
-        isOpen={isUserModalOpen}
-        onClose={() => {
-          setUserModalOpen(false);
-          setEditUserData(null);
-        }}
-        onSubmit={handleAddNewBook}
-        editUserData={editUserData}
-      />
-      <TableContainer>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <StyledTable>
-            <thead>
-              <tr>
-              <StyledTableHeader>Id</StyledTableHeader>
-                <StyledTableHeader>Username</StyledTableHeader>
-                <StyledTableHeader>Action</StyledTableHeader>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
-                  <StyledTableCell>{user.UserID}</StyledTableCell>
-                  <StyledTableCell>{user.username}</StyledTableCell>
-                  <StyledTableCell>
-                    {userid===user.UserID?(''):(
-                      <DeleteButton onClick={() => handleDelete(user._id)}>Delete</DeleteButton>
-                      )}
-                      <EditButton onClick={() => handleEdit(user)}>Edit</EditButton>
-                  </StyledTableCell>
+        <TableContainer>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <StyledTable>
+              <thead>
+                <tr>
+                <StyledTableHeader>Id</StyledTableHeader>
+                  <StyledTableHeader>Username</StyledTableHeader>
+                  <StyledTableHeader>Action</StyledTableHeader>
                 </tr>
-              ))}
-            </tbody>
-          </StyledTable>
-        )}
-      </TableContainer>
-      <PaginationContainer>
-        
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-          Previous (Page {currentPage - 1})
-        </button>
-        <span>{`Current Page: ${currentPage}`}</span>
-        <button onClick={() => handlePageChange(currentPage + 1)} disabled={users.length < 20}>
-          Next (Page {currentPage + 1})
-        </button>
-      </PaginationContainer>
-    </ManageBooksContainer>
-  );
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user._id}>
+                    <StyledTableCell>{user.UserID}</StyledTableCell>
+                    <StyledTableCell>{user.username}</StyledTableCell>
+                    <StyledTableCell>
+                      {userid===user.UserID?(''):(
+                        <DeleteButton onClick={() => handleDelete(user._id)}>Delete</DeleteButton>
+                        )}
+                        <EditButton onClick={() => handleEdit(user)}>Edit</EditButton>
+                    </StyledTableCell>
+                  </tr>
+                ))}
+              </tbody>
+            </StyledTable>
+          )}
+        </TableContainer>
+        <PaginationContainer>
+          
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+            Previous (Page {currentPage - 1})
+          </button>
+          <span>{`Current Page: ${currentPage}`}</span>
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={users.length < 20}>
+            Next (Page {currentPage + 1})
+          </button>
+        </PaginationContainer>
+      </ManageBooksContainer>
+    );
+  }else{
+    return "";
+  }
 };

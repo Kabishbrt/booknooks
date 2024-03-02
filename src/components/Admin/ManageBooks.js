@@ -73,6 +73,7 @@ const DeleteButton = styled.button`
 export const ManageBooks = () => {
   const dispatch = useDispatch();
   const { books } = useSelector((state) => state.books);
+  const { isAuthenticated, Initializing } = useSelector((state) => state.auth);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -131,59 +132,64 @@ export const ManageBooks = () => {
     setEditBookDetails(null);
   };
 
-  return (
-    <ManageBooksContainer>
-      <SearchContainer>
-        <SearchInput
-          type="text"
-          placeholder="Search by Book Title or BookID"
-          value={searchQuery}
-          onChange={handleSearchChange}
+  if(isAuthenticated==true){
+
+    return (
+      <ManageBooksContainer>
+        <SearchContainer>
+          <SearchInput
+            type="text"
+            placeholder="Search by Book Title or BookID"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+          <AddButton onClick={() => setAddBookModalOpen(true)}>Add New Book</AddButton>
+        </SearchContainer>
+        <AddBookModal
+          isOpen={isAddBookModalOpen}
+          onClose={() => {
+            setAddBookModalOpen(false);
+            setEditBookDetails(null); // Reset editBookDetails state on modal close
+          }}
+          onSubmit={handleAddNewBook}
+          editBookDetails={editBookDetails} // Pass the details to the modal
         />
-        <AddButton onClick={() => setAddBookModalOpen(true)}>Add New Book</AddButton>
-      </SearchContainer>
-      <AddBookModal
-        isOpen={isAddBookModalOpen}
-        onClose={() => {
-          setAddBookModalOpen(false);
-          setEditBookDetails(null); // Reset editBookDetails state on modal close
-        }}
-        onSubmit={handleAddNewBook}
-        editBookDetails={editBookDetails} // Pass the details to the modal
-      />
-      <TableContainer>
-        <StyledTable>
-          <thead>
-            <tr>
-              <StyledTableHeader>Book Title</StyledTableHeader>
-              <StyledTableHeader>Action</StyledTableHeader>
-            </tr>
-          </thead>
-          <tbody>
-            {currentBooks.map((book) => (
-              <tr key={book._id}>
-                <StyledTableCell>{book.BookTitle}</StyledTableCell>
-                <StyledTableCell>
-                  <EditButton onClick={() => handleEdit(book)}>Edit</EditButton>
-                  <DeleteButton onClick={() => handleDelete(book._id)}>Delete</DeleteButton>
-                </StyledTableCell>
+        <TableContainer>
+          <StyledTable>
+            <thead>
+              <tr>
+                <StyledTableHeader>Book Title</StyledTableHeader>
+                <StyledTableHeader>Action</StyledTableHeader>
               </tr>
-            ))}
-          </tbody>
-        </StyledTable>
-      </TableContainer>
-      <PaginationContainer>
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span>{`Page ${currentPage} of ${totalPages}`}</span>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages || totalPages === 0}
-        >
-          Next
-        </button>
-      </PaginationContainer>
-    </ManageBooksContainer>
-  );
+            </thead>
+            <tbody>
+              {currentBooks.map((book) => (
+                <tr key={book._id}>
+                  <StyledTableCell>{book.BookTitle}</StyledTableCell>
+                  <StyledTableCell>
+                    <EditButton onClick={() => handleEdit(book)}>Edit</EditButton>
+                    <DeleteButton onClick={() => handleDelete(book._id)}>Delete</DeleteButton>
+                  </StyledTableCell>
+                </tr>
+              ))}
+            </tbody>
+          </StyledTable>
+        </TableContainer>
+        <PaginationContainer>
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <span>{`Page ${currentPage} of ${totalPages}`}</span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages || totalPages === 0}
+          >
+            Next
+          </button>
+        </PaginationContainer>
+      </ManageBooksContainer>
+    );
+  }else{
+    return "";
+  }
 };

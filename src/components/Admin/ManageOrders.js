@@ -7,7 +7,7 @@ import { truncateText } from '../../Functions';
 
 
 export const ManageOrders = () => {
-  const { userid, loginalert, Initializing } = useSelector((state) => state.auth);
+  const { userid, loginalert, Initializing, isAuthenticated } = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
   const [status, setStatus ]=useState();
   const authToken = getStoredToken();
@@ -164,106 +164,110 @@ const handleremove= async (order,bookid)=>{
     }
   };
 
-  
+  if(isAuthenticated){
 
-  return (
-    <Container>
-      {/*userid && authToken*/ flag? (
-        <Content>
-          <br></br>
-          <input
-            type="text"
-            placeholder="Search orders"
-            id="searchInput"
-            onChange={handleSearchChange}
-          />
-          <br></br><br></br>
-          {filteredOrders && filteredOrders.length > 0 ? (
-            <OrdersTable>
-              <thead>
-                <tr>
-                  <TableHeader>Order</TableHeader>
-                  <TableHeader>Order Date</TableHeader>
-                  <TableHeader>UserID</TableHeader>
-                  <TableHeader>Status</TableHeader>
-                  <TableHeader>Total</TableHeader>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredOrders.slice().reverse().map((order) => (
-                  <tr key={order._id}>
-
-                    <TableCell>
-                    <div className='grid-two'>
-                    {
-                      
-                    order.Products.map((book)=>(
-                      <>
-                        {/* <NavLink to={`/Book/${encodeURIComponent(book.BookId.BookTitle)}`}  className="nav-link">
-                       <img src={book.BookId.ImageURLS}></img>
-                       </NavLink> */}
-                       <NavLink to={`/Book/${encodeURIComponent(book.BookId.BookTitle)}`}  className="nav-link">
-                       <p>{truncateText(book.BookId.BookTitle,30)} <br></br><p>Quantity:{book.Quantity}</p></p>
-                       </NavLink>
-                       <div>
-                       {(book.Status=='Cancelled' || order.Status=='Cancelled')?(<p className='remove'>Cancelled</p>):('')}
-                       {(order.Status!=='Cancelled')?(
-                        (book.Status!=='Cancelled')?(
-                          (order.Status!=='Delivered')?(
-                            <>
-                            
-                            <a href="#" className='remove' onClick={()=>handleremove(order,book.BookId._id)}>Cancel</a>
-                            
-                          </>
-                          ):('')
-     
-                        ):('')
+    
+      return (
+        <Container>
+          {/*userid && authToken*/ flag? (
+            <Content>
+              <br></br>
+              <input
+                type="text"
+                placeholder="Search orders"
+                id="searchInput"
+                onChange={handleSearchChange}
+              />
+              <br></br><br></br>
+              {filteredOrders && filteredOrders.length > 0 ? (
+                <OrdersTable>
+                  <thead>
+                    <tr>
+                      <TableHeader>Order</TableHeader>
+                      <TableHeader>Order Date</TableHeader>
+                      <TableHeader>UserID</TableHeader>
+                      <TableHeader>Status</TableHeader>
+                      <TableHeader>Total</TableHeader>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredOrders.slice().reverse().map((order) => (
+                      <tr key={order._id}>
+    
+                        <TableCell>
+                        <div className='grid-two'>
+                        {
                           
-                       ):('')}
-                       <a href="#" className='remove' onClick={()=>alert("OrderID: " + order._id)}>View Order ID</a>
-                       </div>
- 
-                       </>
-                    ))
-                    }
-                    </div>
-                    <NavLink to={`payment/${order._id}`}>
-                          View Payment
-                        </NavLink>
-                    </TableCell>
-                    
-                    <TableCell>
-                        <p>{new Date(order.OrderDate).toLocaleDateString()}<br></br>
-                        {new Date(order.OrderDate).toLocaleTimeString()}</p>
-                    </TableCell>
-                    <TableCell><p>{order.UserID}</p></TableCell>
-                    <TableCell>
-                      
-                      <select
-                    value={order.Status}
-                    onChange={(e) => handlerStatusChange(order._id, e.target.value)}
-                  >
-                    <option value="Unpaid">Unpaid</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Approved">Approved</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                  </select></TableCell>
-                    <TableCell><p>{order.SubTotal}</p></TableCell>
-                  </tr>
-                ))}
-              </tbody>
-            </OrdersTable>
+                        order.Products.map((book)=>(
+                          <>
+                            {/* <NavLink to={`/Book/${encodeURIComponent(book.BookId.BookTitle)}`}  className="nav-link">
+                           <img src={book.BookId.ImageURLS}></img>
+                           </NavLink> */}
+                           <NavLink to={`/Book/${encodeURIComponent(book.BookId.BookTitle)}`}  className="nav-link">
+                           <p>{truncateText(book.BookId.BookTitle,30)} <br></br><p>Quantity:{book.Quantity}</p></p>
+                           </NavLink>
+                           <div>
+                           {(book.Status=='Cancelled' || order.Status=='Cancelled')?(<p className='remove'>Cancelled</p>):('')}
+                           {(order.Status!=='Cancelled')?(
+                            (book.Status!=='Cancelled')?(
+                              (order.Status!=='Delivered')?(
+                                <>
+                                
+                                <a href="#" className='remove' onClick={()=>handleremove(order,book.BookId._id)}>Cancel</a>
+                                
+                              </>
+                              ):('')
+         
+                            ):('')
+                              
+                           ):('')}
+                           <a href="#" className='remove' onClick={()=>alert("OrderID: " + order._id)}>View Order ID</a>
+                           </div>
+     
+                           </>
+                        ))
+                        }
+                        </div>
+                        <NavLink to={`payment/${order._id}`}>
+                              View Payment
+                            </NavLink>
+                        </TableCell>
+                        
+                        <TableCell>
+                            <p>{new Date(order.OrderDate).toLocaleDateString()}<br></br>
+                            {new Date(order.OrderDate).toLocaleTimeString()}</p>
+                        </TableCell>
+                        <TableCell><p>{order.UserID}</p></TableCell>
+                        <TableCell>
+                          
+                          <select
+                        value={order.Status}
+                        onChange={(e) => handlerStatusChange(order._id, e.target.value)}
+                      >
+                        <option value="Unpaid">Unpaid</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                      </select></TableCell>
+                        <TableCell><p>{order.SubTotal}</p></TableCell>
+                      </tr>
+                    ))}
+                  </tbody>
+                </OrdersTable>
+              ) : (
+                <NoOrdersMessage>No Orders Placed Yet</NoOrdersMessage>
+              )}
+            </Content>
           ) : (
-            <NoOrdersMessage>No Orders Placed Yet</NoOrdersMessage>
+            <p>...</p>
           )}
-        </Content>
-      ) : (
-        <p>...</p>
-      )}
-    </Container>
-  );
+        </Container>
+      );
+  }else{
+    return "";
+  }
 };
 
 const Container = styled.div`

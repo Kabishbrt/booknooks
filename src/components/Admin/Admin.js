@@ -25,15 +25,21 @@ const Details = styled.div`
 
 export const Admin = () => {
   const {books}= useSelector((state)=>state.books)
-  return (
-    <>
+  const {isAuthenticated}= useSelector((state)=>state.auth)
+  if(isAuthenticated){
 
-      <Details>
-        <div>Total Books : {books.length}</div>
-        <div>Total Orders: .....</div>
-        <div>Total Users: ......</div>
-      </Details>
-      {/* <h2 style={{textAlign:'center'}}>Dashboard</h2> */}
-    </>
-  );
+    return (
+      <>
+  
+        <Details>
+          <div>Total Books : {books.length}</div>
+          <div>Total Orders: .....</div>
+          <div>Total Users: ......</div>
+        </Details>
+        {/* <h2 style={{textAlign:'center'}}>Dashboard</h2> */}
+      </>
+    );
+  }else{
+    return "";
+  }
 };
