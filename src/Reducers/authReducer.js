@@ -6,6 +6,7 @@ const initialState = {
     message: null,
     loginalert: '',
     userid:'',
+    isAdmin:false,
     Cart: [],
     checkout:[]
   };
@@ -29,13 +30,15 @@ const initialState = {
           isAuthenticated: true,
           Cart: action.payload.cart,
           loginalert: action.payload.username,
-          userid: action.payload.userid
+          userid: action.payload.userid,
+          isAdmin:action.payload.isAdmin
         };
       case 'LOGIN_FAILURE':
         return {
           ...state,
           Initializing: false,
-          message: action.payload.message
+          message: action.payload.message,
+          isAdmin:false
         };
       case 'LOGOUT':
         return {
@@ -43,7 +46,8 @@ const initialState = {
           Initializing: false,
           isAuthenticated: false,
           loginalert: null,
-          userid: null
+          userid: null,
+          isAdmin:false
         };
       case 'CLEAR_ALERT':
         return {

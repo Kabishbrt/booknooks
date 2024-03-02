@@ -91,6 +91,7 @@ export const Init = () => {
               cart: cartresponse.data.items || [],
               username:tokenData.username,
               userid : tokenData.userID,
+              isAdmin: tokenData.isAdmin
             },
           });
         } else {
@@ -141,6 +142,7 @@ export const Init = () => {
               cart: cartresponse.data.items || [],
               username:tokenData.username,
               userid : tokenData.userID,
+              isAdmin: tokenData.isAdmin
             },
           });
         } else {
@@ -152,7 +154,7 @@ export const Init = () => {
       try {
         // Fetch books when the application is loaded
 
-        await dispatch(fetchBooks());
+        dispatch(fetchBooks());
 
       } catch (error) {
         console.error("Error fetching books:", error);

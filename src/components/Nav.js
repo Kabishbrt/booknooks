@@ -188,7 +188,7 @@ const Nav = () => {
       }
     }
   `;
-  const {isAuthenticated, Cart} = useSelector((state) => state.auth);
+  const {isAuthenticated, Cart, isAdmin} = useSelector((state) => state.auth);
 
 
   const handlelogout = async (logout) => {
@@ -201,7 +201,7 @@ const Nav = () => {
       
       <div className={menuIcon ? "navbar active" : "navbar"}>
         <ul className="navbar-lists">
-        {isAuthenticated ?
+        {/* {isAuthenticated ?
          (
           <li>
           <NavLink
@@ -213,7 +213,16 @@ const Nav = () => {
             <span className="cart-total--item">2</span>
           </NavLink>
         </li> 
-         ):null}
+         ):null} */}
+          {isAuthenticated && isAdmin?(
+          <li>
+             <NavLink to="/admin">
+              <li>
+                <button className="logbtn" onClick={() => setMenuIcon(false)}>Dashboard</button>
+              </li>
+              </NavLink>
+          </li>
+          ):null}   
           <li>
             <NavLink
               to="/"

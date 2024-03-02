@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { NavLink, useNavigate } from "react-router-dom";
-import {useSelector} from 'react-redux';
+
 const Nav = styled.nav`
   background-color: #356dab;
   color: white;

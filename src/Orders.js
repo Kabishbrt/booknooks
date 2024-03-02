@@ -113,20 +113,34 @@ export const Orders = () => {
                       
                     order.Products.map((book)=>(
                       <>
+                      <div>
                         <NavLink to={`/Book/${encodeURIComponent(book.BookId.BookTitle)}`}  className="nav-link">
                        <img src={book.BookId.ImageURLS}></img>
                        </NavLink>
+                       </div>
+                       <div>
                        <NavLink to={`/Book/${encodeURIComponent(book.BookId.BookTitle)}`}  className="nav-link">
                        <p>{truncateText(book.BookId.BookTitle,30)} <br></br><p>Quantity:{book.Quantity}</p></p>
                        </NavLink>
-                       {(order.Status!=='Delivered')?(
+                       </div>
+                       <div>
+                       {(book.Status=='Cancelled' || order.Status=='Cancelled')?(<p className='remove'>Cancelled</p>):('')}
+                       {(order.Status!=='Cancelled')?(
                         (book.Status!=='Cancelled')?(
-
-                          <a href="#" className='remove' onClick={()=>handleremove(order,book.BookId._id)}>Cancel</a>
+                          (order.Status!=='Delivered')?(
+                            <>
+                            
+                            <a href="#" className='remove' onClick={()=>handleremove(order,book.BookId._id)}>Cancel</a>
+                            
+                          </>
+                          ):('')
+     
                         ):('')
-
+                          
                        ):('')}
-                       {(book.Status=='Cancelled')?(<p className='cancel'>Cancelled</p>):('')}
+                       <a href="#" className='remove' onClick={()=>alert("OrderID: " + order._id)}>View OrderID</a>
+                       </div>
+ 
                        </>
                     ))
                     }
@@ -226,7 +240,7 @@ const TableCell = styled.td`
   }
   .grid-two{
     display: grid;
-    grid-template-columns: 0.25fr 1fr 0.25fr;  
+    grid-template-columns: 0.25fr 1fr 0.5fr;  
     row-gap: 10px;
     column-gap:5px;
     @media only screen and (max-width: 768px) {
@@ -249,7 +263,6 @@ const TableCell = styled.td`
   .remove{
     display: flex;
 
-    height: 100%;
     padding:4px;
     border-radius: 6px;
 

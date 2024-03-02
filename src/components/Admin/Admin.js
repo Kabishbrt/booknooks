@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink, useNavigate } from "react-router-dom";
-import {useSelector} from 'react-redux';
+import {useSelector} from "react-redux";
+
 const Details = styled.div`
   display: flex;
   justify-content: space-around;
@@ -23,13 +24,14 @@ const Details = styled.div`
 `;
 
 export const Admin = () => {
+  const {books}= useSelector((state)=>state.books)
   return (
     <>
 
       <Details>
-        <div>Total Books : 706</div>
-        <div>Total Orders: 14</div>
-        <div>Total Users: 2212123</div>
+        <div>Total Books : {books.length}</div>
+        <div>Total Orders: .....</div>
+        <div>Total Users: ......</div>
       </Details>
       {/* <h2 style={{textAlign:'center'}}>Dashboard</h2> */}
     </>

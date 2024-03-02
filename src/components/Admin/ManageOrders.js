@@ -15,6 +15,16 @@ export const ManageOrders = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
+  const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  // ... (existing code)
+
+  const handleViewOrderClick = (orderId) => {
+    setPaymentModalOpen(true);
+    setSelectedOrderId(orderId);
+  };
+
   const fetchOrders = async () => {
     try {
       const response = await fetch(`http://localhost:5000/orders/`, {
@@ -46,7 +56,7 @@ export const ManageOrders = () => {
 
   
 const handleremove= async (order,bookid)=>{
-  console.log(order);
+  // console.log(order);
   const newProducts = order.Products.map((book)=>{
     const { _id, ...bookWithoutId } = book;
     if(book.BookId._id===bookid){
@@ -154,6 +164,7 @@ const handleremove= async (order,bookid)=>{
     }
   };
 
+  
 
   return (
     <Container>
@@ -194,19 +205,31 @@ const handleremove= async (order,bookid)=>{
                        <NavLink to={`/Book/${encodeURIComponent(book.BookId.BookTitle)}`}  className="nav-link">
                        <p>{truncateText(book.BookId.BookTitle,30)} <br></br><p>Quantity:{book.Quantity}</p></p>
                        </NavLink>
-                       
-                       {(order.Status!=='Delivered')?(
+                       <div>
+                       {(book.Status=='Cancelled' || order.Status=='Cancelled')?(<p className='remove'>Cancelled</p>):('')}
+                       {(order.Status!=='Cancelled')?(
                         (book.Status!=='Cancelled')?(
-
-                          <a href="#" className='remove' onClick={()=>handleremove(order,book.BookId._id)}>Cancel</a>
+                          (order.Status!=='Delivered')?(
+                            <>
+                            
+                            <a href="#" className='remove' onClick={()=>handleremove(order,book.BookId._id)}>Cancel</a>
+                            
+                          </>
+                          ):('')
+     
                         ):('')
-
+                          
                        ):('')}
-                       {(book.Status=='Cancelled')?(<p className='cancel'>Cancelled</p>):('')}
+                       <a href="#" className='remove' onClick={()=>alert("OrderID: " + order._id)}>View Order ID</a>
+                       </div>
+ 
                        </>
                     ))
                     }
                     </div>
+                    <NavLink to={`payment/${order._id}`}>
+                          View Payment
+                        </NavLink>
                     </TableCell>
                     
                     <TableCell>
@@ -347,7 +370,7 @@ const TableCell = styled.td`
   .remove{
     display: flex;
 
-    height: 100%;
+    height: 4 0%;
     padding:4px;
     border-radius: 6px;
 

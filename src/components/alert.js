@@ -41,7 +41,7 @@ const Alert = () => {
     
           // Set a flag in localStorage indicating that the alert has been shown
           localStorage.setItem('hasShownAlert', 'true');
-        }, 3500);
+        }, 1500);
     
         return () => clearTimeout(timeoutId);
       }

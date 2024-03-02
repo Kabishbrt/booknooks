@@ -26,7 +26,8 @@ export const login = (username, password, navigate) => async (dispatch) => {
         payload: {
           cart: cartresponse.data.items || [],
           username:response.data.username,
-          userid: response.data.userID
+          userid: response.data.userID,
+          isAdmin: response.data.isAdmin
         }
       });
       setTimeout(() => {
