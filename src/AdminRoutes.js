@@ -11,7 +11,6 @@ import {useSelector} from "react-redux"
 
 const AdminRoutes = () => {
   const {isAuthenticated} = useSelector((state)=>(state.auth));
-  if(isAuthenticated ==true){
 
     return (
       <>
@@ -25,9 +24,7 @@ const AdminRoutes = () => {
       </Routes>
       </>
     );
-  }else{
-    <Navigate to='/'/>
-  }
+
 };
 
 export default AdminRoutes;

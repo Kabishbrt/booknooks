@@ -43,11 +43,7 @@ const WithAuth = (Component) => {
   }, []); // Empty dependency array to run only once on mount
 
   return (props) => {
-    // Check if user is authenticated (you can replace this with your authentication logic)
-    // const isAdmin = true; // replace with your actual authentication check
-    if(!token){
-      return <Navigate to="/login" />;
-    }
+
     if (isAdmin) {
       // If authenticated, render the component with its props
       console.log(isAdmin);
@@ -56,7 +52,7 @@ const WithAuth = (Component) => {
       // If not authenticated, redirect to the login page
       
       // You may replace the following line with a redirection to the login page
-      return <Navigate to="/login" />;
+      return <Navigate to="/" />;
     }
   };
 };
