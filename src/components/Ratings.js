@@ -27,7 +27,7 @@ const Rating = ({ value }) => {
       const wholeStars = Math.floor(value);
       const fillPercentage = value - wholeStars;
   
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 10; i++) {
         let starComponent;
   
         if (i <= wholeStars) {
@@ -47,7 +47,7 @@ const Rating = ({ value }) => {
     return (
       <RatingContainer>
         {renderStars()}
-        <RatingText>{value.toFixed(1)}/5</RatingText>
+        <RatingText>{value.toFixed(1)}/10</RatingText>
       </RatingContainer>
     );
   };

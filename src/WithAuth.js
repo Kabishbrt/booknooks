@@ -1,58 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { getStoredToken } from "./Actions/authActions";
-import {useSelector} from "react-redux"
+import { useSelector } from "react-redux";
+import {jwtDecode} from 'jwt-decode';
 
 const WithAuth = (Component) => {
-  const [isAdmin, setisAdmin] = useState();
-  const [tokenData, setTokenData] = useState(null); // Initialize tokenData as null
+  const [isAdmin, setisAdmin] = useState(); // Set initial state to false
   const token = getStoredToken();
 
-
-  const verifyTokenOnServer = async (token) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        credentials: 'include',
-      });
-
-      const result = await response.json();
-      return result; // Assuming the server responds with a property indicating token validity
-    } catch (error) {
-      console.error('Error verifying token on server:', error);
-      return false; // Assume the token is invalid on error
-    }
-  };
-  const check = async (token) => {
-    if (token) {
-      const data = await verifyTokenOnServer(token);
-      setTokenData(data);
-
-      if (data && data.isAdmin) {
-        setisAdmin(true);
-      }
-    }
-  };
-
   useEffect(() => {
-    check(token); // Call the check function inside the useEffect
-  }, []); // Empty dependency array to run only once on mount
+    const checkAndSetAdmin = () => {
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          console.log(decodedToken);
+
+          // Assuming the decoded token has a property isAdmin
+          const isAdminValue = decodedToken.isAdmin;
+
+          setisAdmin(isAdminValue);
+          console.log(isAdminValue);
+        } catch (error) {
+          console.error('Error decoding token:', error);
+          setisAdmin(false); // Set isAdmin to false on error
+        }
+      } else {
+        setisAdmin(false); // Set isAdmin to false if no token is present
+      }
+    };
+
+    checkAndSetAdmin();
+  }, [token]);
 
   return (props) => {
-
-    if (isAdmin) {
-      // If authenticated, render the component with its props
-      console.log(isAdmin);
+    if (isAdmin === true) {
       return <Component {...props} />;
-    } else if(isAdmin===false){
-      // If not authenticated, redirect to the login page
-      
-      // You may replace the following line with a redirection to the login page
+    } else if (isAdmin === false) {
       return <Navigate to="/" />;
+    } else {
+      return <h1>Loading...</h1>;
     }
   };
 };

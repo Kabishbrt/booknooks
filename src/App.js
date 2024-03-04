@@ -59,7 +59,7 @@ const App = () => {
 
 
 
-const AuthenticatedDashboard = WithAuth(AdminRoutes);
+// const AuthenticatedDashboard = WithAuth(AdminRoutes);
   
 return (
 <Provider store = {store}>
@@ -85,7 +85,7 @@ return (
       <Route path="/details/" element={<UserDetails/>} />
       <Route path="/Security/" element={<UserSecurity/>} />
       <Route path="/book/:title" element={<Book/>} />
-      <Route path="/admin/*" element={<AuthenticatedDashboard/>} />
+      <Route path="/admin/*" element={<AdminRoutes/>} />
     </Routes> 
     <Footer/>
 </Router>

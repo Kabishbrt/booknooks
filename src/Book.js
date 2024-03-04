@@ -28,11 +28,13 @@ export const Book = () => {
       .get(`${API}/${encodedTitle}`)
       .then((res) => {
         setState({ isLoading: false, book: res.data.book, status: res.status });
+        
       })
       .catch((err) => {
         console.error(err); // Log the error if needed
         setState({ isLoading: false, book: null, status: 0 });
       });
+      
   }, [title]);
 
   if (State.isLoading === true) {
@@ -85,11 +87,24 @@ export const Book = () => {
         }catch(error){
           alert(error.message);
         }
+        
       }else{
         alert('Quantity Required');
       }
       }
+      const calculate_avg_rating = (ratings)=>{
+        if(ratings.length>0){
 
+          const ratingval = ratings.map((rate)=>Number(rate.BookRating));
+          console.log(ratingval)
+          const sum = ratingval.reduce((acc,val)=>{
+            return acc + val;
+          },0)
+          return parseFloat(sum/ratings.length).toPrecision(2);
+        }
+        return 0;
+      }
+      const avg= Number(calculate_avg_rating(ratings));
 
       return (
         <SingleBookPage>
@@ -101,7 +116,7 @@ export const Book = () => {
                 Genre: <a href="#">{genre}</a>
               </p>
               <div>
-                <Ratings value={3.2} />
+                <Ratings value={avg} />
               </div>
 
               <p className="book-details-author">Author: {BookAuthor}</p>

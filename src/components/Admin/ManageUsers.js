@@ -79,7 +79,7 @@ export const ManageUsers = () => {
   const fetchUsers = async (pageNumber, qry = '') => {
     try {
       setIsLoading(true); // Set loading to true when starting the fetch
-      const uri = `${process.env.REACT_APP_API_URL}/users/page/${pageNumber}/${qry}`;
+      const uri = `${process.env.REACT_APP_API_URL}/users/page/${pageNumber}?qry=${qry}`;
       console.log(uri);
       const response = await fetch(uri);
 

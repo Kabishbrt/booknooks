@@ -35,39 +35,6 @@ export const Init = () => {
     }
   };
 
-
-
-  useDispatch(()=>{
-    const fetchcart = async(token)=>{
-      const tokenData = await verifyTokenOnServer(token);
-
-      if (tokenData.isValidToken) {
-       
-        const cartresponse = await axios.get(
-          `http://localhost:5000/cart/${tokenData.userID}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-        if(cartresponse.status===200){
-          dispatch({
-            type: 'CART_UPDATE',
-            payload: 
-            {
-              cart: cartresponse.data.items || [],
-            },
-          });
-        }
-      }
-  }
-    const token = getStoredToken();
-    if(token){
-      fetchcart(token);
-    }
-  },[Cart]);
-
   useEffect(() => {
     const fetchData = async () => {
       const token = getStoredToken();
@@ -77,7 +44,7 @@ export const Init = () => {
         const tokenData = await verifyTokenOnServer(token);
         if (tokenData.isValidToken) {
           const cartresponse = await axios.get(
-            `http://localhost:5000/cart/${tokenData.userID}`,
+            `${process.env.REACT_APP_API_URL}/cart/${tokenData.userID}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`
@@ -112,6 +79,39 @@ export const Init = () => {
     fetchData();
   }, []);
 
+
+  useDispatch(()=>{
+    const fetchcart = async(token)=>{
+      const tokenData = await verifyTokenOnServer(token);
+
+      if (tokenData.isValidToken) {
+       
+        const cartresponse = await axios.get(
+          `${process.env.REACT_APP_API_URL}/cart/${tokenData.userID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+        if(cartresponse.status===200){
+          dispatch({
+            type: 'CART_UPDATE',
+            payload: 
+            {
+              cart: cartresponse.data.items || [],
+            },
+          });
+        }
+      }
+  }
+    const token = getStoredToken();
+    if(token){
+      fetchcart(token);
+    }
+  },[Cart]);
+
+ 
   
   useEffect(() => {
     if (books.length>0) {
@@ -128,7 +128,7 @@ export const Init = () => {
         const tokenData = await verifyTokenOnServer(token);
         if (tokenData.isValidToken) {
           const cartresponse = await axios.get(
-            `http://localhost:5000/cart/${tokenData.userID}`,
+            `${process.env.REACT_APP_API_URL}/cart/${tokenData.userID}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`

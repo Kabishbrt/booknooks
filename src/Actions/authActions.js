@@ -128,5 +128,8 @@ export const getStoredToken = () => {
       },
     });
   };
-  
-  
+export const init = ()=>(dispatch)=>{
+  dispatch({
+    type: 'INITIALIZE',
+  });
+}
