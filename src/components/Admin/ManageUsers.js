@@ -75,13 +75,19 @@ export const ManageUsers = () => {
   const [isUserModalOpen, setUserModalOpen] = useState(false);
   const [editUserData, setEditUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const token = getStoredToken();
+  
   const fetchUsers = async (pageNumber, qry = '') => {
     try {
       setIsLoading(true); // Set loading to true when starting the fetch
       const uri = `${process.env.REACT_APP_API_URL}/users/page/${pageNumber}?qry=${qry}`;
       console.log(uri);
-      const response = await fetch(uri);
+      const response = await fetch(uri,{
+        method:'GET',
+        headers:{
+           Authorization : `Bearer ${token}`,
+        }
+      });
 
       if (!response.ok) {
         throw new Error('Failed to fetch users');
@@ -138,14 +144,14 @@ export const ManageUsers = () => {
     setEditUserData(user);
     setUserModalOpen(true);
   };
-const authToken = getStoredToken();
+
   const handleDelete = (userId) => {
     try {
       fetch(`${process.env.REACT_APP_API_URL}/users/${userId}`, {
         method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${token}`,
           }
         
       })

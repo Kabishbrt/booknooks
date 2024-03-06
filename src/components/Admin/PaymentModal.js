@@ -41,12 +41,19 @@ export const PaymentModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
   const [editPaymentData, setEditPaymentData] = useState(null);
+  const authToken = getStoredToken();
 
   const fetchPayments = async (orderId) => {
     try {
       setIsLoading(true);
-      const uri = `http://localhost:5000/esewa/${orderId}/`;
-      const response = await fetch(uri);
+      const uri = `${process.env.REACT_APP_API_URL}/esewa/${orderId}/`;
+      const response = await fetch(uri,{
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        }
+      });
 
       if (!response.ok) {
         throw new Error('Failed to fetch payments');

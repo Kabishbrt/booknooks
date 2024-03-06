@@ -57,7 +57,7 @@ const App = () => {
     },
   }
 
-
+console.log(process.env.REACT_APP_API_ESEWA);
 
 // const AuthenticatedDashboard = WithAuth(AdminRoutes);
   

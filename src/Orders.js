@@ -17,7 +17,7 @@ export const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/orders/user/${userid}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/orders/user/${userid}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${authToken}`,

@@ -132,8 +132,9 @@ export const OrderSummary = ({checkout,totalPrice,shippingfee,multipleremove}) =
     //     document.body.appendChild(form);
     //     form.submit();
     // }
+
     const esewaCall = (formData) => {
-        var path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+        var path =process.env.REACT_APP_API_ESEWA;
         var form = document.createElement("form");
         form.setAttribute("method", "POST");
         form.setAttribute("action", path);
@@ -164,6 +165,7 @@ export const OrderSummary = ({checkout,totalPrice,shippingfee,multipleremove}) =
             Status: 'Unpaid',
             Products: orderProducts,
             SubTotal: totalPrice,
+            Path: process.env.REACT_APP_HOST
         };
     
         

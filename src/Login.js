@@ -81,7 +81,7 @@ export const Login = () => {
         const tokenData = await verifyTokenOnServer(token);
         if (tokenData.isValidToken) {
           const cartresponse = await axios.get(
-            `http://localhost:5000/cart/${tokenData.userID}`,
+            `${process.env.REACT_APP_API_URL}/cart/${tokenData.userID}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`

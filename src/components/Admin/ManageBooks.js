@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import AddBookModal from './AddBookModal';
 import axios from 'axios';
 import { fetchBooks } from '../../Actions/bookActions';
+import { getStoredToken } from '../../Actions/authActions';
 
 const ManageBooksContainer = styled.div`
   text-align: center;
@@ -107,10 +108,15 @@ export const ManageBooks = () => {
     setAddBookModalOpen(true);
   };
 
+  const token = getStoredToken();
   const handleDelete = (bookId) => {
     try {
       const response = axios
-        .delete(`${process.env.REACT_APP_API_URL}/books/${bookId}`)
+        .delete(`${process.env.REACT_APP_API_URL}/books/${bookId}`,{
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        })
         .then(res => alert("Successfully Deleted") )
         .catch(err => alert("Failed To Delete"));
           dispatch(fetchBooks())

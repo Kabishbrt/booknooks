@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { fetchBooks } from '../../Actions/bookActions';
 import {useDispatch} from 'react-redux';
+import { getStoredToken } from '../../Actions/authActions';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -109,13 +110,18 @@ const AddBookModal = ({ isOpen, onClose, onSubmit, editBookDetails }) => {
     genre: '',
     isFeatured: false,
   });
+  const token = getStoredToken();
 
   useEffect(() => {
     setLoading(true);
     if (editBookDetails) {
       setEdit(true);
       axios
-        .get(`${API}/id/${editBookDetails._id}`)
+        .get(`${API}/id/${editBookDetails._id}`,{
+          headers:{
+            Authorization: `Bearer ${token}`,
+          }
+        })
         .then((res) => {
           setFormData(res.data.book);
           setLoading(false);
@@ -163,7 +169,11 @@ const AddBookModal = ({ isOpen, onClose, onSubmit, editBookDetails }) => {
     try {
 
       if(Edit===true){
-        const response = await axios.put(`${API}/${editBookDetails._id}`, formDataObject);
+        const response = await axios.put(`${API}/${editBookDetails._id}`, formDataObject,{
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        });
         if(response.status===200){
           dispatch(fetchBooks());
           alert("Book Updated Succesfully");

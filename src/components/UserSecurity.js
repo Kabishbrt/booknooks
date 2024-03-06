@@ -33,7 +33,7 @@ export const UserSecurity = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/users/${userid}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userid}`, {
         method: 'PUT', // Use PUT method for updating the password
         headers: {
           'Content-Type': 'application/json',
