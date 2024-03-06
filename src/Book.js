@@ -156,7 +156,7 @@ export const Book = () => {
 
             </div>
           </div>
-          <SimilarBooks/>
+          {/* <SimilarBooks/> */}
         </SingleBookPage>
         
         
