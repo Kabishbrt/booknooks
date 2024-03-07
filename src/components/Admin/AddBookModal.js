@@ -114,8 +114,10 @@ const AddBookModal = ({ isOpen, onClose, onSubmit, editBookDetails }) => {
 
   useEffect(() => {
     setLoading(true);
+    
     if (editBookDetails) {
       setEdit(true);
+      console.log(Edit);
       axios
         .get(`${API}/id/${editBookDetails._id}`,{
           headers:{
@@ -143,6 +145,7 @@ const AddBookModal = ({ isOpen, onClose, onSubmit, editBookDetails }) => {
         // ... (other fields)
         isFeatured: false,
       });
+      setEdit(false)
       setLoading(false);
     }
   }, [editBookDetails]);
@@ -156,7 +159,7 @@ const AddBookModal = ({ isOpen, onClose, onSubmit, editBookDetails }) => {
       [name]: inputValue,
     }));
   };
-
+  console.log(Edit);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -180,7 +183,11 @@ const AddBookModal = ({ isOpen, onClose, onSubmit, editBookDetails }) => {
         }
 
       }else{
-        const response = await axios.post(API, formDataObject);
+        const response = await axios.post(API, formDataObject,{
+          headers:{
+            Authorization: `Bearer ${token}`,
+          }
+        });
         if(response.status===201){
           dispatch(fetchBooks());
           alert("Book Added Succesfully");
