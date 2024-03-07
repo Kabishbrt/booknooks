@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import {FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 
 export const Footer = () => {
@@ -25,13 +25,21 @@ export const Footer = () => {
             <h3>Follow Us</h3>
             <div className = "footer-social--icons">
               <div>
-                <FaFacebook className = "icons"/>
+                <a href='https://github.com/Kabishbrt'>
+
+                <FaGithub className = "icons" size={30}/>
+                </a>
               </div>
               <div>
-                <FaInstagram className = "icons"/>
+                <a href='https://www.instagram.com/iamkabishb/'>
+
+                <FaInstagram className = "icons" size={30}/>
+                </a>
               </div>
               <div>
-                <FaTwitter className = "icons"/>
+                <a href='https://www.linkedin.com/in/kabish-bhattarai-9ab669190/'>
+                <FaLinkedin className = "icons" size={30}/>
+                </a>
               </div>
             </div>
           </div>
@@ -40,8 +48,7 @@ export const Footer = () => {
           <div className = "footer-contact">
             <h3>Contact Us</h3>
             <h3>Biratnagar, Morang</h3>
-            <h3>9819012345</h3>
-            <h3>info@booknooks.com.np</h3>
+            <h3>kabishbrt@gmail.com</h3>
           </div>
         </div>
 
@@ -49,7 +56,7 @@ export const Footer = () => {
           <hr/>
           <div className= "container grid grid-two-column">
             <p>
-              @{new Date().getFullYear()} AIMS. All Rights Reserved
+              @{new Date().getFullYear()} KABISH. All Rights Reserved
             </p>
             <div>
               <p>PRIVACY POLICY</p>

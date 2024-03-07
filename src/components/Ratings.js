@@ -12,7 +12,7 @@ const StarIcon = styled.span`
     if (fillPercentage > 0) return `linear-gradient(90deg, #ffc107 ${fillPercentage * 100}%, #e0e0e0 ${fillPercentage * 100}%)`; // Partially filled star
     return "#e0e0e0"; // Empty star
   }};
-  font-size: 5rem;
+  font-size: 3rem;
   margin-right: 2px;
 `;
 

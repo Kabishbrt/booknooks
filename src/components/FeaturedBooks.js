@@ -24,7 +24,14 @@ export const FeaturedBooks = () => {
      
       if(State.isLoading===true){
           return(
+              <>
+              <br></br>
+              <br></br>
+              <br></br>
               <h2>Loading may take some time, please wait.</h2>
+              <br>
+              </br>
+              </>
           )
       }
     if(State.status===200){

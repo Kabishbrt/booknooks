@@ -62,7 +62,7 @@ export const Book = () => {
 
         
         try{
-
+          setState({isLoading:true})
         const API =`${process.env.REACT_APP_API_URL}/cart/`;
         const token = getStoredToken();
         const response = await axios.post(`${API}`,{userId:userid, itemId: _id, quantity:quantity},{
@@ -79,13 +79,16 @@ export const Book = () => {
                 cart: response.data.items || [],
               },
             });
+            setState({isLoading:false})
             //also update the available quantity
           }else{
+            setState({isLoading:false})
             navigate('/');
           }
           navigate('/cart');
         }catch(error){
           alert(error.message);
+          setState({isLoading:false})
         }
         
       }else{

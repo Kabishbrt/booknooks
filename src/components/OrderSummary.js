@@ -86,6 +86,7 @@ text-align:center;
 `;
 export const OrderSummary = ({checkout,totalPrice,shippingfee,multipleremove}) => {
     const {userid,isAuthenticated,Cart}=useSelector((state)=>state.auth);
+    const [processing, setProcessing]= useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [payoption, setPayoption] = useState(null);
     const dispatch = useDispatch();
@@ -151,6 +152,7 @@ export const OrderSummary = ({checkout,totalPrice,shippingfee,multipleremove}) =
 
 
     const createorder = async (payload,totalPrice,userid) => {
+      setProcessing(true);
         const orderProducts = payload.map((item) => (
             {
                 BookId: item.itemId,
@@ -189,15 +191,17 @@ export const OrderSummary = ({checkout,totalPrice,shippingfee,multipleremove}) =
                     dispatch(fetchBooks());
             }
             
-
+        setProcessing(false);
         } catch (error) {
             alert(error.response.data.message);
+        setProcessing(false);
         }
           
     }
     if(isAuthenticated){
         return (
             <Checkout>
+              {processing?(<h3>..Processing...</h3>):("")}
             <p className='title'>Order Summary</p>
             <div className='checkoutcontainer'>
         
