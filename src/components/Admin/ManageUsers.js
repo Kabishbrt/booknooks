@@ -193,6 +193,7 @@ export const ManageUsers = () => {
           onClose={() => {
             setUserModalOpen(false);
             setEditUserData(null);
+            fetchUsers(currentPage, searchQuery);
           }}
           onSubmit={handleAddNewBook}
           editUserData={editUserData}
