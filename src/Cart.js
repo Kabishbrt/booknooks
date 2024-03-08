@@ -331,10 +331,10 @@ export const Cart = () => {
                                   style={{ maxWidth: '50px', maxHeight: '50px' }}
                                 />
                                 <p style={{ fontSize: '12px', '@media only screen and (max-width: 768px)': { fontSize: '8px' } }}>
-                                    {books[item.itemId] ? books[item.itemId].BookTitle : ''}
+                                    {books[item.itemId] ? books[item.itemId].BookTitle : ' Not Available'}
                                   </p>
                                   <p style={{ fontSize: '12px', '@media only screen and (max-width: 768px)': { fontSize: '8px' } }}>
-                                    Rs.{books[item.itemId] ? books[item.itemId].Price : ''}
+                                    Rs.{books[item.itemId] ? books[item.itemId].Price : ' Not Available'}
                                   </p>
                               </>
                             )}
