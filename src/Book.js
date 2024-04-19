@@ -159,7 +159,7 @@ export const Book = () => {
 
             </div>
           </div>
-          {/* <SimilarBooks/> */}
+          <h3>Recommendation is disabled for now</h3>
         </SingleBookPage>
         
         
